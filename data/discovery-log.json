@@ -1,4 +1,24 @@
 {
   "schema_version": 1,
-  "runs": []
+  "runs": [
+    {
+      "run_id": "2026-08-22-a1",
+      "timestamp": "2026-08-22T19:56:00Z",
+      "searched": 15,
+      "accepted": 8,
+      "rejected": 7,
+      "duplicates": 0,
+      "accepted_items": [
+        {"imdb_id": "tt5791732", "type": "movie", "title": "The Laplace's Demon", "match_score": 96},
+        {"imdb_id": "tt3528756", "type": "movie", "title": "The Incident", "match_score": 93},
+        {"imdb_id": "tt0080360", "type": "movie", "title": "Altered States", "match_score": 89},
+        {"imdb_id": "tt4922674", "type": "movie", "title": "Parallel", "match_score": 88},
+        {"imdb_id": "tt0115571", "type": "movie", "title": "The Arrival", "match_score": 87},
+        {"imdb_id": "tt11640020", "type": "series", "title": "Debris", "match_score": 99},
+        {"imdb_id": "tt0460686", "type": "series", "title": "Threshold", "match_score": 98},
+        {"imdb_id": "tt13016388", "type": "series", "title": "3 Body Problem", "match_score": 97}
+      ],
+      "rejection_summary": "Lower-priority candidates were withheld because they leaned too strongly toward outbreak/survival or psychological horror, were comparatively slow/withholding, scored below the 82-point threshold, or lost out to stronger candidates at the configured daily series cap. No existing-library duplicates were found among the accepted titles."
+    }
+  ]
 }
