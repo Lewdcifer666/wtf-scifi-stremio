@@ -1,0 +1,181 @@
+{
+  "schema_version": 2,
+  "profile_name": "WTF Sci-Fi / Fringe-Annihilation High-Concept Mystery",
+  "mission": "Find movies and series that create a strong need to understand an impossible situation, phenomenon, organism, experiment, system, or reality-bending rule set. Discovery and concept escalation matter more than raw action.",
+  "strong_positive_signals": [
+    {
+      "signal": "Scientists actively investigating an unexplained or impossible phenomenon",
+      "weight": 20
+    },
+    {
+      "signal": "Biology, genetics, mutation, alien organisms, ecology, parasites, evolution or unusual physiology",
+      "weight": 20
+    },
+    {
+      "signal": "Unknown phenomenon whose rules are discovered through observation, testing or deduction",
+      "weight": 18
+    },
+    {
+      "signal": "High-concept premise that keeps revealing new implications instead of stopping at one gimmick",
+      "weight": 18
+    },
+    {
+      "signal": "Scientific experiments or technologies with unexpected consequences",
+      "weight": 16
+    },
+    {
+      "signal": "Reality distortion, time anomalies, memory anomalies or consciousness manipulation",
+      "weight": 15
+    },
+    {
+      "signal": "Artificial systems, games, facilities or social experiments whose hidden rules/purpose must be discovered",
+      "weight": 15
+    },
+    {
+      "signal": "Suspense driven by needing to know what is actually happening",
+      "weight": 14
+    },
+    {
+      "signal": "Conspiracies or secret research programs connected to the central phenomenon",
+      "weight": 10
+    }
+  ],
+  "negative_signals": [
+    {
+      "signal": "Straightforward monster/creature escape after the threat is revealed",
+      "weight": -30
+    },
+    {
+      "signal": "Generic slasher, torture or psychological horror where the science/mystery is secondary",
+      "weight": -30
+    },
+    {
+      "signal": "Space opera, franchise lore, military spectacle or action-first sci-fi with little investigation",
+      "weight": -35
+    },
+    {
+      "signal": "Slow pacing where the movie withholds information without providing meaningful discoveries",
+      "weight": -22
+    },
+    {
+      "signal": "Sequel or remake that mostly repeats an already-seen concept without a substantial new idea",
+      "weight": -25
+    },
+    {
+      "signal": "Mystery whose payoff is primarily symbolic/ambiguous and not supported by ongoing discoveries",
+      "weight": -12
+    }
+  ],
+  "hard_exclusions": [
+    "Star Wars franchise",
+    "Star Trek franchise"
+  ],
+  "reference_titles": [
+    {
+      "title": "Fringe",
+      "type": "series",
+      "preference": "love",
+      "why": "Ideal reference: scientific investigation, bizarre cases, biology, experiments, conspiracies and escalating mythology."
+    },
+    {
+      "title": "Arrival",
+      "type": "movie",
+      "preference": "love",
+      "why": "Scientists/language experts seriously investigate an alien phenomenon; patient pacing is fine because discoveries keep mattering."
+    },
+    {
+      "title": "Annihilation",
+      "type": "movie",
+      "preference": "love",
+      "why": "Scientists enter an unknown zone full of continuously evolving biological impossibilities."
+    },
+    {
+      "title": "Lucy",
+      "type": "movie",
+      "preference": "love",
+      "why": "A scientific premise keeps escalating into larger and stranger implications."
+    },
+    {
+      "title": "The Platform",
+      "type": "movie",
+      "preference": "like",
+      "why": "Bizarre artificial system with unknown rules, purpose and social consequences."
+    },
+    {
+      "title": "Circle",
+      "type": "movie",
+      "preference": "like",
+      "why": "Immediate high-concept situation where people theorize, test and exploit unknown rules."
+    },
+    {
+      "title": "Cube",
+      "type": "movie",
+      "preference": "like",
+      "why": "Hidden system, mathematical clues and survival through understanding the structure."
+    },
+    {
+      "title": "Cube 2: Hypercube",
+      "type": "movie",
+      "preference": "like",
+      "why": "Extends the rule-discovery premise into stranger physics and dimensions."
+    },
+    {
+      "title": "Spectral",
+      "type": "movie",
+      "preference": "mixed",
+      "why": "Interesting phenomenon, but became too military/action-focused."
+    },
+    {
+      "title": "Weapons",
+      "type": "movie",
+      "preference": "mixed",
+      "why": "Strange premise, but the investigation felt too withholding/boring."
+    },
+    {
+      "title": "Underwater",
+      "type": "movie",
+      "preference": "mixed",
+      "why": "Interesting setup but too much straightforward escape-the-monsters/catastrophe."
+    },
+    {
+      "title": "Saw",
+      "type": "movie",
+      "preference": "dislike",
+      "why": "Leans too heavily toward psychological horror/torture rather than scientific mystery."
+    },
+    {
+      "title": "The Platform 2",
+      "type": "movie",
+      "preference": "dislike",
+      "why": "Too repetitive; did not introduce enough fresh conceptual territory."
+    }
+  ],
+  "automation_rules": {
+    "daily_movie_max": 5,
+    "daily_series_max": 3,
+    "minimum_match_score": 82,
+    "best_match_score": 90,
+    "zero_findings_is_valid": true,
+    "never_silently_delete_existing_watchlist_items": true,
+    "dedupe_primary_key": "imdb_id",
+    "dedupe_fallback": "normalized title + year + type",
+    "past_24h_definition": "Only items with added_by=daily-automation and added_at within the last 24 hours."
+  },
+  "controlled_tags": [
+    "best",
+    "biology",
+    "science",
+    "experiment",
+    "conspiracy",
+    "systems",
+    "time",
+    "mind",
+    "alien",
+    "mystery",
+    "phenomenon",
+    "genetics",
+    "ecology",
+    "technology",
+    "favorite"
+  ]
+}

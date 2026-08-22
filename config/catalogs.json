@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "manifest": {
+    "id": "com.github.wtfscifi.automated-watchlist",
+    "version": "2.0.0",
+    "name": "WTF Sci-Fi Discovery",
+    "description": "Automated high-concept sci-fi and mystery watchlists: scientists, biology, impossible phenomena, hidden systems, time/reality anomalies and escalating WTF concepts."
+  },
+  "catalogs": [
+    {
+      "id": "full-watchlist",
+      "name": "Full Watchlist",
+      "filter": "watch",
+      "sort": "score"
+    },
+    {
+      "id": "past-24h",
+      "name": "🔥 Past 24h Findings",
+      "filter": "past24",
+      "sort": "newest"
+    },
+    {
+      "id": "best-matches",
+      "name": "⭐ Best Matches",
+      "filter": "best",
+      "sort": "score"
+    },
+    {
+      "id": "biology-scientists",
+      "name": "🧬 Biology & Scientists",
+      "filter": "tags",
+      "tags_any": [
+        "biology",
+        "science",
+        "genetics",
+        "ecology"
+      ],
+      "sort": "score"
+    },
+    {
+      "id": "impossible-systems",
+      "name": "🧩 Impossible Systems",
+      "filter": "tags",
+      "tags_any": [
+        "systems"
+      ],
+      "sort": "score"
+    },
+    {
+      "id": "reality-time-mind",
+      "name": "🌀 Reality, Time & Mind",
+      "filter": "tags",
+      "tags_any": [
+        "time",
+        "mind"
+      ],
+      "sort": "score"
+    },
+    {
+      "id": "alien-unknown",
+      "name": "👽 Alien / Unknown",
+      "filter": "tags",
+      "tags_any": [
+        "alien",
+        "phenomenon"
+      ],
+      "sort": "score"
+    },
+    {
+      "id": "experiments-conspiracies",
+      "name": "🧪 Experiments & Conspiracies",
+      "filter": "tags",
+      "tags_any": [
+        "experiment",
+        "conspiracy",
+        "technology"
+      ],
+      "sort": "score"
+    },
+    {
+      "id": "mystery-suspense",
+      "name": "❓ Mystery & Suspense",
+      "filter": "tags",
+      "tags_any": [
+        "mystery"
+      ],
+      "sort": "score"
+    }
+  ]
+}
