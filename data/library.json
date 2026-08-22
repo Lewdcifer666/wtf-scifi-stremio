@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-08-22T18:00:00Z",
+  "updated_at": "2026-08-22T19:11:30.402Z",
   "items": [
     {
-      "imdb_id": null,
+      "imdb_id": "tt4693358",
       "type": "movie",
       "title": "OtherLife",
       "year": 2017,
@@ -22,10 +22,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "OtherLife",
+      "resolved_year": 2017,
+      "resolved_at": "2026-08-22T19:03:05.878Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt12680508",
       "type": "movie",
       "title": "Minor Premise",
       "year": 2020,
@@ -45,7 +48,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Minor Premise",
+      "resolved_year": 2020,
+      "resolved_at": "2026-08-22T19:03:06.872Z"
     },
     {
       "imdb_id": null,
@@ -70,7 +76,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt9016974",
       "type": "movie",
       "title": "Synchronic",
       "year": 2019,
@@ -90,7 +96,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Synchronic",
+      "resolved_year": 2019,
+      "resolved_at": "2026-08-22T19:03:22.148Z"
     },
     {
       "imdb_id": null,
@@ -115,7 +124,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt6292852",
       "type": "movie",
       "title": "I Am Mother",
       "year": 2019,
@@ -135,10 +144,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "I Am Mother",
+      "resolved_year": 2019,
+      "resolved_at": "2026-08-22T19:03:31.350Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt11905962",
       "type": "movie",
       "title": "Sputnik",
       "year": 2020,
@@ -158,10 +170,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Sputnik",
+      "resolved_year": 2020,
+      "resolved_at": "2026-08-22T19:03:32.292Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0084787",
       "type": "movie",
       "title": "The Thing",
       "year": 1982,
@@ -181,10 +196,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Thing",
+      "resolved_year": 1982,
+      "resolved_at": "2026-08-22T19:03:33.326Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0066769",
       "type": "movie",
       "title": "The Andromeda Strain",
       "year": 1971,
@@ -204,10 +222,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Andromeda Strain",
+      "resolved_year": 1971,
+      "resolved_at": "2026-08-22T19:03:33.475Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2299206",
       "type": "movie",
       "title": "Blood Glacier",
       "year": 2013,
@@ -228,10 +249,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Blood Glacier",
+      "resolved_year": 2013,
+      "resolved_at": "2026-08-22T19:03:45.130Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2716382",
       "type": "movie",
       "title": "Sea Fever",
       "year": 2019,
@@ -250,10 +274,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Sea Fever",
+      "resolved_year": 2019,
+      "resolved_at": "2026-08-22T19:03:58.137Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0119675",
       "type": "movie",
       "title": "Mimic",
       "year": 1997,
@@ -272,10 +299,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Mimic",
+      "resolved_year": 1997,
+      "resolved_at": "2026-08-22T19:03:58.882Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0945513",
       "type": "movie",
       "title": "Source Code",
       "year": 2011,
@@ -294,10 +324,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Source Code",
+      "resolved_year": 2011,
+      "resolved_at": "2026-08-22T19:03:59.730Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0453467",
       "type": "movie",
       "title": "Déjà Vu",
       "year": 2006,
@@ -319,10 +352,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Deja Vu",
+      "resolved_year": 2006,
+      "resolved_at": "2026-08-22T19:04:00.546Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt6908274",
       "type": "movie",
       "title": "Mirage",
       "year": 2018,
@@ -342,10 +378,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Mirage",
+      "resolved_year": 2018,
+      "resolved_at": "2026-08-22T19:04:05.773Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1258197",
       "type": "movie",
       "title": "Exam",
       "year": 2009,
@@ -364,10 +403,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Exam",
+      "resolved_year": 2009,
+      "resolved_at": "2026-08-22T19:04:05.929Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt5886046",
       "type": "movie",
       "title": "Escape Room",
       "year": 2019,
@@ -386,7 +428,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Escape Room",
+      "resolved_year": 2019,
+      "resolved_at": "2026-08-22T19:04:06.081Z"
     },
     {
       "imdb_id": null,
@@ -453,7 +498,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0356618",
       "type": "movie",
       "title": "The Forgotten",
       "year": 2004,
@@ -471,10 +516,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Forgotten",
+      "resolved_year": 2004,
+      "resolved_at": "2026-08-22T19:05:00.006Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0186151",
       "type": "movie",
       "title": "Frequency",
       "year": 2000,
@@ -492,10 +540,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Frequency",
+      "resolved_year": 2000,
+      "resolved_at": "2026-08-22T19:05:08.867Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt10530176",
       "type": "movie",
       "title": "The Call",
       "year": 2020,
@@ -513,10 +564,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Call",
+      "resolved_year": 2020,
+      "resolved_at": "2026-08-22T19:05:19.089Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2397535",
       "type": "movie",
       "title": "Predestination",
       "year": 2014,
@@ -534,10 +588,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Predestination",
+      "resolved_year": 2014,
+      "resolved_at": "2026-08-22T19:05:20.271Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1187064",
       "type": "movie",
       "title": "Triangle",
       "year": 2009,
@@ -555,7 +612,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Triangle",
+      "resolved_year": 2009,
+      "resolved_at": "2026-08-22T19:05:24.686Z"
     },
     {
       "imdb_id": null,
@@ -579,7 +639,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2910814",
       "type": "movie",
       "title": "The Signal",
       "year": 2014,
@@ -598,10 +658,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Signal",
+      "resolved_year": 2014,
+      "resolved_at": "2026-08-22T19:05:41.012Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1188729",
       "type": "movie",
       "title": "Pandorum",
       "year": 2009,
@@ -619,7 +682,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Pandorum",
+      "resolved_year": 2009,
+      "resolved_at": "2026-08-22T19:05:41.660Z"
     },
     {
       "imdb_id": null,
@@ -642,7 +708,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1179933",
       "type": "movie",
       "title": "10 Cloverfield Lane",
       "year": 2016,
@@ -660,10 +726,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "10 Cloverfield Lane",
+      "resolved_year": 2016,
+      "resolved_at": "2026-08-22T19:05:56.934Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0118929",
       "type": "movie",
       "title": "Dark City",
       "year": 1998,
@@ -682,10 +751,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Dark City",
+      "resolved_year": 1998,
+      "resolved_at": "2026-08-22T19:06:01.381Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt12349832",
       "type": "movie",
       "title": "Cuckoo",
       "year": 2024,
@@ -702,10 +774,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Cuckoo",
+      "resolved_year": 2024,
+      "resolved_at": "2026-08-22T19:06:01.532Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt17489650",
       "type": "movie",
       "title": "Ash",
       "year": 2025,
@@ -723,10 +798,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Ash",
+      "resolved_year": 2025,
+      "resolved_at": "2026-08-22T19:06:04.006Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0884328",
       "type": "movie",
       "title": "The Mist",
       "year": 2007,
@@ -743,7 +821,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Mist",
+      "resolved_year": 2007,
+      "resolved_at": "2026-08-22T19:06:06.465Z"
     },
     {
       "imdb_id": null,
@@ -767,7 +848,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0120184",
       "type": "movie",
       "title": "Sphere",
       "year": 1998,
@@ -786,10 +867,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Sphere",
+      "resolved_year": 1998,
+      "resolved_at": "2026-08-22T19:06:22.611Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0119081",
       "type": "movie",
       "title": "Event Horizon",
       "year": 1997,
@@ -807,10 +891,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Event Horizon",
+      "resolved_year": 1997,
+      "resolved_at": "2026-08-22T19:06:28.744Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt5442430",
       "type": "movie",
       "title": "Life",
       "year": 2017,
@@ -828,10 +915,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Life",
+      "resolved_year": 2017,
+      "resolved_at": "2026-08-22T19:06:30.997Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0133751",
       "type": "movie",
       "title": "The Faculty",
       "year": 1998,
@@ -849,10 +939,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Faculty",
+      "resolved_year": 1998,
+      "resolved_at": "2026-08-22T19:06:35.332Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2548396",
       "type": "movie",
       "title": "The Cloverfield Paradox",
       "year": 2018,
@@ -871,10 +964,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Cloverfield Paradox",
+      "resolved_year": 2018,
+      "resolved_at": "2026-08-22T19:06:37.685Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2395385",
       "type": "movie",
       "title": "+1",
       "year": 2013,
@@ -894,7 +990,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "+1",
+      "resolved_year": 2013,
+      "resolved_at": "2026-08-22T19:06:49.880Z"
     },
     {
       "imdb_id": null,
@@ -918,7 +1017,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt3327624",
       "type": "movie",
       "title": "Infini",
       "year": 2015,
@@ -936,10 +1035,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Infini",
+      "resolved_year": 2015,
+      "resolved_at": "2026-08-22T19:07:05.150Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1031280",
       "type": "movie",
       "title": "Splinter",
       "year": 2008,
@@ -956,7 +1058,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Splinter",
+      "resolved_year": 2008,
+      "resolved_at": "2026-08-22T19:07:18.530Z"
     },
     {
       "imdb_id": null,
@@ -980,7 +1085,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2011276",
       "type": "movie",
       "title": "Banshee Chapter",
       "year": 2013,
@@ -999,10 +1104,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Banshee Chapter",
+      "resolved_year": 2013,
+      "resolved_at": "2026-08-22T19:07:43.575Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0139809",
       "type": "movie",
       "title": "The Thirteenth Floor",
       "year": 1999,
@@ -1021,10 +1129,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Thirteenth Floor",
+      "resolved_year": 1999,
+      "resolved_at": "2026-08-22T19:07:58.687Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1016301",
       "type": "movie",
       "title": "Fermat's Room",
       "year": 2007,
@@ -1045,10 +1156,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Fermat's Room",
+      "resolved_year": 2007,
+      "resolved_at": "2026-08-22T19:07:59.592Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1119191",
       "type": "movie",
       "title": "The Killing Room",
       "year": 2009,
@@ -1066,10 +1180,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Killing Room",
+      "resolved_year": 2009,
+      "resolved_at": "2026-08-22T19:08:09.932Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1314655",
       "type": "movie",
       "title": "Devil",
       "year": 2010,
@@ -1086,10 +1203,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Devil",
+      "resolved_year": 2010,
+      "resolved_at": "2026-08-22T19:08:14.321Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1082807",
       "type": "movie",
       "title": "The Belko Experiment",
       "year": 2016,
@@ -1106,10 +1226,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Belko Experiment",
+      "resolved_year": 2016,
+      "resolved_at": "2026-08-22T19:08:25.988Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt9764362",
       "type": "movie",
       "title": "The Menu",
       "year": 2022,
@@ -1126,10 +1249,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Menu",
+      "resolved_year": 2022,
+      "resolved_at": "2026-08-22T19:08:35.065Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt4547056",
       "type": "movie",
       "title": "The Girl with All the Gifts",
       "year": 2016,
@@ -1147,7 +1273,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Girl with All the Gifts",
+      "resolved_year": 2016,
+      "resolved_at": "2026-08-22T19:08:38.524Z"
     },
     {
       "imdb_id": null,
@@ -1171,7 +1300,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2051879",
       "type": "movie",
       "title": "Europa Report",
       "year": 2013,
@@ -1190,10 +1319,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Europa Report",
+      "resolved_year": 2013,
+      "resolved_at": "2026-08-22T19:08:54.821Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt4520364",
       "type": "movie",
       "title": "Morgan",
       "year": 2016,
@@ -1211,10 +1343,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Morgan",
+      "resolved_year": 2016,
+      "resolved_at": "2026-08-22T19:09:05.143Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1713476",
       "type": "movie",
       "title": "The Bay",
       "year": 2012,
@@ -1232,10 +1367,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Bay",
+      "resolved_year": 2012,
+      "resolved_at": "2026-08-22T19:09:05.293Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1219289",
       "type": "movie",
       "title": "Limitless",
       "year": 2011,
@@ -1253,7 +1391,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Limitless",
+      "resolved_year": 2011,
+      "resolved_at": "2026-08-22T19:09:05.483Z"
     },
     {
       "imdb_id": null,
@@ -1278,7 +1419,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt17526714",
       "type": "movie",
       "title": "The Substance",
       "year": 2024,
@@ -1296,7 +1437,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Substance",
+      "resolved_year": 2024,
+      "resolved_at": "2026-08-22T19:09:20.266Z"
     },
     {
       "imdb_id": null,
@@ -1320,7 +1464,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt3839880",
       "type": "movie",
       "title": "Infinity Chamber",
       "year": 2016,
@@ -1339,10 +1483,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Infinity Chamber",
+      "resolved_year": 2016,
+      "resolved_at": "2026-08-22T19:09:31.217Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt5918982",
       "type": "movie",
       "title": "Possessor",
       "year": 2020,
@@ -1360,10 +1507,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Possessor",
+      "resolved_year": 2020,
+      "resolved_at": "2026-08-22T19:09:32.380Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt32768323",
       "type": "movie",
       "title": "The Assessment",
       "year": 2024,
@@ -1381,10 +1531,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Assessment",
+      "resolved_year": 2024,
+      "resolved_at": "2026-08-22T19:09:33.417Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt12299608",
       "type": "movie",
       "title": "Mickey 17",
       "year": 2025,
@@ -1402,10 +1555,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Mickey 17",
+      "resolved_year": 2025,
+      "resolved_at": "2026-08-22T19:09:33.569Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt26584495",
       "type": "movie",
       "title": "Companion",
       "year": 2025,
@@ -1424,10 +1580,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Companion",
+      "resolved_year": 2025,
+      "resolved_at": "2026-08-22T19:09:34.147Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2543164",
       "type": "movie",
       "title": "Arrival",
       "year": 2016,
@@ -1446,7 +1605,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Arrival",
+      "resolved_year": 2016,
+      "resolved_at": "2026-08-22T19:09:36.924Z"
     },
     {
       "imdb_id": null,
@@ -1492,7 +1654,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt8228288",
       "type": "movie",
       "title": "The Platform",
       "year": 2019,
@@ -1511,10 +1673,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Platform",
+      "resolved_year": 2019,
+      "resolved_at": "2026-08-22T19:10:14.450Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt3118452",
       "type": "movie",
       "title": "Circle",
       "year": 2015,
@@ -1531,7 +1696,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Circle",
+      "resolved_year": 2015,
+      "resolved_at": "2026-08-22T19:10:23.393Z"
     },
     {
       "imdb_id": null,
@@ -1554,7 +1722,7 @@
       "source": "conversation-seed"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0285492",
       "type": "movie",
       "title": "Cube 2: Hypercube",
       "year": 2002,
@@ -1575,10 +1743,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Cube²: Hypercube",
+      "resolved_year": 2002,
+      "resolved_at": "2026-08-22T19:11:01.622Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2106651",
       "type": "movie",
       "title": "Spectral",
       "year": 2016,
@@ -1595,10 +1766,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Spectral",
+      "resolved_year": 2016,
+      "resolved_at": "2026-08-22T19:11:13.931Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt5774060",
       "type": "movie",
       "title": "Underwater",
       "year": 2020,
@@ -1615,10 +1789,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Underwater",
+      "resolved_year": 2020,
+      "resolved_at": "2026-08-22T19:11:20.682Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt26581740",
       "type": "movie",
       "title": "Weapons",
       "year": 2025,
@@ -1634,10 +1811,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Weapons",
+      "resolved_year": 2025,
+      "resolved_at": "2026-08-22T19:11:20.834Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0387564",
       "type": "movie",
       "title": "Saw",
       "year": 2004,
@@ -1653,10 +1833,13 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Saw",
+      "resolved_year": 2004,
+      "resolved_at": "2026-08-22T19:11:22.409Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt27729779",
       "type": "movie",
       "title": "The Platform 2",
       "year": 2024,
@@ -1674,7 +1857,10 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Platform 2",
+      "resolved_year": 2024,
+      "resolved_at": "2026-08-22T19:11:23.852Z"
     },
     {
       "imdb_id": null,
