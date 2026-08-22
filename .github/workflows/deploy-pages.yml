@@ -1,0 +1,61 @@
+name: Build and Deploy Stremio Catalog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/**"
+      - "config/**"
+      - "scripts/**"
+      - "package.json"
+      - ".github/workflows/deploy-pages.yml"
+
+  schedule:
+    # Hourly rebuild keeps the Past 24h catalogs accurate.
+    - cron: "17 * * * *"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+environment:
+  name: github-pages
+  url: ${{ steps.deployment.outputs.page_url }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate source data
+        run: node scripts/validate.mjs
+
+      - name: Build static Stremio site
+        run: node scripts/build-site.mjs
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
