@@ -1,23 +1,87 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { resolveItem } from "./cinemeta.mjs";
+import { normalizeTitle, resolveItem } from "./cinemeta.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
 const out = path.join(root, "site");
-const library = JSON.parse(fs.readFileSync(path.join(root, "data", "library.json"), "utf8"));
+const dataDir = path.join(root, "data");
+const library = JSON.parse(fs.readFileSync(path.join(dataDir, "library.json"), "utf8"));
 const config = JSON.parse(fs.readFileSync(path.join(root, "config", "catalogs.json"), "utf8"));
-const taste = JSON.parse(fs.readFileSync(path.join(root, "data", "taste-profile.json"), "utf8"));
+const taste = JSON.parse(fs.readFileSync(path.join(dataDir, "taste-profile.json"), "utf8"));
 
 fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out, { recursive: true });
 
 const now = Date.now();
 const H24 = 24 * 60 * 60 * 1000;
+
+function loadDiscoveryItems() {
+  const dir = path.join(dataDir, "discoveries");
+  if (!fs.existsSync(dir)) return [];
+
+  const items = [];
+  const files = fs.readdirSync(dir)
+    .filter(name => name.toLowerCase().endsWith(".json"))
+    .sort();
+
+  for (const name of files) {
+    const file = path.join(dir, name);
+    const payload = JSON.parse(fs.readFileSync(file, "utf8"));
+    const discovered = Array.isArray(payload) ? payload : (payload.items || []);
+    if (!Array.isArray(discovered)) throw new Error(`${name}: expected an items array`);
+    for (const item of discovered) items.push(item);
+  }
+
+  return items;
+}
+
+function fallbackKey(item) {
+  return `${item.type}:${normalizeTitle(item.title)}:${item.year}`;
+}
+
+function mergeSourceItems(items) {
+  const byKey = new Map();
+
+  for (const item of items) {
+    const key = item.imdb_id && /^tt\d+$/.test(item.imdb_id)
+      ? `${item.type}:${item.imdb_id}`
+      : fallbackKey(item);
+
+    if (!byKey.has(key)) {
+      byKey.set(key, item);
+      continue;
+    }
+
+    const old = byKey.get(key);
+    const oldDate = Date.parse(old.added_at || "");
+    const newDate = Date.parse(item.added_at || "");
+    let addedAt = old.added_at || item.added_at || null;
+    if (Number.isFinite(oldDate) && Number.isFinite(newDate)) addedAt = oldDate <= newDate ? old.added_at : item.added_at;
+
+    byKey.set(key, {
+      ...old,
+      ...item,
+      status: old.status === "seen" || item.status === "seen" ? "seen" : "watch",
+      preference: old.preference || item.preference || null,
+      tags: [...new Set([...(old.tags || []), ...(item.tags || [])])],
+      aliases: [...new Set([...(old.aliases || []), ...(item.aliases || [])])],
+      reason: item.reason || old.reason,
+      match_score: Math.max(old.match_score || 0, item.match_score || 0) || null,
+      added_at: addedAt,
+      added_by: oldDate <= newDate ? (old.added_by || item.added_by) : (item.added_by || old.added_by)
+    });
+  }
+
+  return [...byKey.values()];
+}
+
+const discoveryItems = loadDiscoveryItems();
+const sourceItems = mergeSourceItems([...(library.items || []), ...discoveryItems]);
 const watch = [];
 
-for (const original of library.items.filter(x => x.status === "watch")) {
+for (const original of sourceItems.filter(x => x.status === "watch")) {
   let item = original;
   try {
     if (!item.imdb_id) item = await resolveItem(item);
@@ -98,4 +162,4 @@ body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#
 <body><div class="card"><h1>🧬 WTF Sci-Fi Discovery</h1><p>Automated Stremio catalogs for high-concept science fiction, bizarre biology, scientists, impossible systems, time/reality anomalies and unexplained phenomena.</p><p><a id="install" class="btn" href="#">Install in Stremio</a><button id="copy" class="btn">Copy manifest URL</button></p><p>Manifest URL:</p><code id="manifest"></code><p class="small">Catalog contents update automatically when the repository deploys. You do not need to reinstall the addon for ordinary movie/series additions.</p></div>
 <script>const u=new URL('manifest.json',location.href).href;document.getElementById('manifest').textContent=u;document.getElementById('install').href=u.replace(/^https:/,'stremio:');document.getElementById('copy').onclick=async()=>{await navigator.clipboard.writeText(u);document.getElementById('copy').textContent='Copied!'};</script></body></html>`;
 fs.writeFileSync(path.join(out, "index.html"), html, "utf8");
-console.log(`Built ${watch.length} watchlist items into ${out}`);
+console.log(`Built ${watch.length} watchlist items (${discoveryItems.length} from automation discovery files) into ${out}`);
