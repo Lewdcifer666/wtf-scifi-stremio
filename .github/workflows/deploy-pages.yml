@@ -2,7 +2,8 @@ name: Build and Deploy Stremio Catalog
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - "data/**"
       - "config/**"
@@ -11,7 +12,8 @@ on:
       - ".github/workflows/deploy-pages.yml"
 
   schedule:
-    # Hourly rebuild keeps the Past 24h catalogs accurate.
+    # Rebuild hourly so items automatically leave
+    # the Past 24h catalogs after 24 hours.
     - cron: "17 * * * *"
 
   workflow_dispatch:
@@ -25,13 +27,13 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
-environment:
-  name: github-pages
-  url: ${{ steps.deployment.outputs.page_url }}
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - name: Checkout repository
