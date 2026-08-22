@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "updated_at": "2026-08-22T19:11:30.402Z",
+  "updated_at": "2026-08-22T19:20:17.653Z",
   "items": [
     {
       "imdb_id": "tt4693358",
@@ -54,7 +54,7 @@
       "resolved_at": "2026-08-22T19:03:06.872Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2884206",
       "type": "movie",
       "title": "I Origins",
       "year": 2014,
@@ -73,7 +73,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "I Origins",
+      "resolved_year": 2014,
+      "resolved_at": "2026-08-22T19:20:15.590Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt9016974",
@@ -102,7 +106,7 @@
       "resolved_at": "2026-08-22T19:03:22.148Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2669336",
       "type": "movie",
       "title": "Time Lapse",
       "year": 2014,
@@ -121,7 +125,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Time Lapse",
+      "resolved_year": 2014,
+      "resolved_at": "2026-08-22T19:20:15.714Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt6292852",
@@ -434,7 +442,7 @@
       "resolved_at": "2026-08-22T19:04:06.081Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0309698",
       "type": "movie",
       "title": "Identity",
       "year": 2003,
@@ -452,10 +460,14 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Identity",
+      "resolved_year": 2003,
+      "resolved_at": "2026-08-22T19:20:15.834Z",
+      "resolved_via": "known-id-fallback"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt10954652",
       "type": "movie",
       "title": "Old",
       "year": 2021,
@@ -474,10 +486,14 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Old",
+      "resolved_year": 2021,
+      "resolved_at": "2026-08-22T19:20:15.955Z",
+      "resolved_via": "known-id-fallback"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt6097798",
       "type": "movie",
       "title": "Radius",
       "year": 2017,
@@ -495,7 +511,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Radius",
+      "resolved_year": 2017,
+      "resolved_at": "2026-08-22T19:20:16.075Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt0356618",
@@ -618,7 +638,7 @@
       "resolved_at": "2026-08-22T19:05:24.686Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2866360",
       "type": "movie",
       "title": "Coherence",
       "year": 2013,
@@ -636,7 +656,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Coherence",
+      "resolved_year": 2013,
+      "resolved_at": "2026-08-22T19:20:16.196Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt2910814",
@@ -688,7 +712,7 @@
       "resolved_at": "2026-08-22T19:05:41.660Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt14509110",
       "type": "movie",
       "title": "No One Will Save You",
       "year": 2023,
@@ -705,7 +729,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "No One Will Save You",
+      "resolved_year": 2023,
+      "resolved_at": "2026-08-22T19:20:16.318Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt1179933",
@@ -827,7 +855,7 @@
       "resolved_at": "2026-08-22T19:06:06.465Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0448011",
       "type": "movie",
       "title": "Knowing",
       "year": 2009,
@@ -845,7 +873,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Knowing",
+      "resolved_year": 2009,
+      "resolved_at": "2026-08-22T19:20:16.438Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt0120184",
@@ -996,7 +1028,7 @@
       "resolved_at": "2026-08-22T19:06:49.880Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt5640450",
       "type": "movie",
       "title": "ARQ",
       "year": 2016,
@@ -1014,7 +1046,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "ARQ",
+      "resolved_year": 2016,
+      "resolved_at": "2026-08-22T19:20:16.559Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt3327624",
@@ -1064,7 +1100,7 @@
       "resolved_at": "2026-08-22T19:07:18.530Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt8110640",
       "type": "movie",
       "title": "In the Shadow of the Moon",
       "year": 2019,
@@ -1082,7 +1118,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "In the Shadow of the Moon",
+      "resolved_year": 2019,
+      "resolved_at": "2026-08-22T19:20:16.679Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt2011276",
@@ -1279,7 +1319,7 @@
       "resolved_at": "2026-08-22T19:08:38.524Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1017460",
       "type": "movie",
       "title": "Splice",
       "year": 2009,
@@ -1297,7 +1337,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Splice",
+      "resolved_year": 2009,
+      "resolved_at": "2026-08-22T19:20:16.801Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt2051879",
@@ -1397,7 +1441,7 @@
       "resolved_at": "2026-08-22T19:09:05.483Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2209764",
       "type": "movie",
       "title": "Transcendence",
       "year": 2014,
@@ -1416,7 +1460,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Transcendence",
+      "resolved_year": 2014,
+      "resolved_at": "2026-08-22T19:20:16.921Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt17526714",
@@ -1443,7 +1491,7 @@
       "resolved_at": "2026-08-22T19:09:20.266Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt4986098",
       "type": "movie",
       "title": "The Titan",
       "year": 2018,
@@ -1461,7 +1509,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "The Titan",
+      "resolved_year": 2018,
+      "resolved_at": "2026-08-22T19:20:17.042Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt3839880",
@@ -1611,7 +1663,7 @@
       "resolved_at": "2026-08-22T19:09:36.924Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2798920",
       "type": "movie",
       "title": "Annihilation",
       "year": 2018,
@@ -1630,10 +1682,14 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Annihilation",
+      "resolved_year": 2018,
+      "resolved_at": "2026-08-22T19:20:17.162Z",
+      "resolved_via": "known-id-fallback"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt2872732",
       "type": "movie",
       "title": "Lucy",
       "year": 2014,
@@ -1651,7 +1707,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Lucy",
+      "resolved_year": 2014,
+      "resolved_at": "2026-08-22T19:20:17.283Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt8228288",
@@ -1702,7 +1762,7 @@
       "resolved_at": "2026-08-22T19:10:23.393Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt0123755",
       "type": "movie",
       "title": "Cube",
       "year": 1997,
@@ -1719,7 +1779,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Cube",
+      "resolved_year": 1997,
+      "resolved_at": "2026-08-22T19:20:17.405Z",
+      "resolved_via": "known-id-fallback"
     },
     {
       "imdb_id": "tt0285492",
@@ -1863,7 +1927,7 @@
       "resolved_at": "2026-08-22T19:11:23.852Z"
     },
     {
-      "imdb_id": null,
+      "imdb_id": "tt1119644",
       "type": "series",
       "title": "Fringe",
       "year": 2008,
@@ -1887,7 +1951,11 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "conversation-seed"
+      "source": "conversation-seed",
+      "canonical_title": "Fringe",
+      "resolved_year": 2008,
+      "resolved_at": "2026-08-22T19:20:17.525Z",
+      "resolved_via": "known-id-fallback"
     }
   ]
 }
