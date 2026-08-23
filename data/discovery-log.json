@@ -19,6 +19,25 @@
         {"imdb_id": "tt13016388", "type": "series", "title": "3 Body Problem", "match_score": 97}
       ],
       "rejection_summary": "Lower-priority candidates were withheld because they leaned too strongly toward outbreak/survival or psychological horror, were comparatively slow/withholding, scored below the 82-point threshold, or lost out to stronger candidates at the configured daily series cap. No existing-library duplicates were found among the accepted titles."
+    },
+    {
+      "run_id": "2026-08-23-b1",
+      "timestamp": "2026-08-23T06:35:07Z",
+      "searched": 25,
+      "accepted": 8,
+      "rejected": 13,
+      "duplicates": 4,
+      "accepted_items": [
+        {"imdb_id": "tt12042730", "type": "movie", "title": "Project Hail Mary", "match_score": 99},
+        {"imdb_id": "tt21109170", "type": "movie", "title": "Signal One", "match_score": 96},
+        {"imdb_id": "tt4881364", "type": "movie", "title": "Anti Matter", "match_score": 95},
+        {"imdb_id": "tt1757746", "type": "movie", "title": "Extracted", "match_score": 94},
+        {"imdb_id": "tt27652287", "type": "movie", "title": "The A-Frame", "match_score": 91},
+        {"imdb_id": "tt2234222", "type": "series", "title": "Orphan Black", "match_score": 99},
+        {"imdb_id": "tt0808491", "type": "series", "title": "The Swarm", "match_score": 98},
+        {"imdb_id": "tt19231492", "type": "series", "title": "Dark Matter", "match_score": 95}
+      ],
+      "rejection_summary": "The effective feedback reinforced suspense and mystery as positive qualities even when a title's overall rating is only moderate, while a DNF for boredom strengthened the existing penalty on slow or withholding material. The run therefore favored investigation-heavy science, biology/ecology, experimental technology and reality-rule discovery; slower/ambiguous psychological entries and more survival/action-oriented candidates were withheld. Superseded feedback was not double-counted, and previously discovered/library titles encountered during research were deduplicated."
     }
   ]
 }
