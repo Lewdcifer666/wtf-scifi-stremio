@@ -2,28 +2,165 @@
 
 This scheduled task is configured for `Lewdcifer666/wtf-scifi-stremio`.
 
+**This file is the canonical copy of the live ChatGPT scheduled-task prompt.**
+It is installed manually; if the two ever disagree, the live task is what runs
+and this file is stale. Keep them identical.
+
+Feedback schema v2 (Feedback v2 + Content DNA phase, F2-5) is reflected below.
+The interpretation layer changed; the history-resolution, deduplication,
+discovery-file and reporting behaviour did not.
+
 ```text
-Read the current public GitHub repository Lewdcifer666/wtf-scifi-stremio before making any recommendation decisions. Read data/taste-profile.json, data/library.json, data/rejections.json, data/discovery-log.json, and the existing JSON files under data/discoveries/.
+Read BOTH GitHub repositories before making any recommendation decisions.
 
-Search the current web broadly for movies and series that strongly fit the stored taste profile. Candidates may be new releases or older titles that are not yet in the library. Prioritize scientific investigation, biology/genetics/ecology/alien organisms, unexplained phenomena, experiments with escalating consequences, impossible systems with discoverable rules, reality/time/memory/consciousness anomalies, and suspense driven by figuring out what is actually happening.
+PUBLIC CATALOG REPOSITORY:
+Lewdcifer666/wtf-scifi-stremio
+Read data/taste-profile.json, data/library.json, data/rejections.json, data/discovery-log.json, and all existing JSON files under data/discoveries/.
 
-Stay tightly anchored to the positive and negative examples in data/taste-profile.json. Strongly penalize straightforward monster escape, generic creature features, psychological/torture horror, slashers, space opera, action-first military sci-fi, repetitive sequels, and slow films that withhold information without meaningful discoveries. Do not drift into generic sci-fi or generic horror.
+PRIVATE FEEDBACK REPOSITORY:
+Lewdcifer666/wtf-scifi-feedback
+Read all JSON feedback events under data/feedback/**.
 
-Check data/library.json, every existing data/discoveries/*.json file, and data/rejections.json before accepting anything. Deduplicate primarily by IMDb ID and secondarily by normalized title + year + media type. Never re-add a seen title, existing watchlist title, previously discovered title, or rejected title.
+Treat data/taste-profile.json as the stable baseline taste profile and data/feedback/** as cumulative real-world viewing evidence that can refine how the baseline is interpreted. Never rewrite the private feedback history and never expose private free-text feedback verbatim in the final report. The private repository is READ-ONLY: never commit, modify, delete or reorganise anything in it.
 
-Score candidates from 0-100 against the taste profile. Only accept candidates scoring at least the minimum_match_score stored in taste-profile.json. Zero findings is completely valid. Never lower the threshold to meet a quota. Add at most the configured daily_movie_max movies and daily_series_max series.
+RESOLVE FEEDBACK EVENT HISTORY BEFORE USING IT FOR TASTE LEARNING.
 
-For every accepted title, verify the correct IMDb ID and prepare a complete item with: imdb_id, type (movie or series), title, year, status="watch", preference=null, rank=null, match_score, controlled tags only, a concise reason explaining the match, useful aliases if needed, added_at as the current UTC ISO-8601 timestamp, added_by="daily-automation", discovery_run_id using today's UTC date plus a short run suffix, and source describing the research source used.
+1. Parse every feedback event first and build a global feedback_id -> event map.
+2. Resolve supersedes links GLOBALLY before grouping by title identity. A supersedes edge is authoritative even when source_id/imdb_id metadata changes between events.
+3. Determine chain tips globally: a tip is an event whose feedback_id is not superseded by another event. A supersedes reference whose parent is missing must not invalidate the newer event; delivery can be out of order.
+4. Only after resolving chains, consolidate current tips by stable identity: prefer non-null imdb_id, otherwise source_id. If independent chain tips still resolve to the same identity, use the newest rated_at; break exact ties deterministically by feedback_id.
+5. rated_at is when the user formed the opinion. received_at is transport/audit timing only and MUST NOT affect preference weighting or chain precedence except that it may be used for diagnostics.
 
-Do NOT rewrite data/library.json for daily additions. Instead create one new append-only file at data/discoveries/<run_id>.json with schema_version=1, run_id, timestamp, and an items array containing the accepted titles. The Stremio site builder automatically merges these discovery files with the permanent seed library and deduplicates them.
+RETRACTION / DELETE SEMANTICS:
+- status="retracted" is an append-only tombstone meaning the user has deleted/revoked that opinion.
+- A retracted chain tip means there is NO active feedback for that title. Do not use the retracted event OR any earlier event in that chain as positive, negative, neutral, or weak historical taste evidence.
+- A retraction fully removes every revoked field from the active taste model. For schema 1 that means rating, more_like_this, liked, disliked, DNF interpretation and free-text interpretation. For schema 2 that additionally means premise_interest and dnf_reasons. Nothing from the revoked chain survives in any form.
+- If a later rating supersedes a retraction, the later active rating is valid again. Use the later rating normally, but do NOT resurrect or use pre-retraction opinions as weak context. Evidence before the most recent retraction boundary is revoked.
+- Example chain: rating A -> retraction B -> rating C. Current active opinion is C only. A and B contribute zero taste weight.
+- If a title's latest effective event is retracted and there is no later active event, treat that title as not actively rated for feedback-derived recommendation weighting.
 
-Each accepted title automatically participates in every matching catalog through its tags. The Past 24h catalog is generated from added_by and added_at; do not create a separate duplicate entry for it.
+FEEDBACK EVENTS CARRY A SCHEMA VERSION. HONOUR IT.
 
-Append one run record to data/discovery-log.json containing run_id, timestamp, counts searched/accepted/rejected/duplicates, accepted IMDb IDs/titles/scores, and a short rejection summary. If there are zero accepted titles, still append the run record but do not create an empty discovery file unless useful for auditing.
+Every event has an explicit integer schema_version. Only 1 and 2 exist. Read each event under the rules of its own version and never treat the two as equivalent. Do not assume a missing or unexpected version; if an event declares anything other than 1 or 2, ignore it for taste learning and note it in the run record.
 
-Do not silently delete any existing library or discovery item. Do not change a user's seen/preference state unless explicitly asked. Do not manually edit generated site files or manifest output. Update only source data files.
+SCHEMA 1 (historical events):
+- rating: the user's overall signal for that title.
+- more_like_this (yes/maybe/no/null): the LEGACY recommendation signal. It is still usable evidence, but it is weaker and semantically ambiguous: a single "no" could have meant bad acting, bad pacing, a boring monster, poor effects, disliking the premise, or not wanting the subject matter again. Never treat it as a precise statement about the premise, and never let it alone blacklist a subject, setting or topic.
+- NEVER convert or infer v1 more_like_this into v2 premise_interest. Historical v1 events did not contain that separation and must not be retrofitted with it.
+- liked/disliked: the old vocabularies. Interpret them using the legacy rules below.
+- A v1 did_not_finish event stores its abandonment reasons inside disliked.
 
-Commit the source changes directly to the default branch of Lewdcifer666/wtf-scifi-stremio with concise commit messages. The repository's GitHub Actions workflow will validate, rebuild the Stremio catalogs, and deploy GitHub Pages automatically.
+SCHEMA 2 (current events):
+- rating: primarily overall TITLE / EXECUTION quality — how good this particular film or series was. It is NOT a vote against the subjects the title happens to contain.
+- premise_interest (yes/maybe/no/null): the explicit content-neighbourhood preference, and the single strongest signal about whether to keep exploring this kind of idea. "yes" = this premise neighbourhood is wanted; "maybe" = weak positive, keep exploring; "no" = negative evidence for this specific premise combination; null = no content-preference inference at all.
+- more_like_this is always null on schema 2 and contributes no signal whatsoever.
+- liked/disliked: aspect-level evidence drawn from one shared vocabulary. An aspect can never appear on both sides of the same event. Interpret each aspect according to its REGISTRY CATEGORY (below).
+- dnf_reasons: why viewing stopped. Present only on did_not_finish events; empty otherwise.
 
-After completing the run, report only the accepted new titles with their match scores and a one-line reason for each. If none qualify, report that zero high-confidence matches were added.
+ASPECT REGISTRY AND CATEGORIES (schema 2).
+
+EXECUTION — affects execution-fit only. A thumbs-down here says the title was made badly. It must NEVER make the corresponding subject, setting or topic less eligible for recommendation:
+acting, characters, dialogue, pacing, visuals, effects, ending_payoff, sound_music, originality
+
+CONCEPT — may refine content preference. Generalise conservatively and preferably only on repeated independent evidence:
+premise_concept, mystery, science_biology, alien_unknown, scientific_investigation, world_rules, concept_escalation, weirdness, reality_time_anomaly, mind_consciousness, experiments, conspiracy, creature_threat
+
+TONE — soft style/presentation preference. Repeated evidence required before it generalises at all, and it NEVER becomes a hard subject blacklist:
+setting_atmosphere, suspense, horror, action, humor, emotion, survival_chase, military_focus
+
+Notes that matter:
+- creature_threat and survival_chase are independent. Disliking "the film became a chase" is not disliking creatures, and vice versa.
+- A thumbs-down on a TONE aspect (for example horror or survival_chase) may soften ranking for titles whose presentation leans that way. It must not exclude titles on subject matter.
+- A thumbs-down on a CONCEPT aspect is real content evidence, but one title is not enough to establish a generalised aversion to that concept.
+
+DID NOT FINISH:
+- A did_not_finish active event is a strong TITLE-LEVEL negative signal: this particular title was not worth finishing.
+- It must NEVER automatically poison the title's subjects, settings, concepts or content neighbourhood. Abandoning one badly made film about scientists does not make scientists unwanted.
+- Read dnf_reasons on schema 2, and legacy abandonment ids inside disliked on schema 1.
+- If the same did_not_finish event also carries premise_interest, that premise answer is the content signal; the abandonment is the execution signal.
+
+LEGACY TAG SEMANTICS (schema 1 events).
+
+A. Lossless equivalences — read these canonically:
+biology -> science_biology; rule_discovery -> world_rules; impossible_system -> world_rules; fast_pacing -> pacing; great_payoff -> ending_payoff; time_reality -> reality_time_anomaly; too_slow -> pacing; boring_middle -> pacing; too_much_action -> action; too_much_horror -> horror; psychological_horror -> horror; weak_payoff -> ending_payoff; monster_chase -> survival_chase; weak_characters -> characters.
+The side is preserved: a legacy id in disliked stays negative evidence about that canonical aspect. monster_chase maps to survival_chase and NEVER to creature_threat.
+
+B. Known non-normalisable legacy semantics — read these by their actual historical meaning, never inverted:
+- not_enough_mystery = the title did not have enough mystery. This is weak evidence that MORE mystery is desirable. It is NEVER "the user dislikes mystery".
+- not_enough_discovery = the title did not have enough discovery or rule-learning. Weak evidence that more discovery is desirable. NEVER "the user dislikes world_rules".
+- repetitive = a title/execution-level negative about lack of progression. Do not blacklist the title's content subjects.
+- too_ambiguous = a title-level clarity/payoff complaint. Do not turn it into a dislike of mystery or of ending_payoff.
+
+C. Unknown ids — any aspect or reason id not listed above: read conservatively, preserve it as historical evidence, invent no semantics for it, do not generalise from it, and never print the raw id in any public output.
+
+EVIDENCE WEIGHTING.
+
+The stable baseline taste profile remains dominant. Do not make hard preference changes from a single title.
+
+- 1 independent title with an explicit signal = weak evidence.
+- 2 independent titles with the same explicit signal = an emerging preference.
+- 3 or more independent titles with a consistent explicit signal = a meaningful learned preference.
+
+This is a confidence principle, not a mechanical formula. Alongside it:
+- Structured schema-2 fields outrank speculative interpretation of free text.
+- Explicit premise_interest outranks genre inference.
+- Repeated explicit evidence outranks any single event.
+- Execution feedback stays separated from content preference and never changes topic eligibility.
+- Tone feedback stays soft.
+- Superseded edits within one active chain are not independent votes; they may be used only as very weak context that the opinion changed.
+- Free-text feedback remains high-value qualitative evidence. Infer WHY the user liked or disliked a title rather than transferring its genre wholesale. Praise for suspense and mystery strengthens those qualities, not the title's unrelated genres.
+
+CORE GUARDRAILS ARE STRUCTURAL.
+
+The baseline exclusions and strong penalties are not learnable away by ordinary feedback noise. Material whose CENTRAL STORY IDENTITY is any of the following stays strongly penalised or excluded regardless of accumulated feedback:
+- superhero-first
+- comic-book-universe-first
+- space-opera-first
+- franchise-war-saga-first
+- generic action-first military science fiction
+
+Judge this by structural and story identity — costumed or superpowered hero structure, cinematic-universe-first storytelling, saga/war framing, spectacle-over-investigation — not only by franchise names. Known franchises listed in hard_exclusions are additionally excluded by name.
+
+Accumulated feedback may adjust SOFT preferences around these areas (for example how much action or horror presentation is tolerated). It must never silently redefine the core taste universe. Changing a guardrail requires a deliberate edit of data/taste-profile.json, not a run of this task.
+
+SEARCH AND SCORING.
+
+Search the current web broadly for movies and series that strongly fit the resulting combined taste model, including older titles and new releases. Prioritize scientific investigation, biology/genetics/ecology/alien organisms, unexplained phenomena, experiments with escalating consequences, impossible systems with discoverable rules, reality/time/memory/consciousness anomalies, and suspense driven by figuring out what is happening. Use active feedback-derived signals to refine this ordering and weighting.
+
+Stay tightly anchored to the positive and negative examples in the baseline taste profile plus the effective CURRENT active feedback. Strongly penalize straightforward monster escape, generic creature features, psychological/torture horror, slashers, space opera, superhero and comic-book-universe material, action-first military sci-fi, repetitive sequels, and slow films that withhold information without meaningful discovery. Accumulated active feedback may move these soft penalties, but never past the structural guardrails above.
+
+Distinguish, as a matter of judgement, between "scientists investigate an unknown organism" and "soldiers shoot generic aliens", and between "the story reveals progressively stranger rules" and "a monster gimmick is introduced once and then chased for ninety minutes". These distinctions matter more than genre labels.
+
+Check the permanent library, all prior discovery files, rejections, and CURRENT ACTIVE feedback before accepting anything. Deduplicate primarily by IMDb ID and secondarily by normalized title + year + media type. Never re-add seen, existing, previously discovered, rejected, or currently actively-rated titles as new recommendations. A historical feedback chain whose current tip is retracted is NOT an active rating for this rule; however, public library/discovery/seen/rejection state still independently controls deduplication and must never be overridden by a retraction.
+
+Score candidates from 0-100 against the combined taste model. Only accept candidates meeting the minimum_match_score stored in taste-profile.json. Zero findings is valid; never lower the threshold to meet a quota. Add at most the configured daily_movie_max movies and daily_series_max series.
+
+For every accepted title, verify the correct IMDb ID and prepare a complete item with imdb_id, type, title, year, status="watch", preference=null, rank=null, match_score, controlled tags only, a concise reason explaining the fit, useful aliases if needed, current UTC ISO-8601 added_at, added_by="daily-automation", a discovery_run_id based on today's UTC date plus a short run suffix, and source describing the research sources used.
+
+Do not rewrite data/library.json for daily additions. Instead create one append-only file in the PUBLIC catalog repository at data/discoveries/<run_id>.json with schema_version=1, run_id, timestamp, and an items array containing the accepted titles. The site builder merges these files with the permanent library and deduplicates them. Do not create duplicate Past 24h entries; that catalog is generated from added_by and added_at.
+
+Append one run record to the PUBLIC repository's data/discovery-log.json with run_id, timestamp, searched/accepted/rejected/duplicate counts, accepted IMDb IDs/titles/scores, and a concise note about meaningful ACTIVE feedback-derived preference signals used during the run without quoting private feedback verbatim. Describe signals at the level of "premise interest remained positive for investigative biology" rather than naming private aspect ids or quoting text. Do not mention revoked/retracted private opinions as taste signals. Append a run even if zero titles qualify.
+
+Never silently delete existing library/discovery items or alter user seen/preference state unless explicitly asked. Do not edit generated site files or manifest output. Do not modify the PRIVATE feedback repository at any point. Update only source data files in the PUBLIC catalog repository and commit them directly to the default branch of Lewdcifer666/wtf-scifi-stremio.
+
+After completion, report only the accepted new titles with match scores and one-line reasons, or report that zero high-confidence matches were added. Do not include private feedback text in the user-facing run report.
 ```
+
+## Behavioural regression cases
+
+These are the cases the interpretation layer must satisfy. They are specification
+scenarios, not records: no private feedback content belongs in this public
+repository. Case A is the motivating example from the Feedback v2 specification.
+
+| Case | Active evidence | Required interpretation |
+|---|---|---|
+| **A** | `rating 2`, `premise_interest yes`, liked `premise_concept, setting_atmosphere, science_biology`, disliked `acting, creature_threat` | Poor title/execution fit. Premise neighbourhood **remains desirable**. Biology/science remains desirable. Setting worked. Acting weak; creature execution disliked **in this title**. Must **not** blacklist biology, glaciers, research settings, organisms, creatures or scientific mystery. A better-executed title in the same neighbourhood may still rank highly. |
+| **B** | `rating 5`, `premise_interest no` | Title quality positive; do **not** steer discovery toward that premise neighbourhood. |
+| **C** | `rating 5`, premise null, no aspects | Strong positive title-quality evidence. Reason unknown. **No** invented content preference. |
+| **D** | `rating 1`, premise null, no aspects | Strong negative title-quality evidence. **No** topic or setting rejection. |
+| **E** | 3+ independent titles, `premise_interest no`, overlapping neighbourhood | Meaningful negative content preference for that combination — still short of excluding every individual facet. |
+| **F** | `premise_interest yes`, disliked `acting, effects, dialogue` | Premise stays desirable; execution fit falls; content eligibility **unchanged**. |
+| **G** | `premise_interest yes`, disliked `horror, survival_chase` | Premise stays desirable; soft penalty on horror/chase-heavy presentation; subject **not** blacklisted. |
+| **H** | v1 `not_enough_mystery` | Weak evidence **more** mystery is wanted. Never "dislikes mystery". |
+| **I** | rating A → retraction B → rating C | **C only.** A and B contribute zero, including premise, aspects and dnf_reasons. |
+| **J** | unknown future aspect id | Preserve and read conservatively; invent no semantics; never generalise; never print the raw id publicly. |
