@@ -38,6 +38,25 @@
         {"imdb_id": "tt19231492", "type": "series", "title": "Dark Matter", "match_score": 95}
       ],
       "rejection_summary": "The effective feedback reinforced suspense and mystery as positive qualities even when a title's overall rating is only moderate, while a DNF for boredom strengthened the existing penalty on slow or withholding material. The run therefore favored investigation-heavy science, biology/ecology, experimental technology and reality-rule discovery; slower/ambiguous psychological entries and more survival/action-oriented candidates were withheld. Superseded feedback was not double-counted, and previously discovered/library titles encountered during research were deduplicated."
+    },
+    {
+      "run_id": "2026-08-24-c1",
+      "timestamp": "2026-08-24T06:46:36Z",
+      "searched": 24,
+      "accepted": 8,
+      "rejected": 16,
+      "duplicates": 0,
+      "accepted_items": [
+        {"imdb_id": "tt38283916", "type": "movie", "title": "The Reality Experiment", "match_score": 97},
+        {"imdb_id": "tt4209174", "type": "movie", "title": "Chimera Strain", "match_score": 94},
+        {"imdb_id": "tt1835955", "type": "movie", "title": "Errors of the Human Body", "match_score": 93},
+        {"imdb_id": "tt0106188", "type": "movie", "title": "12:01", "match_score": 90},
+        {"imdb_id": "tt5342650", "type": "movie", "title": "Reset", "match_score": 88},
+        {"imdb_id": "tt0429422", "type": "series", "title": "ReGenesis", "match_score": 99},
+        {"imdb_id": "tt1118697", "type": "series", "title": "Eleventh Hour", "match_score": 98},
+        {"imdb_id": "tt0452718", "type": "series", "title": "Surface", "match_score": 95}
+      ],
+      "rejection_summary": "Current active feedback strongly reinforced suspense, alien/unknown mystery and explicit More Like This preference while retracted chains contributed zero taste weight. The run therefore prioritized active scientific investigation, genetics/biology, experiments with escalating consequences and discoverable reality/time systems; action-first, generic creature, psychological-horror and slow-withholding candidates were penalized. Existing library and prior discovery state were checked before acceptance."
     }
   ]
 }
