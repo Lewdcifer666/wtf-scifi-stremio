@@ -93,6 +93,14 @@ DID NOT FINISH:
 - Read dnf_reasons on schema 2, and legacy abandonment ids inside disliked on schema 1.
 - If the same did_not_finish event also carries premise_interest, that premise answer is the content signal; the abandonment is the execution signal.
 
+The six schema-2 dnf_reasons are: boring, lost_interest, mystery_going_nowhere, too_confusing, too_slow_to_start, not_what_i_expected. All six are TITLE-LEVEL abandonment explanations. None of them alone changes topic or content eligibility.
+- mystery_going_nowhere does NOT mean "dislikes mystery". It is a complaint that this title's mystery failed to develop.
+- too_confusing does NOT mean "dislikes complex or high-concept stories". It is a clarity problem in this title.
+- too_slow_to_start is an execution/pacing complaint about this title and does NOT establish a general rejection of slower titles.
+- not_what_i_expected is intentionally ambiguous. NEVER infer premise_interest=no from it; premise_interest remains the authoritative content-neighbourhood answer.
+- lost_interest and boring are title-level negatives. Do not infer WHICH subject or concept caused the loss of interest unless explicit premise or aspect evidence says so.
+If a schema-2 did_not_finish event also carries premise_interest, liked or disliked, those explicit structured fields supply the corresponding content and aspect semantics.
+
 LEGACY TAG SEMANTICS (schema 1 events).
 
 A. Lossless equivalences — SIDE-SPECIFIC. These are not generic bidirectional replacements. Each mapping is proven lossless only on the side shown, because the historical tags encoded their own polarity.
@@ -115,7 +123,7 @@ weak_payoff -> ending_payoff
 monster_chase -> survival_chase
 weak_characters -> characters
 
-If a legacy id appears on a side where its equivalence is not listed above, DO NOT map it. Treat that occurrence conservatively as legacy/unmapped evidence under rule C instead. For example liked=["too_slow"] must NOT become a thumbs-up on pacing: the proven equivalence describes only the historical negative tag disliked=["too_slow"] -> thumbs-down on pacing. This keeps the losslessness rule intact even for malformed, hand-edited or unexpected historical files.
+If a legacy id appears on a side where its equivalence is not listed above, DO NOT map it. Treat that occurrence conservatively as legacy/unmapped evidence under rule D instead. For example liked=["too_slow"] must NOT become a thumbs-up on pacing: the proven equivalence describes only the historical negative tag disliked=["too_slow"] -> thumbs-down on pacing. This keeps the losslessness rule intact even for malformed, hand-edited or unexpected historical files.
 
 monster_chase maps to survival_chase and NEVER to creature_threat.
 
@@ -125,7 +133,28 @@ B. Known non-normalisable legacy semantics — read these by their actual histor
 - repetitive = a title/execution-level negative about lack of progression. Do not blacklist the title's content subjects.
 - too_ambiguous = a title-level clarity/payoff complaint. Do not turn it into a dislike of mystery or of ending_payoff.
 
-C. Unknown ids — any aspect or reason id not listed above: read conservatively, preserve it as historical evidence, invent no semantics for it, do not generalise from it, and never print the raw id in any public output.
+C. Legacy v1 DNF reasons. Schema 1 stored abandonment reasons inside disliked, so these ids are KNOWN and must never be treated as unknown. The historical vocabulary is nine ids, handled in three groups.
+
+True abandonment reasons — title-level only, with no aspect equivalent:
+- boring = the title failed to hold interest. Strong negative evidence about this particular title. Must NOT blacklist its subjects, settings or premise.
+- mystery_going_nowhere = the mystery/discovery progression failed to develop sufficiently. This must NEVER mean "the user dislikes mystery". If anything it is consistent with wanting meaningful mystery progression, but do not turn a single occurrence into a general content preference.
+- too_confusing = a clarity, comprehension or execution problem in this title. It must NOT mean the user dislikes weirdness, mystery, reality anomalies, mind/consciousness stories or complex concepts.
+
+Lossless aspect equivalents — already covered by rule A and side-specific in the same way (all appear in disliked):
+weak_characters -> characters; too_slow -> pacing; too_much_action -> action; too_much_horror -> horror; monster_chase -> survival_chase.
+
+Known non-normalisable — already covered by rule B:
+not_enough_mystery = weak evidence that MORE mystery was wanted, NEVER "the user dislikes mystery".
+
+Together these nine ids are the complete historical v1 DNF vocabulary, so none of them falls through to rule D.
+
+D. Unknown ids. An id is truly unknown only when it is NOT any of the following:
+- a canonical schema-2 aspect,
+- a known lossless legacy alias on its valid side,
+- a known non-normalisable legacy semantic,
+- a known v1 DNF reason,
+- a known schema-2 dnf_reason.
+Only for an id that fails all five tests: read conservatively, preserve it as historical evidence, invent no semantics for it, do not generalise from it, and never print the raw id in any public output.
 
 EVIDENCE WEIGHTING.
 
