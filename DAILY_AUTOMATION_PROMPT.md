@@ -25,6 +25,7 @@ Treat data/taste-profile.json as the stable baseline taste profile and data/feed
 
 RESOLVE FEEDBACK EVENT HISTORY BEFORE USING IT FOR TASTE LEARNING.
 
+0. Resolve the graph BEFORE interpreting any schema-specific opinion field. Chain topology is decided by feedback_id and supersedes alone. Never drop an event from the graph because you cannot interpret its opinion fields.
 1. Parse every feedback event first and build a global feedback_id -> event map.
 2. Resolve supersedes links GLOBALLY before grouping by title identity. A supersedes edge is authoritative even when source_id/imdb_id metadata changes between events.
 3. Determine chain tips globally: a tip is an event whose feedback_id is not superseded by another event. A supersedes reference whose parent is missing must not invalidate the newer event; delivery can be out of order.
@@ -41,7 +42,20 @@ RETRACTION / DELETE SEMANTICS:
 
 FEEDBACK EVENTS CARRY A SCHEMA VERSION. HONOUR IT.
 
-Every event has an explicit integer schema_version. Only 1 and 2 exist. Read each event under the rules of its own version and never treat the two as equivalent. Do not assume a missing or unexpected version; if an event declares anything other than 1 or 2, ignore it for taste learning and note it in the run record.
+Every event has an explicit integer schema_version. Currently supported feedback schemas are 1 and 2. Read each event under the rules of its own version and never treat the two as equivalent. Do not assume a missing or unexpected version.
+
+UNSUPPORTED SCHEMAS (anything that is not 1 or 2, including future schemas):
+
+An unsupported event must NOT be discarded before chain resolution. Discarding it would let an older, already-superseded opinion become active again, which silently resurrects taste the user had replaced or revoked. That is the one mistake this rule exists to prevent.
+
+- Every structurally usable event participates in the global feedback_id map and the supersedes graph, whatever its schema. Its feedback_id, supersedes, source_id, imdb_id and rated_at are used for topology, identity and deduplication when they are valid.
+- Its opinion semantics are unknown, so it contributes ZERO taste-learning weight. Never interpret unknown fields and never guess what they mean.
+- Never fall back to an older superseded known-schema opinion because the newest event is unreadable.
+- If the current effective tip for an identity uses an unsupported schema, treat that title's current opinion as OPAQUE — unavailable for learning, and neither positive nor negative.
+- For deduplication, if an unsupported current tip resolves to an imdb_id or source_id, conservatively treat that identity as already feedback-associated, so the title is not offered as a brand-new discovery merely because the newest feedback cannot be read.
+- Count unsupported-schema events in your private diagnostic reasoning and note the count in the run record. Never expose their raw fields.
+
+Worked example. A = schema 2 rating, B = schema 3 event superseding A. B remains the chain tip; A does NOT return as active evidence; B contributes no interpreted preference; the title is conservatively excluded from new-title discovery. The same holds for A = rating, B = retraction, C = unsupported event superseding B: do not resurrect A, and do not treat B as the current opinion.
 
 SCHEMA 1 (historical events):
 - rating: the user's overall signal for that title.
@@ -81,9 +95,29 @@ DID NOT FINISH:
 
 LEGACY TAG SEMANTICS (schema 1 events).
 
-A. Lossless equivalences — read these canonically:
-biology -> science_biology; rule_discovery -> world_rules; impossible_system -> world_rules; fast_pacing -> pacing; great_payoff -> ending_payoff; time_reality -> reality_time_anomaly; too_slow -> pacing; boring_middle -> pacing; too_much_action -> action; too_much_horror -> horror; psychological_horror -> horror; weak_payoff -> ending_payoff; monster_chase -> survival_chase; weak_characters -> characters.
-The side is preserved: a legacy id in disliked stays negative evidence about that canonical aspect. monster_chase maps to survival_chase and NEVER to creature_threat.
+A. Lossless equivalences — SIDE-SPECIFIC. These are not generic bidirectional replacements. Each mapping is proven lossless only on the side shown, because the historical tags encoded their own polarity.
+
+Only when the legacy id appears in liked:
+biology -> science_biology
+rule_discovery -> world_rules
+impossible_system -> world_rules
+fast_pacing -> pacing
+great_payoff -> ending_payoff
+time_reality -> reality_time_anomaly
+
+Only when the legacy id appears in disliked:
+too_slow -> pacing
+boring_middle -> pacing
+too_much_action -> action
+too_much_horror -> horror
+psychological_horror -> horror
+weak_payoff -> ending_payoff
+monster_chase -> survival_chase
+weak_characters -> characters
+
+If a legacy id appears on a side where its equivalence is not listed above, DO NOT map it. Treat that occurrence conservatively as legacy/unmapped evidence under rule C instead. For example liked=["too_slow"] must NOT become a thumbs-up on pacing: the proven equivalence describes only the historical negative tag disliked=["too_slow"] -> thumbs-down on pacing. This keeps the losslessness rule intact even for malformed, hand-edited or unexpected historical files.
+
+monster_chase maps to survival_chase and NEVER to creature_threat.
 
 B. Known non-normalisable legacy semantics — read these by their actual historical meaning, never inverted:
 - not_enough_mystery = the title did not have enough mystery. This is weak evidence that MORE mystery is desirable. It is NEVER "the user dislikes mystery".
@@ -154,7 +188,7 @@ repository. Case A is the motivating example from the Feedback v2 specification.
 
 | Case | Active evidence | Required interpretation |
 |---|---|---|
-| **A** | `rating 2`, `premise_interest yes`, liked `premise_concept, setting_atmosphere, science_biology`, disliked `acting, creature_threat` | Poor title/execution fit. Premise neighbourhood **remains desirable**. Biology/science remains desirable. Setting worked. Acting weak; creature execution disliked **in this title**. Must **not** blacklist biology, glaciers, research settings, organisms, creatures or scientific mystery. A better-executed title in the same neighbourhood may still rank highly. |
+| **A** | `rating 2`, `premise_interest yes`, liked `premise_concept, science_biology, setting_atmosphere`, disliked `acting, creature_threat, survival_chase` | Poor title/execution fit. Premise neighbourhood **remains desirable**. Biology/science remains desirable. Setting/atmosphere worked. `acting` is EXECUTION → lowers execution fit **only**. `creature_threat` is CONCEPT → one piece of negative conceptual evidence, but one title **cannot** create a creature blacklist. `survival_chase` is TONE → a soft penalty for chase-heavy presentation, and it does **not** imply dislike of creatures. Neither negative aspect overrides `premise_interest=yes`. Biology, research environments, organisms, creatures and scientific mystery all **remain eligible**; a better-executed title in the same neighbourhood may rank highly. |
 | **B** | `rating 5`, `premise_interest no` | Title quality positive; do **not** steer discovery toward that premise neighbourhood. |
 | **C** | `rating 5`, premise null, no aspects | Strong positive title-quality evidence. Reason unknown. **No** invented content preference. |
 | **D** | `rating 1`, premise null, no aspects | Strong negative title-quality evidence. **No** topic or setting rejection. |
@@ -164,3 +198,4 @@ repository. Case A is the motivating example from the Feedback v2 specification.
 | **H** | v1 `not_enough_mystery` | Weak evidence **more** mystery is wanted. Never "dislikes mystery". |
 | **I** | rating A → retraction B → rating C | **C only.** A and B contribute zero, including premise, aspects and dnf_reasons. |
 | **J** | unknown future aspect id | Preserve and read conservatively; invent no semantics; never generalise; never print the raw id publicly. |
+| **K** | `A` schema 2 rating → `B` schema 3 event superseding A; automation supports 1 and 2 only | **B stays the chain tip.** `A` does **not** return as active evidence. `B` contributes **no** interpreted taste evidence. If `B` resolves to an imdb_id/source_id the identity is conservatively excluded from new-title discovery. The run records an unsupported-schema diagnostic **without** exposing `B`'s opinion fields. |
