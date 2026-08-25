@@ -225,6 +225,19 @@ check("L2", "unsupported schemas still may not resurrect an older opinion",
   has("Discarding it would let an older, already-superseded opinion become active again"));
 check("L3", "existing operational limits survive", hasAll(
   "minimum_match_score", "daily_movie_max", "daily_series_max", "Zero findings is valid"));
+// After the duplicate-integrity repair the builder no longer merges or silently
+// deduplicates colliding identities - it fails closed. The prompt must not tell
+// the automation otherwise, or it will keep writing duplicates believing the
+// builder will tidy them up.
+check("L3b", "does not claim the builder deduplicates duplicate identities",
+  !fence.includes("deduplicates them") && !/builder[^.]*deduplicat/i.test(fence));
+check("L3c", "states that the builder fails closed on a repeated public identity",
+  has("FAILS CLOSED if the same public identity appears more than once")
+  && has("The automation must prevent duplicates before writing them"));
+check("L3d", "still keeps the append-only discovery instruction intact",
+  has("create one append-only file in the PUBLIC catalog repository at data/discoveries/<run_id>.json")
+  && has("Do not create duplicate Past 24h entries"));
+
 check("L4", "the private repository stays read-only",
   has("Do not modify the PRIVATE feedback repository at any point"));
 check("L5", "private free text is never published",
