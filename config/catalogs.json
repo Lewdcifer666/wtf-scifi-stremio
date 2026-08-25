@@ -1,8 +1,8 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "manifest": {
     "id": "com.github.wtfscifi.automated-watchlist",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "name": "WTF Sci-Fi Discovery",
     "description": "Automated high-concept sci-fi and mystery watchlists: scientists, biology, impossible phenomena, hidden systems, time/reality anomalies and escalating WTF concepts."
   },
@@ -85,6 +85,182 @@
         "mystery"
       ],
       "sort": "score"
+    },
+    {
+      "id": "dna-match",
+      "name": "🧬 DNA Match",
+      "filter": "dna",
+      "sort": "dna_score",
+      "min_score": 50,
+      "dna": {
+        "mode": "baseline_profile",
+        "archetype_bonus_max": 25
+      }
+    },
+    {
+      "id": "fringe-dna",
+      "name": "🧬 Fringe DNA",
+      "filter": "dna",
+      "sort": "dna_score",
+      "min_score": 50,
+      "dna": {
+        "mode": "weighted",
+        "weights": {
+          "scientific_investigation": 10,
+          "unknown_phenomenon": 10,
+          "concept_escalation": 10,
+          "mystery": 9,
+          "weirdness": 9,
+          "scientist_presence": 8,
+          "rule_discovery": 8,
+          "suspense": 7,
+          "experiments": 4,
+          "alien_unknown_life": 3,
+          "biology_genetics": 3
+        },
+        "penalties": {
+          "superhero": 6,
+          "comic_book_universe": 6,
+          "space_opera": 5,
+          "military_focus": 4,
+          "action_intensity": 4,
+          "survival_chase": 4
+        }
+      }
+    },
+    {
+      "id": "investigation-first",
+      "name": "🔬 Investigation First",
+      "filter": "dna",
+      "sort": "dna_score",
+      "min_score": 50,
+      "dna": {
+        "mode": "weighted",
+        "gate": {
+          "all_of": [
+            {
+              "dimension": "scientific_investigation",
+              "at_or_above": 5
+            }
+          ],
+          "any_of": []
+        },
+        "weights": {
+          "scientific_investigation": 12,
+          "rule_discovery": 9,
+          "mystery": 8,
+          "unknown_phenomenon": 8,
+          "scientist_presence": 7,
+          "research_setting": 5
+        },
+        "penalties": {
+          "survival_chase": 6,
+          "action_intensity": 6,
+          "military_focus": 6
+        }
+      }
+    },
+    {
+      "id": "high-suspense",
+      "name": "⚡ High Suspense",
+      "filter": "dna",
+      "sort": "dna_score",
+      "min_score": 60,
+      "dna": {
+        "mode": "weighted",
+        "gate": {
+          "all_of": [
+            {
+              "dimension": "suspense",
+              "at_or_above": 6
+            },
+            {
+              "dimension": "mystery",
+              "at_or_above": 5
+            }
+          ],
+          "any_of": [
+            {
+              "dimension": "unknown_phenomenon",
+              "at_or_above": 6
+            },
+            {
+              "dimension": "reality_anomaly",
+              "at_or_above": 6
+            },
+            {
+              "dimension": "time_anomaly",
+              "at_or_above": 6
+            },
+            {
+              "dimension": "mind_consciousness",
+              "at_or_above": 6
+            },
+            {
+              "dimension": "alien_unknown_life",
+              "at_or_above": 6
+            },
+            {
+              "dimension": "experiments",
+              "at_or_above": 6
+            },
+            {
+              "dimension": "scientific_investigation",
+              "at_or_above": 6
+            },
+            {
+              "dimension": "biology_genetics",
+              "at_or_above": 6
+            }
+          ]
+        },
+        "weights": {
+          "suspense": 12,
+          "mystery": 10,
+          "unknown_phenomenon": 5,
+          "concept_escalation": 4,
+          "rule_discovery": 4,
+          "weirdness": 3,
+          "scientific_investigation": 3
+        },
+        "penalties": {
+          "space_opera": 4,
+          "comedy": 3
+        }
+      }
+    },
+    {
+      "id": "concept-escalating",
+      "name": "📈 Concept Keeps Escalating",
+      "filter": "dna",
+      "sort": "dna_score",
+      "min_score": 50,
+      "dna": {
+        "mode": "weighted",
+        "gate": {
+          "all_of": [
+            {
+              "dimension": "concept_escalation",
+              "at_or_above": 5
+            }
+          ],
+          "any_of": []
+        },
+        "weights": {
+          "concept_escalation": 14,
+          "rule_discovery": 8,
+          "weirdness": 7,
+          "mystery": 6,
+          "unknown_phenomenon": 6,
+          "reality_anomaly": 4,
+          "time_anomaly": 4,
+          "mind_consciousness": 4,
+          "experiments": 3
+        },
+        "penalties": {
+          "space_opera": 4
+        }
+      }
     }
   ]
 }

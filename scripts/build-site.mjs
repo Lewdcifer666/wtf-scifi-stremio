@@ -2,6 +2,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeTitle, resolveItem } from "./cinemeta.mjs";
+import { makePolicy, scoreItem } from "./dna-score.mjs";
+import { readPersonalizedScores } from "./personalized-scores.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
@@ -10,6 +12,38 @@ const dataDir = path.join(root, "data");
 const library = JSON.parse(fs.readFileSync(path.join(dataDir, "library.json"), "utf8"));
 const config = JSON.parse(fs.readFileSync(path.join(root, "config", "catalogs.json"), "utf8"));
 const taste = JSON.parse(fs.readFileSync(path.join(dataDir, "taste-profile.json"), "utf8"));
+
+// Content DNA policy comes from taste-profile.json; the per-row weights come
+// from config/catalogs.json; this file owns neither. A schema-2 profile simply
+// has no DNA sections, so the DNA rows produce nothing and everything else
+// builds exactly as before.
+const dnaPolicy = taste.dna_dimensions ? makePolicy(taste) : null;
+
+// Optional, absent until F2-9 generates it. Absence is the normal state and is
+// not a warning; any invalid file is ignored in favour of stable baseline
+// scores, and the build never fails because of it.
+const personalizedFile = path.join(dataDir, "personalized-scores.json");
+const personalized = readPersonalizedScores(fs, personalizedFile);
+if (personalized.status !== "absent") {
+  console.log(`personalized-scores.json: ${personalized.status}` +
+    (personalized.status === "applied"
+      ? ` (${personalized.items.size} items, ${personalized.rejectedItems} rejected)`
+      : " - falling back to stable baseline DNA scores"));
+}
+
+// Per-(def, item) DNA score cache, keyed by def id. Computed once, reused by
+// matches() and sortItems() so a row can never filter on one number and sort
+// on another.
+const dnaScores = new Map();
+function dnaScoreFor(def, item) {
+  let byItem = dnaScores.get(def.id);
+  if (!byItem) { byItem = new Map(); dnaScores.set(def.id, byItem); }
+  const key = item.imdb_id || `${item.type}:${normalizeTitle(item.title)}:${item.year}`;
+  if (!byItem.has(key)) {
+    byItem.set(key, dnaPolicy ? scoreItem(dnaPolicy, def, item, personalized.items).score : null);
+  }
+  return byItem.get(key);
+}
 
 fs.rmSync(out, { recursive: true, force: true });
 fs.mkdirSync(out, { recursive: true });
@@ -100,11 +134,19 @@ function matches(def, item) {
   }
   if (def.filter === "best") return (item.match_score || 0) >= taste.automation_rules.best_match_score || (item.tags || []).includes("best");
   if (def.filter === "tags") return (def.tags_any || []).some(tag => (item.tags || []).includes(tag));
+  if (def.filter === "dna") return dnaScoreFor(def, item) !== null;
   return false;
 }
 
 function sortItems(def, items) {
   return [...items].sort((a, b) => {
+    if (def.sort === "dna_score") {
+      return (dnaScoreFor(def, b) || 0) - (dnaScoreFor(def, a) || 0)
+        || (b.match_score || 0) - (a.match_score || 0)
+        || Date.parse(b.added_at || 0) - Date.parse(a.added_at || 0)
+        || a.title.localeCompare(b.title)
+        || String(a.imdb_id || "").localeCompare(String(b.imdb_id || ""));
+    }
     if (def.sort === "newest") return Date.parse(b.added_at || 0) - Date.parse(a.added_at || 0) || (b.match_score || 0) - (a.match_score || 0);
     return (b.match_score || 0) - (a.match_score || 0) || Date.parse(b.added_at || 0) - Date.parse(a.added_at || 0) || a.title.localeCompare(b.title);
   });

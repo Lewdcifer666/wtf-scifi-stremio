@@ -1,10 +1,21 @@
-// Content DNA inertness proof (F2-6 test matrix case N, extended by F2-7).
+// Content DNA isolation proof (F2-6 case N, extended by F2-7 and F2-8).
 //
 // Reconstructs the complete pre-DNA world - a schema-2 taste profile with the
 // four DNA sections removed AND every source item stripped of dna,
 // dna_confidence and dna_tags - builds the site from it, then builds again from
-// the committed schema-3 + enriched state. Every generated manifest and catalog
-// file must be byte-identical.
+// the committed schema-3 + enriched state.
+//
+// Since F2-8 the DNA layer is deliberately NOT inert: five catalogs consume it.
+// The invariant is therefore narrower and more useful - Content DNA must not
+// disturb anything that existed before it:
+//
+//   the 18 pre-F2-8 catalog files  -> byte-identical in both worlds
+//   the manifest                   -> byte-identical in both worlds
+//   the 10 DNA catalog files       -> empty without DNA, populated with it
+//
+// A DNA row degrading to empty rather than to noise is the property that
+// matters: an un-enriched deployment loses the new rows and keeps everything
+// else exactly as it was.
 //
 // Both halves have to be reconstructed together: a schema-2 profile alongside
 // DNA-bearing items is exactly the hybrid state the schema contract forbids, so
@@ -37,6 +48,8 @@ const PRODUCTION_SUBTREES = [
   "strong_positive_signals", "negative_signals", "hard_exclusions",
   "reference_titles", "automation_rules", "controlled_tags"
 ];
+const DNA_ROWS = ["dna-match", "fringe-dna", "investigation-first", "high-suspense", "concept-escalating"];
+const isDnaCatalog = name => DNA_ROWS.some(r => name.endsWith(`/${r}-movie.json`) || name.endsWith(`/${r}-series.json`));
 const FORBIDDEN_IN_PROMPT = [
   "dna_dimensions", "dna_baseline", "dna_guardrails",
   "execution_preferences", "dna_confidence", "dna_tags", "personalized-scores"
@@ -87,7 +100,7 @@ function writeJson(file, value) {
   fs.writeFileSync(file, JSON.stringify(value, null, 2) + "\n", "utf8");
 }
 
-console.log("Content DNA inertness proof");
+console.log("Content DNA isolation proof");
 console.log("");
 
 // --- boundary sanity: is the past24 window stable across two builds? --------
@@ -127,6 +140,12 @@ try {
 
   preDnaHashes = build();
   ok(`pre-DNA build produced ${preDnaHashes.size} generated JSON files`, preDnaHashes.size > 0);
+
+  // Without a DNA registry the five DNA rows must degrade to EMPTY, never to
+  // arbitrary or partially-scored contents.
+  const emptyDna = [...preDnaHashes.keys()].filter(isDnaCatalog)
+    .filter(f => JSON.parse(fs.readFileSync(path.join(SITE, f), "utf8")).metas.length === 0);
+  ok(`without Content DNA all 10 DNA catalogs degrade to empty (${emptyDna.length}/10)`, emptyDna.length === 10);
 } finally {
   for (const [file, text] of originals) fs.writeFileSync(file, text, "utf8");
 }
@@ -139,12 +158,23 @@ ok("all source files restored byte-for-byte", true);
 
 const dnaHashes = build();
 
-// --- N: generated output must be byte-identical ---------------------------
+// --- N: everything that predates the DNA rows is untouched -----------------
 {
-  const names = new Set([...preDnaHashes.keys(), ...dnaHashes.keys()]);
-  const differing = [...names].filter(n => preDnaHashes.get(n) !== dnaHashes.get(n));
-  ok(`N  all ${names.size} generated files are byte-identical with and without Content DNA`,
+  const names = [...new Set([...preDnaHashes.keys(), ...dnaHashes.keys()])];
+  const preExisting = names.filter(n => !isDnaCatalog(n));
+  const dnaFiles = names.filter(isDnaCatalog);
+
+  const differing = preExisting.filter(n => preDnaHashes.get(n) !== dnaHashes.get(n));
+  ok(`N  all ${preExisting.length} pre-F2-8 files (18 catalogs + manifest) are byte-identical with and without Content DNA`,
     differing.length === 0, differing.join(", "));
+
+  ok(`the 10 DNA catalog files exist in both builds`, dnaFiles.length === 10, `found ${dnaFiles.length}`);
+
+  const countMetas = file => JSON.parse(fs.readFileSync(path.join(SITE, file), "utf8")).metas.length;
+  const populated = dnaFiles.filter(f => countMetas(f) > 0);
+  ok(`every DNA catalog is populated when DNA is present (${populated.length}/10)`, populated.length === 10);
+  ok(`the DNA catalogs differ from their empty pre-DNA counterparts`,
+    dnaFiles.every(n => preDnaHashes.get(n) !== dnaHashes.get(n)));
 }
 
 // --- the six production-consumed subtrees ---------------------------------
@@ -169,5 +199,5 @@ const dnaHashes = build();
 }
 
 console.log("");
-console.log(failed ? `${failed} FAILED` : "INERT: Content DNA changes no generated catalog output");
+console.log(failed ? `${failed} FAILED` : "ISOLATED: Content DNA changes nothing that predates it");
 process.exit(failed ? 1 : 0);
