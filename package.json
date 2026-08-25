@@ -10,6 +10,6 @@
     "resolve": "node scripts/resolve-library.mjs",
     "build": "node scripts/build-site.mjs",
     "validate": "node scripts/validate.mjs",
-    "test": "node test/validate-profile.test.mjs && node test/dna-score.test.mjs && node test/duplicate-identity.test.mjs && node test/catalog-build.test.mjs && node test/inertness.mjs"
+    "test": "node test/validate-profile.test.mjs && node test/dna-score.test.mjs && node test/duplicate-identity.test.mjs && node test/prompt-contract.test.mjs && node test/catalog-build.test.mjs && node test/inertness.mjs"
   }
 }

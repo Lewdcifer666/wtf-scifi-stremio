@@ -186,6 +186,17 @@ Judge this by structural and story identity — costumed or superpowered hero st
 
 Accumulated feedback may adjust SOFT preferences around these areas (for example how much action or horror presentation is tolerated). It must never silently redefine the core taste universe. Changing a guardrail requires a deliberate edit of data/taste-profile.json, not a run of this task.
 
+BUILD THE COMPLETE PUBLIC IDENTITY SET BEFORE ACCEPTING ANYTHING.
+
+Before evaluating candidates, construct the COMPLETE set of public identities that already exist, from data/library.json and EVERY file in data/discoveries/. An identity is the IMDb id when there is a usable one, and otherwise the normalized title plus year plus media type.
+
+Any candidate whose identity is already in that set:
+- MUST NOT be written to a discovery file,
+- counts toward the run's duplicates count and NEVER toward accepted,
+- MUST NOT be given a replacement Content DNA fingerprint, a new match_score, a new reason or any other updated field. The existing public record stands untouched.
+
+Immediately before the final write, rebuild the identity set from the current state of the public repository and re-check every title you are about to write. If something you accepted earlier in the run is now present, drop it and move it to the duplicates count. The repository validator and the site builder both FAIL CLOSED on duplicate identities, so a run that violates this cannot build; prevent the duplicate rather than relying on that failure to catch it.
+
 SEARCH AND SCORING.
 
 Search the current web broadly for movies and series that strongly fit the resulting combined taste model, including older titles and new releases. Prioritize scientific investigation, biology/genetics/ecology/alien organisms, unexplained phenomena, experiments with escalating consequences, impossible systems with discoverable rules, reality/time/memory/consciousness anomalies, and suspense driven by figuring out what is happening. Use active feedback-derived signals to refine this ordering and weighting.
@@ -200,9 +211,125 @@ Score candidates from 0-100 against the combined taste model. Only accept candid
 
 For every accepted title, verify the correct IMDb ID and prepare a complete item with imdb_id, type, title, year, status="watch", preference=null, rank=null, match_score, controlled tags only, a concise reason explaining the fit, useful aliases if needed, current UTC ISO-8601 added_at, added_by="daily-automation", a discovery_run_id based on today's UTC date plus a short run suffix, and source describing the research sources used.
 
+CONTENT DNA IS REQUIRED ON EVERY ACCEPTED DISCOVERY.
+
+Every accepted title must carry dna, dna_confidence and dna_tags.
+
+Read the authoritative Content DNA contract from data/taste-profile.json on the day of the run. Never restate the registry from memory: the dimension ids, their rubric anchors, the 0..10 scale and the closed tag vocabulary all come from dna_dimensions in that file as it currently stands.
+
+- dna must contain EXACTLY the canonical dimension ids listed in dna_dimensions.dimensions - none added, none omitted.
+- Each value is an integer 0..10, or null.
+- 0 means assessed and absent or minimal. null means genuinely unknown. Never use null to avoid research effort, and never write 0 for something you did not actually assess.
+- dna_confidence is a number 0.0..1.0 expressing confidence in the DESCRIPTIVE fingerprint, not confidence that the user will enjoy the title. Never inflate it so a title clears a DNA eligibility threshold.
+- dna_tags may contain only values from dna_dimensions.tag_registry. An empty array is valid. Never invent a tag, and never substitute the unrelated top-level controlled_tags vocabulary.
+
+Content DNA answers "what kind of title is this", never "will the user like it". Score it from the title's own story structure against the rubric anchors. Feedback may decide WHETHER a candidate is recommended; it must never bend the descriptive fingerprint. Do not raise a dimension because the user liked a similar title, and do not lower one because the user disliked a similar title.
+
 Do not rewrite data/library.json for daily additions. Instead create one append-only file in the PUBLIC catalog repository at data/discoveries/<run_id>.json with schema_version=1, run_id, timestamp, and an items array containing the accepted titles. The site builder merges these files with the permanent library and deduplicates them. Do not create duplicate Past 24h entries; that catalog is generated from added_by and added_at.
 
 Append one run record to the PUBLIC repository's data/discovery-log.json with run_id, timestamp, searched/accepted/rejected/duplicate counts, accepted IMDb IDs/titles/scores, and a concise note about meaningful ACTIVE feedback-derived preference signals used during the run without quoting private feedback verbatim. Describe signals at the level of "premise interest remained positive for investigative biology" rather than naming private aspect ids or quoting text. Do not mention revoked/retracted private opinions as taste signals. Append a run even if zero titles qualify.
+
+REGENERATE data/personalized-scores.json ON EVERY SUCCESSFUL RUN.
+
+Fully regenerate this file from scratch on every successful run, INCLUDING runs that accept zero new discoveries, because new viewing feedback may have arrived even when no title qualified.
+
+The shape is exactly:
+{"schema_version": 1, "generated_at": "<UTC ISO-8601 ending Z>", "items": {"tt0000000": {"dna_match": 0, "execution_fit": 0}}}
+
+No other top-level key and no other per-item key may appear. Both scores are integers 0..100. generated_at is the moment THIS PUBLIC FILE was generated - never a timestamp copied from a private feedback event.
+
+The following must NEVER appear in this file, as key, value or text: rating, premise_interest, more_like_this, liked, disliked, dnf_reasons, feedback, feedback_id, supersedes, source_id, rated_at, received_at, quotations, explanations, per-title private event counts, and private timestamps. The file carries two derived integers per title and nothing else.
+
+Keys may only be titles whose CURRENT public status is "watch". Feedback about seen or rated titles is LEARNING EVIDENCE, but a seen title is never an output key. Consider every current watch title that has valid Content DNA, not only newly discovered ones.
+
+WHICH TITLES GET AN ENTRY.
+
+Check sufficiency FIRST, and only then do the arithmetic for the titles that survive. A watch title receives an entry only when ALL of the following hold:
+1. its local Content DNA is eligible under dna_baseline.completeness_defaults,
+2. it is not hard-excluded by dna_guardrails.hard_exclusion,
+3. at least one independent active title contributes CONTENT evidence,
+4. at least two active numeric ratings exist,
+5. at least one applicable personalized CONTENT link exists for this title,
+6. at least one applicable title-specific EXECUTION or DIRECT-TONE link exists for this title.
+
+Otherwise OMIT the IMDb id entirely. The site builder then uses the stable baseline for that title, which is the correct outcome. Never publish a baseline value disguised as a personalized one, and never invent a number merely because the schema requires one. An empty items object is valid output.
+
+HOW TO DERIVE dna_match.
+
+dna_match is a personalized CONTENT-FIT estimate, 0..100, BEFORE the public DNA guardrails. The site builder applies hard exclusions and combination penalties itself after reading this file; subtracting them here would penalise the title twice.
+
+Start from the stable baseline. For a qualifying candidate compute the same content score the public builder computes, reading every constant live from data/taste-profile.json and config/catalogs.json and following the mechanism implemented in scripts/dna-score.mjs: a normalized weighted sum of the title's DNA against dna_baseline.weights, plus the bonus for the BEST matching archetype in dna_baseline.archetypes - never an average across archetypes - clamped to 0..100. Call that BASE. Do not restate any weight, archetype or bonus constant from memory; read the current values.
+
+Then move BASE only through legitimate ACTIVE CONTENT evidence. Ratings, did-not-finish reasons and execution aspects contribute NOTHING here.
+
+The CONTENT-PROJECTABLE dimensions are exactly: scientific_investigation, biology_genetics, alien_unknown_life, unknown_phenomenon, mystery, rule_discovery, concept_escalation, weirdness, reality_anomaly, time_anomaly, mind_consciousness, experiments, conspiracy, scientist_presence, research_setting, isolation, creature_threat.
+
+Never project content preference into suspense, horror, action_intensity, survival_chase, military_focus, comedy, pace_speed, space_opera, superhero or comic_book_universe. Those are tone, presentation or structural-policy dimensions; a liked premise that happens to contain heavy action, horror or military framing must never teach "I like action", "I like horror" or "I like military framing".
+
+Per active title, votes are:
+- premise_interest yes/no: +/-1.00 to every CONTENT-PROJECTABLE dimension where the SOURCE title's DNA is >= 7.
+- schema-1 more_like_this yes/no: +/-0.50, same restricted projection. It is weaker and ambiguous and may never create a facet blacklist.
+- premise_interest maybe: no content movement.
+- a CONCEPT aspect thumbs-up/thumbs-down: +/-0.60 to its mapped dimension(s), using this frozen mapping:
+    mystery -> mystery
+    science_biology -> biology_genetics
+    alien_unknown -> alien_unknown_life, unknown_phenomenon
+    scientific_investigation -> scientific_investigation
+    world_rules -> rule_discovery
+    concept_escalation -> concept_escalation
+    weirdness -> weirdness
+    reality_time_anomaly -> reality_anomaly, time_anomaly
+    mind_consciousness -> mind_consciousness
+    experiments -> experiments
+    conspiracy -> conspiracy
+    creature_threat -> creature_threat
+    premise_concept -> the generic projection across the CONTENT-PROJECTABLE set, using source DNA >= 7
+  For the two multi-dimension mappings, apply only those mapped dimensions the SOURCE title actually scores >= 5. Never invent a mapping for an aspect with no semantic equivalent.
+- TONE aspects contribute NOTHING to dna_match; they are handled under execution_fit.
+
+Clamp each single title's total contribution to any one dimension to +/-1, so one title can never dominate a dimension.
+
+For each dimension d, over the independent titles that voted on it, let mean(d) be the average vote and n(d) the number of such titles. The evidence tier multiplier is 0.30 for n=1, 0.60 for n=2, and 1.00 for n>=3. Then P(d) = mean(d) x tier, always within -1..+1.
+
+Importance weighting: importance(d) is the absolute value of that dimension's dna_baseline.weights entry, except that a dimension whose approved baseline weight is exactly 0 uses 5 instead - and only when it is CONTENT-PROJECTABLE. Baseline weight 0 means "neutral by default", not "feedback may never teach a preference here", so creature_threat and isolation remain learnable. Do not apply this floor outside the content-projectable set.
+
+  raw  = sum over d of P(d) x importance(d) x (candidate DNA[d] / 10)
+  norm = sum over d of |P(d)| x importance(d)
+  adjustment = MAX_SHIFT x raw / norm, and 0 when norm is 0
+
+MAX_SHIFT is set by the total number of independent titles contributing any content evidence: 6 for one title, 12 for two, 20 for three or more. dna_match = round(clamp(BASE + adjustment, 0, 100)).
+
+HOW TO DERIVE execution_fit.
+
+execution_fit is the expected user-specific EXECUTION fit of the title, 0..100. It must never turn an execution complaint into a content aversion. Weak-acting feedback may lower the expected execution fit of a title known for weak acting; it must never lower that title's biology or science content fit.
+
+E_base is the user's active satisfaction anchor: take the mean of the active numeric ratings and map 1..5 linearly onto 20..100.
+
+Two kinds of title-specific evidence adjust it.
+
+First, EXECUTION aspects. For each execution aspect a - acting, characters, dialogue, pacing, visuals, effects, ending_payoff, sound_music, originality - compute Pe(a) as mean vote x evidence tier, exactly as above. Then judge k for this candidate: +1 only when reliable public evidence indicates notably strong execution on that aspect, -1 only when reliable public evidence indicates notably weak execution, and 0 when ordinary, ambiguous, conflicting or insufficiently documented. Do not force +1 or -1.
+
+Second, DIRECT TONE. Tone aspects map losslessly onto DNA dimensions: suspense -> suspense, horror -> horror, action -> action_intensity, humor -> comedy, survival_chase -> survival_chase, military_focus -> military_focus. setting_atmosphere and emotion have no exact DNA equivalent and must not be given an invented one. For each mapped tone dimension t compute Pt(t) as mean vote x evidence tier, with individual tone aspect votes at magnitude +/-0.30 relative to concept votes. The candidate's applicability is its own measured DNA on that dimension.
+
+  exec_raw  = sum over execution aspects of Pe(a) x k(candidate, a)
+            + sum over mapped tone dimensions of Pt(t) x (candidate DNA[t] / 10)
+  exec_norm = sum of |Pe(a)| over applicable execution aspects
+            + sum of |Pt(t)| over applicable tone dimensions
+  adjustment_e = MAX_EXEC_SHIFT x exec_raw / exec_norm
+
+MAX_EXEC_SHIFT uses the same 6 / 12 / 20 ladder on the number of independent titles contributing execution evidence. If exec_norm is 0 the title has no defensible title-specific execution or tone estimate and MUST BE OMITTED. execution_fit = round(clamp(E_base + adjustment_e, 0, 100)).
+
+PERSONALIZATION IS BOUNDED.
+
+The stable baseline stays dominant while feedback history is small. One 1-star or 5-star rating must never reshape the catalog: a single title can move any score by at most 6 points, two titles by at most 12, and only three or more consistent independent titles unlock the full 20. premise_interest is the strongest content signal. Execution feedback stays in execution_fit. Retracted chains contribute zero. A current tip on an unsupported schema is opaque and contributes zero learning, and never lets an older superseded opinion return.
+
+PREPARE EVERYTHING, THEN COMMIT ONCE.
+
+The run is transactional. Prepare ALL intended public changes before writing anything: the discovery file if any, the discovery-log record if any, and the regenerated data/personalized-scores.json. Then validate the complete intended public state as a set - identities still unique, every accepted item carrying valid Content DNA, and personalized-scores.json matching the closed schema above.
+
+If personalized-scores.json cannot be generated or fails validation, FAIL THE RUN BEFORE ANY PUBLIC COMMIT. Do not commit a discovery file or a log record without the required personalized refresh. Because nothing was committed, the previous personalized-scores.json remains in place untouched, and its 72-hour freshness window provides a safe fallback if failures continue. Report the run as failed.
+
+A zero-findings run remains valid and may commit only the refreshed personalized-scores.json together with the run log record that is already required above.
 
 Never silently delete existing library/discovery items or alter user seen/preference state unless explicitly asked. Do not edit generated site files or manifest output. Do not modify the PRIVATE feedback repository at any point. Update only source data files in the PUBLIC catalog repository and commit them directly to the default branch of Lewdcifer666/wtf-scifi-stremio.
 

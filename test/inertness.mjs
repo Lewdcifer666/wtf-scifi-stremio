@@ -22,8 +22,8 @@
 // validating that combination would be asserting something we deliberately made
 // illegal.
 //
-// It also deep-equals the six production-consumed profile subtrees and greps
-// the live canonical automation prompt for DNA references.
+// It also deep-equals the six production-consumed profile subtrees and confirms
+// the live canonical automation prompt now REQUIRES the DNA contract (F2-9).
 //
 // Run with: node test/inertness.mjs
 //
@@ -50,9 +50,15 @@ const PRODUCTION_SUBTREES = [
 ];
 const DNA_ROWS = ["dna-match", "fringe-dna", "investigation-first", "high-suspense", "concept-escalating"];
 const isDnaCatalog = name => DNA_ROWS.some(r => name.endsWith(`/${r}-movie.json`) || name.endsWith(`/${r}-series.json`));
-const FORBIDDEN_IN_PROMPT = [
+// Until F2-9 the canonical prompt referenced no DNA concept at all, and this
+// file asserted exactly that. F2-9 inverts it on purpose: the automation is now
+// REQUIRED to generate Content DNA and to publish personalized-scores.json, so
+// the prompt must name those concepts. The detailed prompt contract lives in
+// test/prompt-contract.test.mjs; here we only assert the inversion happened, so
+// that a revert of the prompt cannot pass silently.
+const REQUIRED_IN_PROMPT = [
   "dna_dimensions", "dna_baseline", "dna_guardrails",
-  "execution_preferences", "dna_confidence", "dna_tags", "personalized-scores"
+  "dna_confidence", "dna_tags", "personalized-scores"
 ];
 
 let failed = 0;
@@ -193,8 +199,8 @@ const dnaHashes = build();
   const fence = text.split("```");
   const canonical = fence.find(b => b.startsWith("text") && b.includes("Read BOTH GitHub repositories"));
   ok("canonical fenced prompt block was located", Boolean(canonical));
-  for (const needle of FORBIDDEN_IN_PROMPT) {
-    ok(`canonical prompt contains zero references to '${needle}'`, canonical ? !canonical.includes(needle) : false);
+  for (const needle of REQUIRED_IN_PROMPT) {
+    ok(`canonical prompt requires '${needle}' (F2-9)`, canonical ? canonical.includes(needle) : false);
   }
 }
 
