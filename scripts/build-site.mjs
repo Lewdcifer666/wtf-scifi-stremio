@@ -152,10 +152,29 @@ function sortItems(def, items) {
   });
 }
 
-function meta(item) {
+// A DNA row ranks by its own row score, so showing the unrelated global
+// match_score on the card would contradict the ordering the user is looking at.
+// The row label is derived from def.name (its emoji prefix stripped) so the
+// displayed name and the catalog name cannot drift apart.
+function scoreLabel(def) {
+  return def.name.replace(/^[^\p{L}]+/u, "").trim();
+}
+
+// Only the FINAL row score is ever displayed: post-personalization,
+// post-archetype-bonus, post-guardrail, clamped. The dna vector, dna_confidence,
+// dna_tags and the raw personalized dna_match / execution_fit inputs are never
+// rendered and never leave the build.
+function meta(item, def) {
   const title = item.canonical_title || item.title;
   const tagText = (item.tags || []).filter(t => t !== "best").join(", ");
   const added = item.added_by === "daily-automation" ? ` • Daily discovery ${item.added_at?.slice(0, 10)}` : "";
+
+  let scoreText = item.match_score ? ` • Match ${item.match_score}/100` : "";
+  if (def && def.filter === "dna") {
+    const dnaScore = dnaScoreFor(def, item);
+    scoreText = dnaScore === null ? "" : ` • ${scoreLabel(def)} ${dnaScore}/100`;
+  }
+
   return {
     id: item.imdb_id,
     type: item.type,
@@ -163,7 +182,7 @@ function meta(item) {
     poster: `https://images.metahub.space/poster/medium/${item.imdb_id}/img`,
     posterShape: "poster",
     releaseInfo: String(item.year),
-    description: `${item.reason}${item.match_score ? ` • Match ${item.match_score}/100` : ""}${added}${tagText ? ` • ${tagText}` : ""}`
+    description: `${item.reason}${scoreText}${added}${tagText ? ` • ${tagText}` : ""}`
   };
 }
 
@@ -179,7 +198,7 @@ for (const type of ["movie", "series"]) {
     const labelType = type === "movie" ? "Movies" : "Series";
     manifestCatalogs.push({ type, id, name: `${def.name} • ${labelType}` });
     const selected = sortItems(def, watch.filter(x => x.type === type && matches(def, x)));
-    writeJson(path.join(out, "catalog", type, `${id}.json`), { metas: selected.map(meta) });
+    writeJson(path.join(out, "catalog", type, `${id}.json`), { metas: selected.map(item => meta(item, def)) });
     console.log(`${labelType}: ${def.name} -> ${selected.length}`);
   }
 }

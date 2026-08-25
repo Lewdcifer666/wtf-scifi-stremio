@@ -100,11 +100,14 @@ check("L1", "every card exposes exactly the seven long-standing meta keys", (() 
   return true;
 })());
 
-check("L2", "a card renders identically in a DNA row and in a pre-existing row", (() => {
+check("L2", "a card's identity fields are identical in a DNA row and a pre-existing row", (() => {
+  // Since the display fix the DESCRIPTION differs by design - a DNA row shows
+  // its own row score. Everything identifying the title must still match.
+  const IDENTITY = ["id", "type", "name", "poster", "posterShape", "releaseInfo"];
   const reference = new Map();
   for (const row of EXISTING_ROWS) {
     for (const type of ["movie", "series"]) {
-      for (const meta of catalog(row, type).metas) reference.set(meta.id, JSON.stringify(meta));
+      for (const meta of catalog(row, type).metas) reference.set(meta.id, meta);
     }
   }
   let compared = 0;
@@ -113,7 +116,7 @@ check("L2", "a card renders identically in a DNA row and in a pre-existing row",
       for (const meta of catalog(row, type).metas) {
         const seen = reference.get(meta.id);
         if (!seen) continue;
-        if (seen !== JSON.stringify(meta)) return false;
+        if (!IDENTITY.every(k => seen[k] === meta[k])) return false;
         compared++;
       }
     }
@@ -167,6 +170,135 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
   }
   check("B1", "every invalid personalized file still builds and falls back to baseline", survived);
   check("B2", "personalized-scores.json was not left behind", !fs.existsSync(file));
+}
+
+// ---------------------------------------------------------------- displayed score
+// A DNA row ranks by its own score, so the card must show THAT score - not the
+// unrelated global match_score, which would contradict the visible ordering.
+{
+  const { makePolicy, scoreItem } = await import("../scripts/dna-score.mjs");
+  const profile = JSON.parse(fs.readFileSync("data/taste-profile.json", "utf8"));
+  const config = JSON.parse(fs.readFileSync("config/catalogs.json", "utf8"));
+  const policy = makePolicy(profile);
+
+  const source = [];
+  {
+    const lib = JSON.parse(fs.readFileSync("data/library.json", "utf8"));
+    for (const it of lib.items || []) source.push(it);
+    for (const n of fs.readdirSync("data/discoveries").filter(x => x.endsWith(".json")).sort()) {
+      const payload = JSON.parse(fs.readFileSync(path.join("data/discoveries", n), "utf8"));
+      for (const it of (Array.isArray(payload) ? payload : payload.items || [])) source.push(it);
+    }
+  }
+  const byId = new Map(source.map(i => [i.imdb_id, i]));
+  const LABELS = {
+    "dna-match": "DNA Match",
+    "fringe-dna": "Fringe DNA",
+    "investigation-first": "Investigation First",
+    "high-suspense": "High Suspense",
+    "concept-escalating": "Concept Keeps Escalating"
+  };
+  const BULLET = "\u2022";
+  const OLD_MATCH_RE = new RegExp(BULLET + " Match \\d+/100");
+
+  // 2 + 3: every DNA card shows its own row's actual final score
+  for (const row of NEW_ROWS) {
+    const def = config.catalogs.find(c => c.id === row);
+    let allMatch = true, checked = 0, sample = "";
+    for (const type of ["movie", "series"]) {
+      for (const meta of catalog(row, type).metas) {
+        const expected = scoreItem(policy, def, byId.get(meta.id), new Map()).score;
+        const needle = BULLET + " " + LABELS[row] + " " + expected + "/100";
+        if (!meta.description.includes(needle)) {
+          allMatch = false;
+          sample = meta.name + ': expected "' + needle + '" in "' + meta.description.slice(-70) + '"';
+        }
+        checked++;
+      }
+    }
+    check("V1", row + " cards display the actual " + LABELS[row] + " score (" + checked + " cards)",
+      allMatch && checked > 0, sample);
+  }
+
+  // 4: the old match_score is never presented as the DNA score
+  check("V2", "no DNA card carries the old bullet-Match-N/100 label", (() => {
+    for (const row of NEW_ROWS) {
+      for (const type of ["movie", "series"]) {
+        for (const meta of catalog(row, type).metas) {
+          if (OLD_MATCH_RE.test(meta.description)) return false;
+        }
+      }
+    }
+    return true;
+  })());
+
+  check("V3", "a DNA row shows its own score even when match_score differs", (() => {
+    const def = config.catalogs.find(c => c.id === "dna-match");
+    let found = 0;
+    for (const type of ["movie", "series"]) {
+      for (const meta of catalog("dna-match", type).metas) {
+        const item = byId.get(meta.id);
+        const dnaScore = scoreItem(policy, def, item, new Map()).score;
+        if (!item.match_score || item.match_score === dnaScore) continue;
+        found++;
+        if (!meta.description.includes("DNA Match " + dnaScore + "/100")) return false;
+        if (meta.description.includes("Match " + item.match_score + "/100")) return false;
+      }
+    }
+    return found > 0;
+  })());
+
+  // 1: the nine pre-existing rows still show the old label and the item's own score
+  check("V4", "the nine original rows still display the original Match score", (() => {
+    let checked = 0;
+    for (const row of EXISTING_ROWS) {
+      for (const type of ["movie", "series"]) {
+        for (const meta of catalog(row, type).metas) {
+          const item = byId.get(meta.id);
+          if (Object.values(LABELS).some(l => meta.description.includes(l + " "))) return false;
+          if (item.match_score && !meta.description.includes(BULLET + " Match " + item.match_score + "/100")) return false;
+          checked++;
+        }
+      }
+    }
+    return checked > 0;
+  })());
+
+  // 5 + 6: personalization changes only the single final number on the card
+  {
+    const file = path.join("data", "personalized-scores.json");
+    const def = config.catalogs.find(c => c.id === "dna-match");
+    const target = catalog("dna-match", "movie").metas[0];
+    const RAW_MATCH = 97;
+    const RAW_EXEC = 12;
+    const expected = scoreItem(policy, def, byId.get(target.id),
+      new Map([[target.id, { dna_match: RAW_MATCH, execution_fit: RAW_EXEC }]])).score;
+
+    try {
+      fs.writeFileSync(file, JSON.stringify({
+        schema_version: 1,
+        generated_at: new Date(Date.now() - 60000).toISOString().replace(/\.\d+Z$/, "Z"),
+        items: { [target.id]: { dna_match: RAW_MATCH, execution_fit: RAW_EXEC } }
+      }), "utf8");
+      execFileSync(process.execPath, ["scripts/build-site.mjs"], { stdio: "pipe" });
+
+      const card = catalog("dna-match", "movie").metas.find(m => m.id === target.id);
+      check("V5", "a personalized card shows only the final combined score",
+        Boolean(card) && card.description.includes("DNA Match " + expected + "/100"),
+        card ? card.description.slice(-70) : "card missing");
+      check("V6", "the raw dna_match and execution_fit inputs never appear on the card",
+        Boolean(card)
+        && !card.description.includes(RAW_MATCH + "/100")
+        && !card.description.includes(RAW_EXEC + "/100")
+        && !/dna_match|execution_fit|dna_confidence|dna_tags/.test(card.description),
+        card ? card.description.slice(-70) : "card missing");
+      check("V7", "personalization changes the displayed score but not the card identity",
+        Boolean(card) && card.id === target.id && card.name === target.name && card.poster === target.poster);
+    } finally {
+      fs.rmSync(file, { force: true });
+      execFileSync(process.execPath, ["scripts/build-site.mjs"], { stdio: "pipe" });
+    }
+  }
 }
 
 console.log("");
