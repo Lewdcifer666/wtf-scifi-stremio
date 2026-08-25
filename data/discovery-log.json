@@ -62,15 +62,13 @@
       "run_id": "2026-08-25-d1",
       "timestamp": "2026-08-25T06:46:05Z",
       "searched": 23,
-      "accepted": 8,
+      "accepted": 6,
       "rejected": 15,
-      "duplicates": 0,
+      "duplicates": 2,
       "accepted_items": [
         {"imdb_id": "tt1867091", "type": "movie", "title": "The Reconstruction of William Zero", "match_score": 96},
         {"imdb_id": "tt8953768", "type": "movie", "title": "Multiverse", "match_score": 94},
         {"imdb_id": "tt4694518", "type": "movie", "title": "Domain", "match_score": 93},
-        {"imdb_id": "tt3839880", "type": "movie", "title": "Infinity Chamber", "match_score": 92},
-        {"imdb_id": "tt1017460", "type": "movie", "title": "Splice", "match_score": 90},
         {"imdb_id": "tt0830361", "type": "series", "title": "The Lost Room", "match_score": 98},
         {"imdb_id": "tt6632666", "type": "series", "title": "Project Blue Book", "match_score": 96},
         {"imdb_id": "tt1839683", "type": "series", "title": "Awake", "match_score": 91}

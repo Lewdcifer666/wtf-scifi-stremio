@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { normalizeTitle, resolveItem } from "./cinemeta.mjs";
+import { identityKey } from "./identity.mjs";
 import { makePolicy, scoreItem } from "./dna-score.mjs";
 import { readPersonalizedScores } from "./personalized-scores.mjs";
 
@@ -71,48 +72,31 @@ function loadDiscoveryItems() {
   return items;
 }
 
-function fallbackKey(item) {
-  return `${item.type}:${normalizeTitle(item.title)}:${item.year}`;
-}
-
-function mergeSourceItems(items) {
+// Fail closed on a duplicate public identity.
+//
+// This used to merge the two records with { ...old, ...item }, which let a
+// later record silently overwrite an earlier one - including its Content DNA -
+// so two copies of the same title could disagree and whichever was parsed last
+// would win invisibly. validate.mjs rejects duplicates outright; the builder
+// must not paper over one that reaches it anyway.
+function dedupeSourceItems(items) {
   const byKey = new Map();
-
   for (const item of items) {
-    const key = item.imdb_id && /^tt\d+$/.test(item.imdb_id)
-      ? `${item.type}:${item.imdb_id}`
-      : fallbackKey(item);
-
-    if (!byKey.has(key)) {
-      byKey.set(key, item);
-      continue;
+    const key = identityKey(item, normalizeTitle);
+    const seen = byKey.get(key);
+    if (seen) {
+      throw new Error(
+        `duplicate public identity ${key} ("${seen.title}" and "${item.title}") - an identity may ` +
+        `appear only once across data/library.json and data/discoveries/*.json. ` +
+        `Run: node scripts/validate.mjs`);
     }
-
-    const old = byKey.get(key);
-    const oldDate = Date.parse(old.added_at || "");
-    const newDate = Date.parse(item.added_at || "");
-    let addedAt = old.added_at || item.added_at || null;
-    if (Number.isFinite(oldDate) && Number.isFinite(newDate)) addedAt = oldDate <= newDate ? old.added_at : item.added_at;
-
-    byKey.set(key, {
-      ...old,
-      ...item,
-      status: old.status === "seen" || item.status === "seen" ? "seen" : "watch",
-      preference: old.preference || item.preference || null,
-      tags: [...new Set([...(old.tags || []), ...(item.tags || [])])],
-      aliases: [...new Set([...(old.aliases || []), ...(item.aliases || [])])],
-      reason: item.reason || old.reason,
-      match_score: Math.max(old.match_score || 0, item.match_score || 0) || null,
-      added_at: addedAt,
-      added_by: oldDate <= newDate ? (old.added_by || item.added_by) : (item.added_by || old.added_by)
-    });
+    byKey.set(key, item);
   }
-
   return [...byKey.values()];
 }
 
 const discoveryItems = loadDiscoveryItems();
-const sourceItems = mergeSourceItems([...(library.items || []), ...discoveryItems]);
+const sourceItems = dedupeSourceItems([...(library.items || []), ...discoveryItems]);
 const watch = [];
 
 for (const original of sourceItems.filter(x => x.status === "watch")) {
