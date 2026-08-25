@@ -9,6 +9,7 @@
   "scripts": {
     "resolve": "node scripts/resolve-library.mjs",
     "build": "node scripts/build-site.mjs",
-    "validate": "node scripts/validate.mjs"
+    "validate": "node scripts/validate.mjs",
+    "test": "node test/validate-profile.test.mjs && node test/inertness.mjs"
   }
 }
