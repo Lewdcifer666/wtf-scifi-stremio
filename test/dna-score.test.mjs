@@ -69,9 +69,36 @@ check("C9", "penalty scale is derived, not authored", Math.abs(policy.penaltySca
     for (const it of items) for (const d of DNA_DEFS) scoreItem(policy, d, it, new Map());
     return true;
   })());
-  check("P2", "102 of 103 are DNA-eligible", eligibleItems.length === 102, `got ${eligibleItems.length}`);
-  check("P3", "The Reality Experiment is ineligible (confidence 0.50)",
-    scoreItem(policy, def("dna-match"), byTitle("The Reality Experiment"), new Map()).reason === "dna_ineligible");
+  // Never assert a literal production count: the live automation adds items on
+  // its own schedule. Assert the RULE instead, so the test stays true as the
+  // catalog grows.
+  const CD = policy.completeness;
+  const isComplete = it => DIMS.filter(d => isKnown(it.dna, d)).length >= CD.min_known_dimensions
+    && CD.required_known_dimensions.every(d => isKnown(it.dna, d));
+  const hasConfidence = it => typeof it.dna_confidence === "number" && it.dna_confidence >= CD.min_confidence;
+
+  check("P2a", `eligibility matches the rule for all ${items.length} records`,
+    items.every(it => dnaEligible(policy, it) === (isComplete(it) && hasConfidence(it))));
+  check("P2b", `every eligible item is complete and confident (${eligibleItems.length}/${items.length} eligible)`,
+    eligibleItems.every(it => isComplete(it) && hasConfidence(it)));
+  check("P2c", "any item below the confidence floor is ineligible",
+    items.filter(it => !hasConfidence(it)).every(it =>
+      scoreItem(policy, def("dna-match"), it, new Map()).reason === "dna_ineligible"));
+  check("P2d", "an item with no dna block at all is ineligible, never scored as zeros",
+    scoreItem(policy, def("dna-match"), { imdb_id: "tt0000009", type: "movie", title: "Unenriched", year: 2020 }, new Map())
+      .reason === "dna_ineligible");
+
+  // The known low-confidence title, guarded so the test degrades to a no-op
+  // rather than a false failure if it is ever re-enriched.
+  {
+    const lowConfidence = byTitle("The Reality Experiment");
+    if (lowConfidence && lowConfidence.dna_confidence < CD.min_confidence) {
+      check("P3", `The Reality Experiment is ineligible (confidence ${lowConfidence.dna_confidence})`,
+        scoreItem(policy, def("dna-match"), lowConfidence, new Map()).reason === "dna_ineligible");
+    } else {
+      check("P3", "The Reality Experiment is no longer below the confidence floor (skipped)", true);
+    }
+  }
   check("P4", "no production item is hard-excluded", items.filter(i => hardExcluded(policy, i.dna)).length === 0);
   check("P5", "every scored value is an integer 0..100", items.every(it => DNA_DEFS.every(d => {
     const s = scoreItem(policy, d, it, new Map()).score;
