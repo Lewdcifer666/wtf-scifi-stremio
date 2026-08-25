@@ -1,10 +1,18 @@
-// F2-6 inertness proof (test matrix case N).
+// Content DNA inertness proof (F2-6 test matrix case N, extended by F2-7).
 //
-// Builds the site twice - once from a schema-2 taste profile derived by
-// removing the four DNA sections, once from the committed schema-3 profile -
-// and requires every generated manifest and catalog file to be byte-identical.
-// It also deep-equals the six production-consumed subtrees and greps the live
-// canonical automation prompt for DNA references.
+// Reconstructs the complete pre-DNA world - a schema-2 taste profile with the
+// four DNA sections removed AND every source item stripped of dna,
+// dna_confidence and dna_tags - builds the site from it, then builds again from
+// the committed schema-3 + enriched state. Every generated manifest and catalog
+// file must be byte-identical.
+//
+// Both halves have to be reconstructed together: a schema-2 profile alongside
+// DNA-bearing items is exactly the hybrid state the schema contract forbids, so
+// validating that combination would be asserting something we deliberately made
+// illegal.
+//
+// It also deep-equals the six production-consumed profile subtrees and greps
+// the live canonical automation prompt for DNA references.
 //
 // Run with: node test/inertness.mjs
 //
@@ -19,9 +27,12 @@ import assert from "node:assert";
 import { execFileSync } from "node:child_process";
 
 const PROFILE = "data/taste-profile.json";
+const LIBRARY = "data/library.json";
+const DISCOVERY_DIR = "data/discoveries";
 const SITE = "site";
 const PROMPT = "DAILY_AUTOMATION_PROMPT.md";
 const DNA_SECTIONS = ["dna_dimensions", "dna_baseline", "dna_guardrails", "execution_preferences"];
+const DNA_ITEM_KEYS = ["dna", "dna_confidence", "dna_tags"];
 const PRODUCTION_SUBTREES = [
   "strong_positive_signals", "negative_signals", "hard_exclusions",
   "reference_titles", "automation_rules", "controlled_tags"
@@ -37,8 +48,12 @@ const ok = (label, condition, detail) => {
   else { failed++; console.error(`  FAIL ${label}${detail ? `\n         ${detail}` : ""}`); }
 };
 
-const original = fs.readFileSync(PROFILE, "utf8");
-const schema3 = JSON.parse(original);
+const sourceFiles = [PROFILE, LIBRARY];
+for (const name of fs.readdirSync(DISCOVERY_DIR).filter(n => n.toLowerCase().endsWith(".json")).sort()) {
+  sourceFiles.push(path.join(DISCOVERY_DIR, name));
+}
+const originals = new Map(sourceFiles.map(f => [f, fs.readFileSync(f, "utf8")]));
+const schema3 = JSON.parse(originals.get(PROFILE));
 
 function hashTree(dir) {
   const out = new Map();
@@ -57,22 +72,30 @@ function hashTree(dir) {
 }
 
 function build() {
+  execFileSync(process.execPath, ["scripts/validate.mjs"], { stdio: "pipe" });
   execFileSync(process.execPath, ["scripts/build-site.mjs"], { stdio: "pipe" });
   return hashTree(SITE);
 }
 
-console.log("F2-6 inertness proof");
+const stripItem = item => {
+  const out = { ...item };
+  for (const key of DNA_ITEM_KEYS) delete out[key];
+  return out;
+};
+
+function writeJson(file, value) {
+  fs.writeFileSync(file, JSON.stringify(value, null, 2) + "\n", "utf8");
+}
+
+console.log("Content DNA inertness proof");
 console.log("");
 
 // --- boundary sanity: is the past24 window stable across two builds? --------
 {
-  const items = [...(JSON.parse(fs.readFileSync("data/library.json", "utf8")).items || [])];
-  const dir = "data/discoveries";
-  if (fs.existsSync(dir)) {
-    for (const name of fs.readdirSync(dir).filter(n => n.endsWith(".json")).sort()) {
-      const payload = JSON.parse(fs.readFileSync(path.join(dir, name), "utf8"));
-      for (const item of (Array.isArray(payload) ? payload : payload.items || [])) items.push(item);
-    }
+  const items = [...(JSON.parse(originals.get(LIBRARY)).items || [])];
+  for (const file of sourceFiles.slice(2)) {
+    const payload = JSON.parse(originals.get(file));
+    for (const item of (Array.isArray(payload) ? payload : payload.items || [])) items.push(item);
   }
   const H24 = 24 * 60 * 60 * 1000;
   const now = Date.now();
@@ -84,50 +107,60 @@ console.log("");
   ok(`no item is within 60s of the 24h boundary (closest: ${closest === Infinity ? "n/a" : closest.toFixed(0) + " min"})`, closest > 1);
 }
 
-let schema2Hashes;
-let schema3Hashes;
-
+let preDnaHashes;
 try {
-  // --- build 1: schema 2 ---------------------------------------------------
-  const schema2 = JSON.parse(original);
+  // --- build 1: the complete pre-DNA world -------------------------------
+  const schema2 = JSON.parse(originals.get(PROFILE));
   schema2.schema_version = 2;
   for (const section of DNA_SECTIONS) delete schema2[section];
-  fs.writeFileSync(PROFILE, JSON.stringify(schema2, null, 2) + "\n", "utf8");
-  execFileSync(process.execPath, ["scripts/validate.mjs"], { stdio: "pipe" });
-  schema2Hashes = build();
-  ok(`schema-2 build produced ${schema2Hashes.size} generated JSON files`, schema2Hashes.size > 0);
+  writeJson(PROFILE, schema2);
+
+  const library = JSON.parse(originals.get(LIBRARY));
+  writeJson(LIBRARY, { ...library, items: (library.items || []).map(stripItem) });
+
+  for (const file of sourceFiles.slice(2)) {
+    const payload = JSON.parse(originals.get(file));
+    writeJson(file, Array.isArray(payload)
+      ? payload.map(stripItem)
+      : { ...payload, items: (payload.items || []).map(stripItem) });
+  }
+
+  preDnaHashes = build();
+  ok(`pre-DNA build produced ${preDnaHashes.size} generated JSON files`, preDnaHashes.size > 0);
 } finally {
-  fs.writeFileSync(PROFILE, original, "utf8");
+  for (const [file, text] of originals) fs.writeFileSync(file, text, "utf8");
 }
 
-// --- build 2: schema 3 (the committed file, byte-restored) -----------------
-assert.strictEqual(fs.readFileSync(PROFILE, "utf8"), original, "taste-profile.json was not restored");
-execFileSync(process.execPath, ["scripts/validate.mjs"], { stdio: "pipe" });
-schema3Hashes = build();
+// --- build 2: the committed schema-3 + enriched state --------------------
+for (const [file, text] of originals) {
+  assert.strictEqual(fs.readFileSync(file, "utf8"), text, `${file} was not restored byte-for-byte`);
+}
+ok("all source files restored byte-for-byte", true);
 
-// --- N: generated output must be byte-identical ----------------------------
+const dnaHashes = build();
+
+// --- N: generated output must be byte-identical ---------------------------
 {
-  const names = new Set([...schema2Hashes.keys(), ...schema3Hashes.keys()]);
-  const differing = [...names].filter(n => schema2Hashes.get(n) !== schema3Hashes.get(n));
-  ok(`N  all ${names.size} generated files are byte-identical between schema 2 and schema 3`,
+  const names = new Set([...preDnaHashes.keys(), ...dnaHashes.keys()]);
+  const differing = [...names].filter(n => preDnaHashes.get(n) !== dnaHashes.get(n));
+  ok(`N  all ${names.size} generated files are byte-identical with and without Content DNA`,
     differing.length === 0, differing.join(", "));
 }
 
-// --- the six production-consumed subtrees ----------------------------------
+// --- the six production-consumed subtrees ---------------------------------
 {
-  const before = JSON.parse(original);
+  const committed = JSON.parse(originals.get(PROFILE));
   for (const key of PRODUCTION_SUBTREES) {
     let same = true;
-    try { assert.deepStrictEqual(schema3[key], before[key]); } catch { same = false; }
+    try { assert.deepStrictEqual(schema3[key], committed[key]); } catch { same = false; }
     ok(`${key} deep-equals the committed value`, same);
   }
 }
 
-// --- the live canonical prompt must not reference any DNA concept ----------
+// --- the live canonical prompt must not reference any DNA concept ---------
 {
   const text = fs.readFileSync(PROMPT, "utf8");
   const fence = text.split("```");
-  // the canonical fenced block is the one beginning "text\nRead BOTH GitHub repositories"
   const canonical = fence.find(b => b.startsWith("text") && b.includes("Read BOTH GitHub repositories"));
   ok("canonical fenced prompt block was located", Boolean(canonical));
   for (const needle of FORBIDDEN_IN_PROMPT) {
@@ -136,5 +169,5 @@ schema3Hashes = build();
 }
 
 console.log("");
-console.log(failed ? `${failed} FAILED` : "INERT: F2-6 changes no production behaviour");
+console.log(failed ? `${failed} FAILED` : "INERT: Content DNA changes no generated catalog output");
 process.exit(failed ? 1 : 0);
