@@ -13,6 +13,8 @@ import { execFileSync } from "node:child_process";
 import { normalizeTitle } from "../scripts/cinemeta.mjs";
 import { identityKey } from "../scripts/identity.mjs";
 import { makePolicy, scoreItem, dnaEligible, isKnown, requiredFor } from "../scripts/dna-score.mjs";
+import { readPersonalizedScores } from "../scripts/personalized-scores.mjs";
+import { withProductionFile, sha256 } from "./safe-fixture.mjs";
 
 let passed = 0, failed = 0;
 const check = (id, description, condition, detail) => {
@@ -265,8 +267,43 @@ console.log("");
       fs.readFileSync(path.join("site/catalog", t, `${id}-${t}.json`), "utf8").includes("scientific_investigation"))));
   check("B7", "the original rows are populated and DNA-free in their scoring",
     OLD_IDS.every(id => cat(id, "movie").metas.length + cat(id, "series").metas.length >= 0));
-  check("B8", "no production personalized-scores.json exists in the repository",
-    !fs.existsSync("data/personalized-scores.json"));
+  // F2-9 legitimately creates this file, so its ABSENCE is no longer an
+  // invariant. What must hold is that whenever it exists it is well-formed and
+  // carries nothing private. It may legitimately hold items:{}, and the repo may
+  // legitimately predate the first successful F2-9 run.
+  {
+    const file = "data/personalized-scores.json";
+    if (!fs.existsSync(file)) {
+      check("B8", "no personalized-scores.json yet (valid before the first successful F2-9 run)", true);
+    } else {
+      const raw = fs.readFileSync(file, "utf8");
+      let payload = null;
+      try { payload = JSON.parse(raw); } catch { /* reported below */ }
+      const read = readPersonalizedScores(fs, file);
+      const FORBIDDEN = ["rating", "premise_interest", "more_like_this", "liked", "disliked",
+        "dnf_reasons", "feedback", "feedback_id", "supersedes", "source_id", "rated_at", "received_at"];
+
+      check("B8a", "the production personalized file parses and has the closed top-level shape",
+        Boolean(payload) && Object.keys(payload).sort().join(",") === "generated_at,items,schema_version",
+        payload ? Object.keys(payload).join(",") : "unparseable");
+      check("B8b", "schema_version is supported and generated_at is a valid UTC stamp",
+        Boolean(payload) && payload.schema_version === 1
+        && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(payload.generated_at)
+        && Number.isFinite(Date.parse(payload.generated_at)));
+      check("B8c", `every entry has only dna_match and execution_fit, integers 0..100 (${payload ? Object.keys(payload.items).length : "?"} entries)`,
+        Boolean(payload) && Object.values(payload.items).every(v =>
+          Object.keys(v).sort().join(",") === "dna_match,execution_fit"
+          && [v.dna_match, v.execution_fit].every(n => Number.isInteger(n) && n >= 0 && n <= 100)));
+      check("B8d", "every key is a valid IMDb id",
+        Boolean(payload) && Object.keys(payload.items).every(k => /^tt\d+$/.test(k)));
+      check("B8e", "no forbidden private field appears anywhere in the file",
+        !FORBIDDEN.some(f => raw.includes(`"${f}"`)),
+        FORBIDDEN.filter(f => raw.includes(`"${f}"`)).join(", "));
+      check("B8f", `the real F2-8 reader accepts or safely rejects it (status: ${read.status})`,
+        ["applied", "stale"].includes(read.status) || read.status === "absent",
+        read.status);
+    }
+  }
 }
 
 // ---------------------------------------------------------------- 2. personalized consumer, temp fixtures only
@@ -278,8 +315,10 @@ console.log("");
 
   build();
   const baseline = cat("dna-match", "movie").metas.map(m => m.description).join("|");
+  const existedBefore = fs.existsSync(file);
+  const shaBefore = sha256(file);
 
-  try {
+  withProductionFile(file, () => {
     // an empty items object is valid and must behave exactly like an absent file
     fs.writeFileSync(file, JSON.stringify({ schema_version: 1, generated_at: fresh(), items: {} }), "utf8");
     build();
@@ -313,12 +352,13 @@ console.log("");
     check("X4", "the card exposes only the final row score, never the raw inputs",
       Boolean(card) && !card.description.includes("97/100") && !card.description.includes("11/100")
       && !/dna_match|execution_fit/.test(card.description));
-  } finally {
-    fs.rmSync(file, { force: true });
-    build();
-  }
-  check("X5", "the temp fixture was removed and the build restored", !fs.existsSync(file)
-    && cat("dna-match", "movie").metas.map(m => m.description).join("|") === baseline);
+  }, build);
+
+  check("X5", "the production personalized file is restored byte-for-byte",
+    fs.existsSync(file) === existedBefore && sha256(file) === shaBefore,
+    `existed ${existedBefore} -> ${fs.existsSync(file)}`);
+  check("X6", "the build is restored to its pre-fixture output",
+    cat("dna-match", "movie").metas.map(m => m.description).join("|") === baseline);
 }
 
 console.log("");

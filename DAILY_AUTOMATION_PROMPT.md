@@ -227,6 +227,8 @@ Content DNA answers "what kind of title is this", never "will the user like it".
 
 Do not rewrite data/library.json for daily additions. Instead create one append-only file in the PUBLIC catalog repository at data/discoveries/<run_id>.json with schema_version=1, run_id, timestamp, and an items array containing the accepted titles. The site builder combines the unique public source records for catalog generation and FAILS CLOSED if the same public identity appears more than once. The automation must prevent duplicates before writing them. Do not create duplicate Past 24h entries; that catalog is generated from added_by and added_at.
 
+When appending a discovery-log run, preserve the existing historical run records' text and content unchanged as far as practical; do not reserialize or reformat old runs merely to append the new record.
+
 Append one run record to the PUBLIC repository's data/discovery-log.json with run_id, timestamp, searched/accepted/rejected/duplicate counts, accepted IMDb IDs/titles/scores, and a concise note about meaningful ACTIVE feedback-derived preference signals used during the run without quoting private feedback verbatim. Describe signals at the level of "premise interest remained positive for investigative biology" rather than naming private aspect ids or quoting text. Do not mention revoked/retracted private opinions as taste signals. Append a run even if zero titles qualify.
 
 REGENERATE data/personalized-scores.json ON EVERY SUCCESSFUL RUN.
@@ -250,7 +252,7 @@ Check sufficiency FIRST, and only then do the arithmetic for the titles that sur
 3. at least one independent active title contributes CONTENT evidence,
 4. at least two active numeric ratings exist,
 5. at least one applicable personalized CONTENT link exists for this title,
-6. at least one applicable title-specific EXECUTION or DIRECT-TONE link exists for this title.
+6. exec_norm must be greater than 0 for this title. This means at least one applicable EXECUTION aspect or at least one applicable DIRECT-TONE dimension, using the exact applicability rules defined under HOW TO DERIVE execution_fit.
 
 Otherwise OMIT the IMDb id entirely. The site builder then uses the stable baseline for that title, which is the correct outcome. Never publish a baseline value disguised as a personalized one, and never invent a number merely because the schema requires one. An empty items object is valid output.
 
@@ -309,12 +311,16 @@ Two kinds of title-specific evidence adjust it.
 
 First, EXECUTION aspects. For each execution aspect a - acting, characters, dialogue, pacing, visuals, effects, ending_payoff, sound_music, originality - compute Pe(a) as mean vote x evidence tier, exactly as above. Then judge k for this candidate: +1 only when reliable public evidence indicates notably strong execution on that aspect, -1 only when reliable public evidence indicates notably weak execution, and 0 when ordinary, ambiguous, conflicting or insufficiently documented. Do not force +1 or -1.
 
-Second, DIRECT TONE. Tone aspects map losslessly onto DNA dimensions: suspense -> suspense, horror -> horror, action -> action_intensity, humor -> comedy, survival_chase -> survival_chase, military_focus -> military_focus. setting_atmosphere and emotion have no exact DNA equivalent and must not be given an invented one. For each mapped tone dimension t compute Pt(t) as mean vote x evidence tier, with individual tone aspect votes at magnitude +/-0.30 relative to concept votes. The candidate's applicability is its own measured DNA on that dimension.
+Second, DIRECT TONE. Tone aspects map losslessly onto DNA dimensions: suspense -> suspense, horror -> horror, action -> action_intensity, humor -> comedy, survival_chase -> survival_chase, military_focus -> military_focus. setting_atmosphere and emotion have no exact DNA equivalent and must not be given an invented one. For each mapped tone dimension t compute Pt(t) as mean vote x evidence tier, with individual tone aspect votes at magnitude +/-0.30 relative to concept votes.
 
-  exec_raw  = sum over execution aspects of Pe(a) x k(candidate, a)
-            + sum over mapped tone dimensions of Pt(t) x (candidate DNA[t] / 10)
-  exec_norm = sum of |Pe(a)| over applicable execution aspects
-            + sum of |Pt(t)| over applicable tone dimensions
+A mapped tone dimension t is APPLICABLE to candidate X if and only if all three hold: Pt(t) is not 0, X.dna[t] is known, and X.dna[t] is not 0. No additional threshold applies. DNA 1 is applicable, DNA 4 is applicable and DNA 7 is applicable - there is NO >=5 gate and NO >=7 gate for direct tone. Direct tone is DETERMINISTIC, computed from the candidate's own measured DNA.
+
+DO NOT require k(X,a) for a tone dimension. k(X,a) applies ONLY to execution-category aspects - acting, characters, dialogue, pacing, visuals, effects, ending_payoff, sound_music, originality. A candidate with no usable execution judgement can still qualify on direct tone alone, and must not be omitted for lacking k.
+
+  exec_raw  = sum over execution aspects of Pe(a) x k(X, a)
+            + sum over mapped tone dimensions of Pt(t) x (X.dna[t] / 10)
+  exec_norm = sum of |Pe(a)| over execution aspects where Pe(a) != 0 AND k(X, a) != 0
+            + sum of |Pt(t)| over tone dimensions where Pt(t) != 0 AND X.dna[t] is known AND X.dna[t] != 0
   adjustment_e = MAX_EXEC_SHIFT x exec_raw / exec_norm
 
 MAX_EXEC_SHIFT uses the same 6 / 12 / 20 ladder on the number of independent titles contributing execution evidence. If exec_norm is 0 the title has no defensible title-specific execution or tone estimate and MUST BE OMITTED. execution_fit = round(clamp(E_base + adjustment_e, 0, 100)).

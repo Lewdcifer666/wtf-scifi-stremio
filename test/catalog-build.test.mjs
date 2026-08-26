@@ -10,6 +10,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { withProductionFile } from "./safe-fixture.mjs";
 
 const SITE = "site";
 const EXISTING_ROWS = [
@@ -137,8 +138,8 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
 // ---------------------------------------------------------------- build survives a broken personalized file
 {
   const file = path.join("data", "personalized-scores.json");
-  const existed = fs.existsSync(file);
-  check("B0", "no personalized-scores.json is committed", !existed);
+  const existedBefore = fs.existsSync(file);
+  const bytesBefore = existedBefore ? fs.readFileSync(file) : null;
 
   const baseline = catalog("dna-match", "movie").metas.map(m => m.id).join(",");
   let survived = true;
@@ -148,7 +149,8 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
     ["stale timestamp", JSON.stringify({ schema_version: 1, generated_at: "2020-01-01T00:00:00Z", items: {} })],
     ["privacy field on an item", JSON.stringify({ schema_version: 1, generated_at: new Date(Date.now() - 60000).toISOString().replace(/\.\d+Z$/, "Z"), items: { tt2299206: { dna_match: 90, execution_fit: 40, rating: 2 } } })]
   ];
-  try {
+
+  withProductionFile(file, () => {
     for (const [label, body] of cases) {
       fs.writeFileSync(file, body, "utf8");
       try {
@@ -164,12 +166,12 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
         break;
       }
     }
-  } finally {
-    fs.rmSync(file, { force: true });
-    execFileSync(process.execPath, ["scripts/build-site.mjs"], { stdio: "pipe" });
-  }
+  }, () => execFileSync(process.execPath, ["scripts/build-site.mjs"], { stdio: "pipe" }));
+
   check("B1", "every invalid personalized file still builds and falls back to baseline", survived);
-  check("B2", "personalized-scores.json was not left behind", !fs.existsSync(file));
+  check("B2", "the production personalized file is restored byte-for-byte",
+    fs.existsSync(file) === existedBefore
+    && (!existedBefore || fs.readFileSync(file).equals(bytesBefore)));
 }
 
 // ---------------------------------------------------------------- displayed score
@@ -274,7 +276,10 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
     const expected = scoreItem(policy, def, byId.get(target.id),
       new Map([[target.id, { dna_match: RAW_MATCH, execution_fit: RAW_EXEC }]])).score;
 
-    try {
+    const existedBefore = fs.existsSync(file);
+    const bytesBefore = existedBefore ? fs.readFileSync(file) : null;
+
+    withProductionFile(file, () => {
       fs.writeFileSync(file, JSON.stringify({
         schema_version: 1,
         generated_at: new Date(Date.now() - 60000).toISOString().replace(/\.\d+Z$/, "Z"),
@@ -294,10 +299,11 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
         card ? card.description.slice(-70) : "card missing");
       check("V7", "personalization changes the displayed score but not the card identity",
         Boolean(card) && card.id === target.id && card.name === target.name && card.poster === target.poster);
-    } finally {
-      fs.rmSync(file, { force: true });
-      execFileSync(process.execPath, ["scripts/build-site.mjs"], { stdio: "pipe" });
-    }
+    }, () => execFileSync(process.execPath, ["scripts/build-site.mjs"], { stdio: "pipe" }));
+
+    check("V8", "the production personalized file is restored byte-for-byte",
+      fs.existsSync(file) === existedBefore
+      && (!existedBefore || fs.readFileSync(file).equals(bytesBefore)));
   }
 }
 

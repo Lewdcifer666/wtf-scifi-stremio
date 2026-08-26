@@ -318,7 +318,11 @@ check("C9", "penalty scale is derived, not authored", Math.abs(policy.penaltySca
   }
 
   fs.rmSync(tmp, { recursive: true, force: true });
-  check("X25", "no personalized-scores.json exists in the repository", !fs.existsSync("data/personalized-scores.json"));
+  // F2-9 legitimately creates the production file, so its absence is no longer
+  // an invariant. What this suite must guarantee is that IT never writes there:
+  // every fixture above lived in a temp directory.
+  check("X25", "this suite's fixtures were confined to a temp directory, never the production path",
+    !tmp.startsWith(process.cwd()) && !fs.existsSync(tmp));
 }
 
 // ---------------------------------------------------------------- isolation
