@@ -93,6 +93,23 @@
         {"imdb_id":"tt2758950","type":"series","title":"Helix","match_score":94}
       ],
       "rejection_summary": "Current active feedback reinforced explicit interest in investigative science, unusual phenomena, mystery and premise-driven discovery while keeping creature content separate from chase-heavy presentation. The run therefore favored laboratory experiments, mind/reality systems, parallel-world mechanics and science-led anomaly investigation; weaker action-first, generic horror and insufficiently investigative candidates were withheld. Retracted chains contributed zero taste weight."
+    },
+    {
+      "run_id": "2026-08-26-f1",
+      "timestamp": "2026-08-26T18:05:00Z",
+      "searched": 6,
+      "accepted": 6,
+      "rejected": 0,
+      "duplicates": 0,
+      "accepted_items": [
+        {"imdb_id":"tt2331047","type":"movie","title":"Rememory","match_score":92},
+        {"imdb_id":"tt12298506","type":"movie","title":"Black Box","match_score":93},
+        {"imdb_id":"tt4154916","type":"movie","title":"Replicas","match_score":88},
+        {"imdb_id":"tt9849210","type":"series","title":"Biohackers","match_score":98},
+        {"imdb_id":"tt8134186","type":"series","title":"Devs","match_score":96},
+        {"imdb_id":"tt11280740","type":"series","title":"Severance","match_score":98}
+      ],
+      "rejection_summary": "Current active feedback favored premise-driven experimental science, biology, mystery and suspense while keeping execution complaints title-specific and creature interest separate from chase-heavy presentation. All six researched candidates cleared the threshold and were new public identities; retracted chains contributed zero taste weight. Unsupported feedback schemas: 0."
     }
   ]
 }
