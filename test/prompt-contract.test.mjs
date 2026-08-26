@@ -146,8 +146,13 @@ check("B2", "one extreme rating cannot reshape the catalog",
 check("B3", "retracted and unsupported tips contribute zero",
   has("Retracted chains contribute zero") && has("opaque and contributes zero learning"));
 check("B4", "lists all six sufficiency conditions", (() => {
-  const section = fence.slice(fence.indexOf("WHICH TITLES GET AN ENTRY"));
-  return ["1.", "2.", "3.", "4.", "5.", "6."].every(n => section.slice(0, 1400).includes(n));
+  // Anchor on the list itself, not on a byte offset from the heading: prose
+  // inserted between the two would otherwise push the list out of a fixed
+  // window and fail this for no real reason.
+  const start = fence.indexOf("1. its local Content DNA is eligible");
+  if (start === -1) return false;
+  const section = fence.slice(start, fence.indexOf("Otherwise OMIT the IMDb id entirely"));
+  return [1, 2, 3, 4, 5, 6].every(n => new RegExp(`^${n}\. `, "m").test(section));
 })());
 check("B5", "checks sufficiency before doing the arithmetic",
   has("Check sufficiency FIRST, and only then do the arithmetic"));
@@ -215,6 +220,88 @@ check("C7", "does not restate any dna_baseline weight value", (() => {
   return !Object.entries(profile.dna_baseline.weights)
     .some(([d, w]) => fence.includes(`${d}: ${w}`) || fence.includes(`${d} = ${w}`) || fence.includes(`"${d}": ${w}`));
 })());
+
+// ---------------------------------------------------------------- runtime budget
+// The corrected F2-9 prompt ran for ~27 minutes and committed nothing: it spent
+// the whole window on research and had no time left to validate and commit.
+// Correctness was never the problem - finishing was. These assertions keep the
+// finish-first policy in the prompt.
+check("T10", "the prompt states that finishing correctly beats researching more",
+  has("RUN WITHIN AN EXECUTION BUDGET. FINISHING CORRECTLY BEATS RESEARCHING MORE")
+  && has("A run that researches many candidates and then commits NOTHING is a failed run"));
+check("T11", "the three phases are named, with finalization prioritised",
+  hasAll("PHASE A - LOAD AND RESOLVE", "PHASE B - CANDIDATE DISCOVERY",
+    "PHASE C - FINALIZATION HAS PRIORITY"));
+check("T12", "candidate research stops once the daily caps can be filled",
+  has("you already hold enough qualifying candidates to fill daily_movie_max and daily_series_max")
+  && has("As soon as you hold enough qualifying candidates to fill both daily caps, STOP SEARCHING"));
+check("T13", "candidate research also stops at roughly half the working window",
+  has("roughly HALF of the available working time has elapsed"));
+check("T14", "counts are not a goal in themselves",
+  has("Do not keep searching to inflate the searched or rejected counts"));
+check("T15", "fewer discoveries is preferable to a timeout",
+  has("REDUCE THE NUMBER OF NEW DISCOVERIES rather than sacrificing finalization")
+  && has("publish those three"));
+check("T16", "time is explicitly reserved for validation and the commit",
+  has("Always preserve enough execution time for final validation and the single transactional public commit")
+  && has("Completing a smaller valid run is better than researching more candidates and publishing nothing"));
+check("T17", "reducing scope must not weaken thresholds or DNA quality",
+  has("Never lower minimum_match_score to save time")
+  && has("never publish a title whose Content DNA was not properly researched"));
+
+// ---------------------------------------------------------------- repeated work
+check("T18", "each source is read once and reused",
+  has("READ EACH SOURCE ONCE AND REUSE IT")
+  && has("fetch each required repository data source once and keep the parsed result"));
+check("T19", "the identity set is built once in PHASE A and reused",
+  has("build it once in PHASE A and reuse it throughout PHASE B")
+  && has("Do not rebuild that set here - reuse it"));
+check("T20", "the final fresh duplicate re-check is still mandatory",
+  has("The ONE mandatory exception is the final duplicate re-check immediately before the write, which must always be fresh"));
+check("T21", "the generated site and release archives are not rebuilt for source data",
+  has("Do not download or rebuild the generated GitHub Pages site or any release archive"));
+
+// ---------------------------------------------------------------- deterministic reuse
+check("T22", "the prompt points at the repository's own deterministic logic",
+  has("PREFER THE REPOSITORY'S OWN DETERMINISTIC LOGIC")
+  && hasAll("scripts/dna-score.mjs", "scripts/personalized-scores.mjs", "scripts/identity.mjs"));
+check("T23", "it prefers executing that logic over reasoning through the arithmetic",
+  has("RUN that repository logic instead of reproducing the arithmetic through step-by-step reasoning"));
+check("T24", "it names the per-title weighted sum as the most expensive path",
+  has("twenty-three term weighted sum plus six archetype evaluations for every watch title"));
+check("T25", "the fallback keeps the result identical without a code tool",
+  has("the result must be identical either way"));
+
+// ---------------------------------------------------------------- personalization cost
+check("T26", "direct-tone personalization needs no per-title web research",
+  has("DIRECT TONE REQUIRES NO RESEARCH")
+  && has("needs NO web search and NO k(X,a) judgement"));
+check("T27", "execution research is reserved for titles that actually need it",
+  has("Only research a candidate's execution quality when an EXECUTION aspect contribution is actually needed and materially useful"));
+check("T28", "it forbids researching execution for the whole watch list",
+  has("Do not research acting, dialogue, effects or pacing for a hundred watch titles"));
+check("T29", "the generation order is stated as a single efficient pass",
+  has("Generate this file in one efficient pass, in this order")
+  && has("derive P(d), Pe(a) and Pt(t) once")
+  && has("enumerate the current watch titles once"));
+
+// ---------------------------------------------------------------- same-day reruns
+check("T30", "a second run on the same UTC date is valid",
+  has("A SECOND RUN ON THE SAME UTC DATE IS VALID"));
+check("T31", "it needs a new suffix and must not recycle earlier discoveries",
+  has("must use a new unique run suffix")
+  && has("must not recycle or re-list that date's earlier discoveries"));
+check("T32", "it still refreshes personalized-scores.json even with zero discoveries",
+  has("may legitimately produce fewer than daily_movie_max movies")
+  && has("It must still regenerate personalized-scores.json and append its run record"));
+
+// ---------------------------------------------------------------- nothing was weakened
+check("T33", "fail-closed, privacy and transactional rules survive the efficiency edit",
+  hasAll("FAIL THE RUN BEFORE ANY PUBLIC COMMIT",
+    "Do not modify the PRIVATE feedback repository at any point",
+    "The run is transactional",
+    "Immediately before the final write, rebuild the identity set",
+    "CONTENT DNA IS REQUIRED ON EVERY ACCEPTED DISCOVERY"));
 
 // ---------------------------------------------------------------- F2-5 must survive
 check("L1", "F2-5 feedback resolution is intact", hasAll(

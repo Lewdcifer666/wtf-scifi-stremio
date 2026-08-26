@@ -23,6 +23,45 @@ Read all JSON feedback events under data/feedback/**.
 
 Treat data/taste-profile.json as the stable baseline taste profile and data/feedback/** as cumulative real-world viewing evidence that can refine how the baseline is interpreted. Never rewrite the private feedback history and never expose private free-text feedback verbatim in the final report. The private repository is READ-ONLY: never commit, modify, delete or reorganise anything in it.
 
+RUN WITHIN AN EXECUTION BUDGET. FINISHING CORRECTLY BEATS RESEARCHING MORE.
+
+This run has a limited working window. A run that researches many candidates and then commits NOTHING is a failed run; a run that publishes three fully validated titles is a successful one. Structure the work in three phases and protect the last one.
+
+PHASE A - LOAD AND RESOLVE. Do every mandatory read once: the public source data, the private feedback events, the feedback resolution, the Content DNA policy, and the public identity set. Complete this before any candidate research.
+
+PHASE B - CANDIDATE DISCOVERY. Search efficiently, and STOP searching as soon as either of these is true:
+- you already hold enough qualifying candidates to fill daily_movie_max and daily_series_max, or
+- roughly HALF of the available working time has elapsed.
+Do not keep searching to inflate the searched or rejected counts. Zero findings is valid, and fewer than the daily caps is valid.
+
+PHASE C - FINALIZATION HAS PRIORITY. Once roughly half the window has elapsed, or once viable candidates exist, stop researching and finalize: select candidates, complete their Content DNA, regenerate personalized-scores.json, re-check duplicates, validate the whole intended public state, commit once, and report.
+
+If time becomes constrained, REDUCE THE NUMBER OF NEW DISCOVERIES rather than sacrificing finalization. If five candidates are available but only three can be fully researched and validated safely, publish those three. Never lower minimum_match_score to save time, and never publish a title whose Content DNA was not properly researched. Always preserve enough execution time for final validation and the single transactional public commit. Completing a smaller valid run is better than researching more candidates and publishing nothing.
+
+READ EACH SOURCE ONCE AND REUSE IT.
+
+Within a single run, fetch each required repository data source once and keep the parsed result for the rest of the run. Do not re-fetch the same library or discovery ranges repeatedly, and do not rebuild the same public identity set from scratch more than necessary - build it once in PHASE A and reuse it throughout PHASE B.
+
+The ONE mandatory exception is the final duplicate re-check immediately before the write, which must always be fresh against the current state of the public repository.
+
+Do not download or rebuild the generated GitHub Pages site or any release archive to obtain information that is already present in the source JSON and config files. Everything the run needs is in data/ and config/.
+
+PREFER THE REPOSITORY'S OWN DETERMINISTIC LOGIC.
+
+The public repository already contains the authoritative implementation of every deterministic calculation this task needs:
+
+- scripts/dna-score.mjs        DNA eligibility, hard exclusions, guardrail points, archetype selection, baseline content score
+- scripts/personalized-scores.mjs  the reader contract for the personalized file
+- scripts/identity.mjs         the public identity rule
+- config/catalogs.json         row definitions and thresholds
+- data/taste-profile.json      the registry, weights, archetypes and completeness policy
+
+If a code-execution tool is available in this run, RUN that repository logic instead of reproducing the arithmetic through step-by-step reasoning. Reasoning through a twenty-three term weighted sum plus six archetype evaluations for every watch title is the single most expensive thing this task can do, and the repository already computes it exactly.
+
+If no code-execution tool is available, follow the documented formulas as written - the result must be identical either way. What must never happen is re-deriving the same deterministic value repeatedly for the same title, or hand-encoding large tables of profile constants into reasoning when they can be read directly.
+
+The judgement this task genuinely owns is deriving the personalized content and tone preferences from the private feedback, and researching candidate titles. Everything downstream of those inputs is arithmetic the repository can do.
+
 RESOLVE FEEDBACK EVENT HISTORY BEFORE USING IT FOR TASTE LEARNING.
 
 0. Resolve the graph BEFORE interpreting any schema-specific opinion field. Chain topology is decided by feedback_id and supersedes alone. Never drop an event from the graph because you cannot interpret its opinion fields.
@@ -186,6 +225,10 @@ Judge this by structural and story identity — costumed or superpowered hero st
 
 Accumulated feedback may adjust SOFT preferences around these areas (for example how much action or horror presentation is tolerated). It must never silently redefine the core taste universe. Changing a guardrail requires a deliberate edit of data/taste-profile.json, not a run of this task.
 
+A SECOND RUN ON THE SAME UTC DATE IS VALID.
+
+A manual re-run on a date that already has a run is allowed. It must use a new unique run suffix, must not recycle or re-list that date's earlier discoveries, and must search only genuinely new candidates. It may legitimately produce fewer than daily_movie_max movies, fewer than daily_series_max series, or zero new discoveries. It must still regenerate personalized-scores.json and append its run record, provided the run otherwise succeeds.
+
 BUILD THE COMPLETE PUBLIC IDENTITY SET BEFORE ACCEPTING ANYTHING.
 
 Before evaluating candidates, construct the COMPLETE set of public identities that already exist, from data/library.json and EVERY file in data/discoveries/. An identity is the IMDb id when there is a usable one, and otherwise the normalized title plus year plus media type.
@@ -205,9 +248,11 @@ Stay tightly anchored to the positive and negative examples in the baseline tast
 
 Distinguish, as a matter of judgement, between "scientists investigate an unknown organism" and "soldiers shoot generic aliens", and between "the story reveals progressively stranger rules" and "a monster gimmick is introduced once and then chased for ninety minutes". These distinctions matter more than genre labels.
 
-Check the permanent library, all prior discovery files, rejections, and CURRENT ACTIVE feedback before accepting anything. Deduplicate primarily by IMDb ID and secondarily by normalized title + year + media type. Never re-add seen, existing, previously discovered, rejected, or currently actively-rated titles as new recommendations. A historical feedback chain whose current tip is retracted is NOT an active rating for this rule; however, public library/discovery/seen/rejection state still independently controls deduplication and must never be overridden by a retraction.
+Screen every candidate against the public identity set already built in PHASE A, plus rejections and CURRENT ACTIVE feedback. Do not rebuild that set here - reuse it. Deduplicate primarily by IMDb ID and secondarily by normalized title + year + media type. Never re-add seen, existing, previously discovered, rejected, or currently actively-rated titles as new recommendations. A historical feedback chain whose current tip is retracted is NOT an active rating for this rule; however, public library/discovery/seen/rejection state still independently controls deduplication and must never be overridden by a retraction.
 
 Score candidates from 0-100 against the combined taste model. Only accept candidates meeting the minimum_match_score stored in taste-profile.json. Zero findings is valid; never lower the threshold to meet a quota. Add at most the configured daily_movie_max movies and daily_series_max series.
+
+As soon as you hold enough qualifying candidates to fill both daily caps, STOP SEARCHING and move to finalization. Additional research past that point cannot improve the run and can only cost it the ability to commit.
 
 For every accepted title, verify the correct IMDb ID and prepare a complete item with imdb_id, type, title, year, status="watch", preference=null, rank=null, match_score, controlled tags only, a concise reason explaining the fit, useful aliases if needed, current UTC ISO-8601 added_at, added_by="daily-automation", a discovery_run_id based on today's UTC date plus a short run suffix, and source describing the research sources used.
 
@@ -245,6 +290,10 @@ The following must NEVER appear in this file, as key, value or text: rating, pre
 Keys may only be titles whose CURRENT public status is "watch". Feedback about seen or rated titles is LEARNING EVIDENCE, but a seen title is never an output key. Consider every current watch title that has valid Content DNA, not only newly discovered ones.
 
 WHICH TITLES GET AN ENTRY.
+
+Generate this file in one efficient pass, in this order: resolve the active feedback once; derive P(d), Pe(a) and Pt(t) once; enumerate the current watch titles once; apply the sufficiency conditions using the Content DNA those titles ALREADY carry; compute dna_match and execution_fit for the survivors; omit the rest.
+
+DIRECT TONE REQUIRES NO RESEARCH. It is deterministic from Pt(t) and the candidate's existing Content DNA, both of which you already have. A title whose execution sufficiency is satisfied by direct tone needs NO web search and NO k(X,a) judgement. Only research a candidate's execution quality when an EXECUTION aspect contribution is actually needed and materially useful for that specific title. Do not research acting, dialogue, effects or pacing for a hundred watch titles to produce this file - that is the most expensive possible way to compute a number the repository's own DNA already determines.
 
 Check sufficiency FIRST, and only then do the arithmetic for the titles that survive. A watch title receives an entry only when ALL of the following hold:
 1. its local Content DNA is eligible under dna_baseline.completeness_defaults,
