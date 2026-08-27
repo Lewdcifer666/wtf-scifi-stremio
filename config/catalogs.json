@@ -6,6 +6,11 @@
     "name": "WTF Sci-Fi Discovery",
     "description": "Automated high-concept sci-fi and mystery watchlists: scientists, biology, impossible phenomena, hidden systems, time/reality anomalies and escalating WTF concepts."
   },
+  "site": {
+    "title": "WTF Sci-Fi Discovery",
+    "emoji": "🧬",
+    "blurb": "Automated Stremio catalogs for high-concept science fiction, bizarre biology, scientists, impossible systems, time/reality anomalies and unexplained phenomena."
+  },
   "catalogs": [
     {
       "id": "full-watchlist",

@@ -106,9 +106,26 @@ export function dnaEligible(policy, item) {
     && completeness.required_known_dimensions.every(d => isKnown(dna, d));
 }
 
+// A hard exclusion carries EXACTLY ONE of at_or_above / at_or_below, the same
+// grammar the combination rules and row gates already use. Two directions are
+// needed because some profiles exclude on a value being too HIGH (superhero
+// structure is central) and others on it being too LOW (an Action title with
+// almost no action across its runtime is not an Action recommendation at all,
+// however good its other properties are).
+//
+// Unknown still evaluates FALSE in both directions, so an unmeasured dimension
+// never triggers an exclusion. That is safe rather than fail-open because the
+// profile validator forces every guardrail-referenced dimension into
+// required_known_dimensions, and scoreItem() runs dnaEligible() BEFORE
+// hardExcluded() - an item missing the dimension is already ineligible.
+export function exclusionCondition(rule) {
+  return Object.prototype.hasOwnProperty.call(rule, "at_or_above")
+    ? { dimension: rule.dimension, at_or_above: rule.at_or_above }
+    : { dimension: rule.dimension, at_or_below: rule.at_or_below };
+}
+
 export function hardExcluded(policy, dna) {
-  return policy.hardExclusions.some(rule =>
-    evalCondition({ dimension: rule.dimension, at_or_above: rule.at_or_above }, dna));
+  return policy.hardExclusions.some(rule => evalCondition(exclusionCondition(rule), dna));
 }
 
 export function firingCombinations(policy, dna) {

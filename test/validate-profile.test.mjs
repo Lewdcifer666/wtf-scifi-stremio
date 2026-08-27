@@ -152,7 +152,7 @@ for (const bad of [4, 1, 0, -1]) {
 }
 
 // --- N: proved separately by the build-hash comparison ---------------------
-console.log("  --   N   build-site output equality is proved by test/inertness.mjs");
+console.log("  --   N   build-site output equality is proved by test/inertness.test.mjs");
 
 // --- O: item-level DNA validation ------------------------------------------
 {

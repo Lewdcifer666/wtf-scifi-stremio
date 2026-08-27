@@ -5,6 +5,7 @@ import { normalizeTitle, resolveItem } from "./cinemeta.mjs";
 import { identityKey } from "./identity.mjs";
 import { makePolicy, scoreItem } from "./dna-score.mjs";
 import { readPersonalizedScores } from "./personalized-scores.mjs";
+import { sortItems } from "./sort.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
@@ -122,19 +123,6 @@ function matches(def, item) {
   return false;
 }
 
-function sortItems(def, items) {
-  return [...items].sort((a, b) => {
-    if (def.sort === "dna_score") {
-      return (dnaScoreFor(def, b) || 0) - (dnaScoreFor(def, a) || 0)
-        || (b.match_score || 0) - (a.match_score || 0)
-        || Date.parse(b.added_at || 0) - Date.parse(a.added_at || 0)
-        || a.title.localeCompare(b.title)
-        || String(a.imdb_id || "").localeCompare(String(b.imdb_id || ""));
-    }
-    if (def.sort === "newest") return Date.parse(b.added_at || 0) - Date.parse(a.added_at || 0) || (b.match_score || 0) - (a.match_score || 0);
-    return (b.match_score || 0) - (a.match_score || 0) || Date.parse(b.added_at || 0) - Date.parse(a.added_at || 0) || a.title.localeCompare(b.title);
-  });
-}
 
 // A DNA row ranks by its own row score, so showing the unrelated global
 // match_score on the card would contradict the ordering the user is looking at.
@@ -181,7 +169,7 @@ for (const type of ["movie", "series"]) {
     const id = `${def.id}-${type}`;
     const labelType = type === "movie" ? "Movies" : "Series";
     manifestCatalogs.push({ type, id, name: `${def.name} • ${labelType}` });
-    const selected = sortItems(def, watch.filter(x => x.type === type && matches(def, x)));
+    const selected = sortItems(def, watch.filter(x => x.type === type && matches(def, x)), dnaScoreFor);
     writeJson(path.join(out, "catalog", type, `${id}.json`), { metas: selected.map(item => meta(item, def)) });
     console.log(`${labelType}: ${def.name} -> ${selected.length}`);
   }
@@ -200,11 +188,23 @@ const manifest = {
 writeJson(path.join(out, "manifest.json"), manifest);
 fs.writeFileSync(path.join(out, ".nojekyll"), "", "utf8");
 
+// Presentation copy belongs to the addon, not to the builder. config.site is
+// optional; without it the page falls back to the manifest's own name and
+// description, so a repo can never end up branded as a different addon.
+const site = config.site || {};
+const pageTitle = site.title || config.manifest.name;
+const pageEmoji = site.emoji || "";
+const pageHeading = `${pageEmoji ? pageEmoji + " " : ""}${pageTitle}`;
+const pageBlurb = site.blurb || config.manifest.description;
+const escapeHtml = value => String(value)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>WTF Sci-Fi Discovery</title><style>
+<title>${escapeHtml(pageTitle)}</title><style>
 body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0f1117;color:#f5f7ff;margin:0;padding:32px}.card{max-width:820px;margin:auto;background:#191d28;border:1px solid #32394c;border-radius:18px;padding:30px}h1{margin-top:0}p{line-height:1.55;color:#cbd2e6}.btn{display:inline-block;background:#6d5dfc;color:#fff;text-decoration:none;border:0;border-radius:11px;padding:13px 18px;font-weight:700;margin:6px 8px 6px 0;cursor:pointer}code{display:block;background:#0b0d12;border:1px solid #303648;border-radius:8px;padding:10px;word-break:break-all}.small{font-size:.92rem;color:#929bb5}</style></head>
-<body><div class="card"><h1>🧬 WTF Sci-Fi Discovery</h1><p>Automated Stremio catalogs for high-concept science fiction, bizarre biology, scientists, impossible systems, time/reality anomalies and unexplained phenomena.</p><p><a id="install" class="btn" href="#">Install in Stremio</a><button id="copy" class="btn">Copy manifest URL</button></p><p>Manifest URL:</p><code id="manifest"></code><p class="small">Catalog contents update automatically when the repository deploys. You do not need to reinstall the addon for ordinary movie/series additions.</p></div>
+<body><div class="card"><h1>${escapeHtml(pageHeading)}</h1><p>${escapeHtml(pageBlurb)}</p><p><a id="install" class="btn" href="#">Install in Stremio</a><button id="copy" class="btn">Copy manifest URL</button></p><p>Manifest URL:</p><code id="manifest"></code><p class="small">Catalog contents update automatically when the repository deploys. You do not need to reinstall the addon for ordinary movie/series additions.</p></div>
 <script>const u=new URL('manifest.json',location.href).href;document.getElementById('manifest').textContent=u;document.getElementById('install').href=u.replace(/^https:/,'stremio:');document.getElementById('copy').onclick=async()=>{await navigator.clipboard.writeText(u);document.getElementById('copy').textContent='Copied!'};</script></body></html>`;
 fs.writeFileSync(path.join(out, "index.html"), html, "utf8");
 console.log(`Built ${watch.length} watchlist items (${discoveryItems.length} from automation discovery files) into ${out}`);

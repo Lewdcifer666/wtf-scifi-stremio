@@ -27,7 +27,7 @@
 //   - an unexpected DNA key set aborts the run
 //   - an item whose dna lacks the anchor aborts the run
 //
-// Run:  node scripts/migrations/2026-08-v4-action-density.mjs [--apply]
+// Run:  node tools/migrations/2026-08-v4-action-density.mjs [--apply]
 
 import fs from "node:fs";
 import path from "node:path";

@@ -11,33 +11,20 @@
 // as "scientfic_investigation" or "requires_mod" fails loudly instead of being
 // silently ignored. The pre-schema-3 sections keep their existing permissive
 // behaviour; tightening those is deliberately out of scope.
+//
+// THIS FILE IS GENRE-NEUTRAL AND VENDORED VERBATIM into every addon repo.
+// The frozen registry it checks against is NOT here - it lives in the
+// per-repo ./registry.mjs, which the generator writes once from that addon's own
+// profile. The guard is exactly as strong as it was when the list was inline:
+// the declared registry must equal the frozen list EXACTLY. What changed is
+// only that each addon freezes its own vocabulary instead of sharing one.
+
+import { CANONICAL_DIMENSIONS, CANONICAL_DNA_TAGS, SLOW_TO_FAST_DIMENSION } from "./registry.mjs";
+
+export { CANONICAL_DIMENSIONS, CANONICAL_DNA_TAGS, SLOW_TO_FAST_DIMENSION };
 
 export const SUPPORTED_SCHEMA_VERSIONS = [2, 3];
 export const DNA_SECTIONS = ["dna_dimensions", "dna_baseline", "dna_guardrails", "execution_preferences"];
-
-// The frozen 27-dimension registry. The registry itself lives in
-// taste-profile.json; this list is the contract it must satisfy exactly.
-export const CANONICAL_DIMENSIONS = [
-  "scientific_investigation", "biology_genetics", "alien_unknown_life", "unknown_phenomenon",
-  "mystery", "suspense", "rule_discovery", "concept_escalation", "weirdness",
-  "reality_anomaly", "time_anomaly", "mind_consciousness", "experiments", "conspiracy",
-  "scientist_presence", "research_setting", "isolation", "creature_threat", "survival_chase",
-  "horror", "action_intensity", "military_focus", "space_opera", "superhero",
-  "comic_book_universe", "comedy", "pace_speed"
-];
-
-// pace_speed is the single deliberate exception to the shared absent..dominant
-// scale: it measures slow..fast.
-export const SLOW_TO_FAST_DIMENSION = "pace_speed";
-
-// The controlled DNA tag vocabulary. Deliberately separate from the top-level
-// controlled_tags array, which is the legacy public catalog vocabulary.
-export const CANONICAL_DNA_TAGS = [
-  "glacier", "research_station", "lab", "underwater", "space_station",
-  "small_town", "alien_ecology", "mutation", "parasite", "infection",
-  "dimension", "simulation", "time_loop", "parallel_reality", "body_horror",
-  "first_contact", "artifact", "signal", "containment", "experiment_gone_wrong"
-];
 
 const ID_RE = /^[a-z0-9_]{1,64}$/;
 const RUBRIC_ANCHORS = ["0", "3", "5", "8", "10"];
@@ -70,6 +57,7 @@ export function validateProfile(profile) {
   }
 
   validateLegacySections(profile, errs);
+  validateBaselineEvidence(profile.baseline_evidence, errs);
   if (sv !== 3 || DNA_SECTIONS.some(s => !has(profile, s))) return errs;
 
   const registryIds = validateDimensions(profile.dna_dimensions, errs);
@@ -181,7 +169,7 @@ function validateDimensions(section, errs) {
     errs.push(`exactly one dimension may be slow_to_fast and it must be ${SLOW_TO_FAST_DIMENSION} (found: ${slowToFast.join(", ") || "none"})`);
   }
 
-  // the id set must equal the canonical 27 exactly
+  // the id set must equal this repo's frozen registry EXACTLY
   reportSetDifference(ids, new Set(CANONICAL_DIMENSIONS), "dna_dimensions.dimensions", "dimension", errs);
 
   if (!Number.isInteger(section.count) || section.count !== section.dimensions.length) {
@@ -231,10 +219,18 @@ function validateGuardrails(section, registryIds, errs) {
       const at = `dna_guardrails.hard_exclusion[${i}]`;
       if (!isPlainObject(rule)) { errs.push(`${at} must be an object`); continue; }
       if (has(rule, "penalty")) errs.push(`${at} must not carry a penalty (hard exclusions are exclusion-only)`);
-      strictKeys(rule, at, ["id", "dimension", "at_or_above"], ["note"], errs);
+      // Same grammar as combination conditions and row gates: EXACTLY ONE of
+      // at_or_above / at_or_below. Some profiles exclude on a value being too
+      // high, others on it being too low; both are structural exclusions.
+      strictKeys(rule, at, ["id", "dimension"], ["at_or_above", "at_or_below", "note"], errs);
       checkRuleId(rule.id, at, ids, errs);
       checkDimensionRef(rule.dimension, at, registryIds, referenced, errs);
-      checkThreshold(rule.at_or_above, `${at}.at_or_above`, errs);
+      const above = has(rule, "at_or_above");
+      const below = has(rule, "at_or_below");
+      if (above && below) errs.push(`${at} must carry exactly one of at_or_above / at_or_below, not both`);
+      else if (!above && !below) errs.push(`${at} must carry exactly one of at_or_above / at_or_below`);
+      if (above) checkThreshold(rule.at_or_above, `${at}.at_or_above`, errs);
+      if (below) checkThreshold(rule.at_or_below, `${at}.at_or_below`, errs);
     }
   }
 
@@ -372,15 +368,29 @@ function validateBaseline(section, registryIds, guardrailDims, errs) {
     if (!covered.has(id)) errs.push(`dimension '${id}' is in neither dna_baseline.weights nor dna_baseline.unweighted`);
   }
 
-  validateCompleteness(section.completeness_defaults, registryIds, guardrailDims, errs);
-  validateArchetypes(section.archetypes, registryIds, errs);
+  const required = validateCompleteness(section.completeness_defaults, registryIds, guardrailDims, errs);
+
+  // ARCHETYPE COMPLETENESS.
+  //
+  // requiredFor() in dna-score.mjs adds the baseline weights and the profile's
+  // required_known_dimensions - it does NOT add archetype emphasis/penalise
+  // dimensions. But bestArchetype() reads them through valueOf(), which THROWS
+  // on an unknown value. An archetype that emphasises a dimension outside
+  // weights u required_known therefore crashes the site build on the first item
+  // that has not measured it, instead of degrading.
+  //
+  // So every dimension an archetype touches must be one the scorer is already
+  // guaranteed to have. This cannot be checked inside validateArchetypes alone
+  // because it needs the weights and the completeness set together.
+  const measurable = new Set([...weighted, ...required]);
+  validateArchetypes(section.archetypes, registryIds, measurable, errs);
 }
 
 function validateCompleteness(section, registryIds, guardrailDims, errs) {
   const at = "dna_baseline.completeness_defaults";
   if (!isPlainObject(section)) {
     errs.push(`${at} must be an object`);
-    return;
+    return new Set();
   }
 
   strictKeys(section, at, ["min_known_dimensions", "min_confidence", "required_known_dimensions"], ["note"], errs);
@@ -395,7 +405,7 @@ function validateCompleteness(section, registryIds, guardrailDims, errs) {
   const required = new Set();
   if (!Array.isArray(section.required_known_dimensions)) {
     errs.push(`${at}.required_known_dimensions must be an array`);
-    return;
+    return required;
   }
   for (const id of section.required_known_dimensions) {
     if (typeof id !== "string" || !registryIds.has(id)) { errs.push(`${at}.required_known_dimensions references unknown dimension '${id}'`); continue; }
@@ -417,9 +427,11 @@ function validateCompleteness(section, registryIds, guardrailDims, errs) {
   if (required.size > 0 && Number.isInteger(section.min_known_dimensions) && section.min_known_dimensions < required.size) {
     errs.push(`${at}.min_known_dimensions (${section.min_known_dimensions}) is below required_known_dimensions.length (${required.size})`);
   }
+
+  return required;
 }
 
-function validateArchetypes(list, registryIds, errs) {
+function validateArchetypes(list, registryIds, measurable, errs) {
   if (!Array.isArray(list) || list.length === 0) {
     errs.push("dna_baseline.archetypes must be a non-empty array");
     return;
@@ -465,6 +477,17 @@ function validateArchetypes(list, registryIds, errs) {
 
     checkDimensionScoreMap(arch.emphasis, `${at}.emphasis`, registryIds, true, errs);
     if (has(arch, "penalise")) checkDimensionScoreMap(arch.penalise, `${at}.penalise`, registryIds, true, errs);
+
+    for (const [key, map] of [["emphasis", arch.emphasis], ["penalise", arch.penalise]]) {
+      if (!isPlainObject(map)) continue;
+      for (const id of Object.keys(map)) {
+        if (registryIds.has(id) && !measurable.has(id)) {
+          errs.push(`${at}.${key} references '${id}', which is neither weighted nor in ` +
+            `dna_baseline.completeness_defaults.required_known_dimensions; bestArchetype() would ` +
+            `throw on any item that has not measured it`);
+        }
+      }
+    }
   }
 }
 
@@ -529,6 +552,211 @@ function validateExecutionPreferences(section, errs) {
   } else if (!section.rules.every(isNonEmptyString)) {
     errs.push(`${at}.rules entries must be non-empty strings`);
   }
+}
+
+// ---------------------------------------------------------------------------
+// baseline_evidence
+//
+// The audit trail for how a profile's weights were derived: which titles the
+// user actually watched and how they reacted, versus which they have only seen
+// a trailer for. It is OPTIONAL and it is NOT read at runtime by dna-score.mjs
+// - the authored weights, archetypes and guardrails ARE the encoding of this
+// evidence. It exists so the derivation is auditable and testable.
+//
+// Two rules carry real product meaning and are enforced rather than trusted:
+//
+//   AN UNWATCHED TITLE IS NEVER A FAVOURITE. A trailer reaction may not claim
+//   the strength of something actually watched. evidence_type decides which
+//   classes and reactions are even spellable.
+//
+//   RECOMMENDABILITY FOLLOWS WATCHED-NESS, NOT MEMBERSHIP. A watched title must
+//   never be recommended again. An UNWATCHED one stays fully eligible - it just
+//   has to earn its place through ordinary research and scoring like any other
+//   candidate. Being cited as evidence is neither a ban nor a shortcut.
+//
+//   WATCHED REQUIRES EXPLICIT CONFIRMATION, AND IS NEVER INFERRED. Citing a
+//   title as a structural taste anchor does NOT mean it was watched. Neither do
+//   trailers, clips, snippets, partial exposure, franchise familiarity, or a
+//   confident-sounding "probably liked". Marking a title watched permanently
+//   removes it from recommendation, so an inferred watch silently deletes
+//   something the user may actively want to see.
+//
+//   That is a research judgement no validator can verify - it cannot know what
+//   the user confirmed. What it CAN do is refuse to accept the claim silently:
+//   every watched entry must carry a non-empty watched_confirmation recording
+//   HOW watching was established. If that sentence cannot be written honestly,
+//   the entry is not watched. Uncertainty resolves to UNWATCHED.
+// ---------------------------------------------------------------------------
+export const EVIDENCE_CLASSES = {
+  watched_favorite: { direction: "positive", evidence_type: "watched" },
+  watched_love:     { direction: "positive", evidence_type: "watched" },
+  watched_like:     { direction: "positive", evidence_type: "watched" },
+  watched_mixed:    { direction: "mixed",    evidence_type: "watched" },
+  watched_dislike:  { direction: "negative", evidence_type: "watched" },
+  trailer_interest: { direction: "positive", evidence_type: "unwatched" },
+  trailer_aversion: { direction: "negative", evidence_type: "unwatched" }
+};
+const WATCHED_REACTIONS = ["love", "like", "mixed", "dislike"];
+const UNWATCHED_REACTIONS = ["interested", "uncertain", "unappealing"];
+const IMDB_ID_RE = /^tt\d+$/;
+
+export function validateBaselineEvidence(section, errs) {
+  const at = "baseline_evidence";
+  if (section === undefined) return;               // optional
+  if (!isPlainObject(section)) { errs.push(`${at} must be an object`); return; }
+
+  strictKeys(section, at, ["schema_version", "evidence_weights", "items"], ["description", "note"], errs);
+  if (section.schema_version !== 1) errs.push(`${at}.schema_version must be 1`);
+
+  // ---- weights: explicit direction, unsigned magnitude ----
+  const magnitude = new Map();
+  const weights = section.evidence_weights;
+  if (!isPlainObject(weights)) {
+    errs.push(`${at}.evidence_weights must be an object`);
+  } else {
+    strictKeys(weights, `${at}.evidence_weights`, Object.keys(EVIDENCE_CLASSES), [], errs);
+    for (const [id, spec] of Object.entries(weights)) {
+      const wAt = `${at}.evidence_weights.${id}`;
+      const canonical = EVIDENCE_CLASSES[id];
+      if (!canonical) continue;
+      if (!isPlainObject(spec)) { errs.push(`${wAt} must be an object`); continue; }
+      strictKeys(spec, wAt, ["direction", "magnitude"], [], errs);
+      if (spec.direction !== canonical.direction) {
+        errs.push(`${wAt}.direction must be '${canonical.direction}'`);
+      }
+      if (!isFiniteNumber(spec.magnitude) || spec.magnitude < 0 || spec.magnitude > 1) {
+        errs.push(`${wAt}.magnitude must be an unsigned number 0.0..1.0 (direction carries the sign)`);
+        continue;
+      }
+      magnitude.set(id, spec.magnitude);
+    }
+
+    // mixed evidence moves nothing on its own
+    if (magnitude.has("watched_mixed") && magnitude.get("watched_mixed") !== 0) {
+      errs.push(`${at}.evidence_weights.watched_mixed.magnitude must be exactly 0 (mixed evidence moves nothing on its own)`);
+    }
+
+    // A trailer must never weigh as much as having actually watched something.
+    const watched = [...magnitude].filter(([id]) => EVIDENCE_CLASSES[id].evidence_type === "watched" && magnitude.get(id) > 0);
+    const trailer = [...magnitude].filter(([id]) => EVIDENCE_CLASSES[id].evidence_type === "unwatched");
+    for (const [tId, tMag] of trailer) {
+      for (const [wId, wMag] of watched) {
+        if (tMag >= wMag) {
+          errs.push(`${at}.evidence_weights.${tId} (${tMag}) must be strictly weaker than ${wId} (${wMag}); ` +
+            `trailer interest is a weak prior and may never rival watched evidence`);
+        }
+      }
+    }
+  }
+
+  // ---- items ----
+  if (!Array.isArray(section.items)) { errs.push(`${at}.items must be an array`); return; }
+
+  for (const [i, item] of section.items.entries()) {
+    const iAt = `${at}.items[${i}] ${item && item.title ? item.title : "?"}`;
+    if (!isPlainObject(item)) { errs.push(`${iAt} must be an object`); continue; }
+    strictKeys(item, iAt,
+      ["title", "type", "scope", "evidence_type", "evidence_class", "reaction", "recommendable", "notes"],
+      ["year", "imdb_id", "franchise_members", "watched_confirmation"], errs);
+
+    if (!isNonEmptyString(item.title)) errs.push(`${iAt}.title must be a non-empty string`);
+    if (item.type !== "movie" && item.type !== "series") errs.push(`${iAt}.type must be 'movie' or 'series'`);
+    if (!Array.isArray(item.notes) || !item.notes.every(isNonEmptyString)) {
+      errs.push(`${iAt}.notes must be an array of non-empty strings`);
+    }
+    if (has(item, "imdb_id") && !IMDB_ID_RE.test(item.imdb_id)) errs.push(`${iAt}.imdb_id must be a tt id`);
+
+    const klass = EVIDENCE_CLASSES[item.evidence_class];
+    if (!klass) {
+      errs.push(`${iAt}.evidence_class must be one of: ${Object.keys(EVIDENCE_CLASSES).join(", ")}`);
+    } else if (item.evidence_type !== klass.evidence_type) {
+      errs.push(`${iAt}.evidence_class '${item.evidence_class}' requires evidence_type '${klass.evidence_type}', got '${item.evidence_type}'`);
+    }
+
+    if (item.evidence_type !== "watched" && item.evidence_type !== "unwatched") {
+      errs.push(`${iAt}.evidence_type must be 'watched' or 'unwatched'`);
+    } else {
+      const allowed = item.evidence_type === "watched" ? WATCHED_REACTIONS : UNWATCHED_REACTIONS;
+      if (!allowed.includes(item.reaction)) {
+        errs.push(`${iAt}.reaction must be one of: ${allowed.join(", ")} (for evidence_type '${item.evidence_type}')`);
+      }
+
+      // WATCHED IS A CLAIM AND MUST BE ACCOUNTED FOR.
+      //
+      // Marking a title watched bans it from recommendation forever, so the
+      // author has to say how that was established. An inferred watch - from a
+      // taste anchor, a franchise, a trailer or a vague memory - cannot produce
+      // an honest sentence here, which is the point.
+      if (item.evidence_type === "watched") {
+        if (!isNonEmptyString(item.watched_confirmation)) {
+          errs.push(`${iAt}.watched_confirmation is required on a watched entry: state how watching was ` +
+            `EXPLICITLY confirmed. Citing a title as a taste anchor, knowing the franchise, or seeing ` +
+            `trailers, clips or snippets is NOT watching. If you cannot write this honestly, the entry ` +
+            `is evidence_type 'unwatched' - uncertainty resolves to unwatched, because a wrong watch ` +
+            `permanently hides something the user may want to see.`);
+        }
+      } else if (has(item, "watched_confirmation")) {
+        errs.push(`${iAt}.watched_confirmation is only valid on a watched entry`);
+      }
+
+      // RECOMMENDABILITY IS DERIVED, NEVER AUTHORED FREELY.
+      const shouldRecommend = item.evidence_type === "unwatched";
+      if (item.recommendable !== shouldRecommend) {
+        errs.push(`${iAt}.recommendable must be ${shouldRecommend} for evidence_type '${item.evidence_type}' ` +
+          (shouldRecommend
+            ? "(an unwatched title stays fully eligible and must earn its place by normal research and scoring)"
+            : "(a watched title must never be recommended again)"));
+      }
+    }
+
+    // Identity is needed to enforce the watched-exclusion mechanically.
+    if (item.scope === "title") {
+      if (!Number.isInteger(item.year)) {
+        errs.push(`${iAt}.year is required on a scope 'title' entry so its public identity can be computed`);
+      }
+      if (has(item, "franchise_members")) errs.push(`${iAt}.franchise_members is only valid on scope 'franchise'`);
+    } else if (item.scope === "franchise") {
+      if (has(item, "year")) errs.push(`${iAt}.year is not meaningful on a franchise; put years on franchise_members`);
+      if (!Array.isArray(item.franchise_members) || item.franchise_members.length === 0) {
+        errs.push(`${iAt}.franchise_members must be a non-empty array; a franchise cannot be identity-keyed as a ` +
+          `unit, so without members the watched-exclusion is aspirational rather than mechanical`);
+      } else {
+        for (const [j, member] of item.franchise_members.entries()) {
+          const mAt = `${iAt}.franchise_members[${j}]`;
+          if (!isPlainObject(member)) { errs.push(`${mAt} must be an object`); continue; }
+          strictKeys(member, mAt, ["title", "year"], ["imdb_id"], errs);
+          // Franchise membership NEVER propagates watched status. Every member
+          // listed here is an individual claim that THAT installment was
+          // watched, and each one is individually banned from recommendation.
+          if (!isNonEmptyString(member.title)) errs.push(`${mAt}.title must be a non-empty string`);
+          if (!Number.isInteger(member.year)) errs.push(`${mAt}.year must be an integer`);
+          if (has(member, "imdb_id") && !IMDB_ID_RE.test(member.imdb_id)) errs.push(`${mAt}.imdb_id must be a tt id`);
+        }
+      }
+    } else {
+      errs.push(`${iAt}.scope must be 'title' or 'franchise'`);
+    }
+  }
+}
+
+/**
+ * Every public identity a WATCHED evidence entry stands for, as {type,title,year,imdb_id}
+ * shapes ready for identityKey(). Franchise entries expand to their members.
+ * Unwatched entries contribute NOTHING here - they stay recommendable.
+ */
+export function watchedEvidenceIdentities(profile) {
+  const out = [];
+  for (const item of profile?.baseline_evidence?.items || []) {
+    if (item.evidence_type !== "watched") continue;
+    if (item.scope === "franchise") {
+      for (const member of item.franchise_members || []) {
+        out.push({ type: item.type, title: member.title, year: member.year, imdb_id: member.imdb_id });
+      }
+    } else {
+      out.push({ type: item.type, title: item.title, year: item.year, imdb_id: item.imdb_id });
+    }
+  }
+  return out;
 }
 
 // ---------------------------------------------------------------------------

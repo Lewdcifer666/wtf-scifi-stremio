@@ -64,17 +64,22 @@ check("C1", `censused ${before.size} tracked files under ${WATCHED.join(", ")}`,
 
 // Run the suite that actually touches production paths. build-site is included
 // because it is what the fixtures rebuild through.
-const SUITE = ["test/validate-profile.test.mjs", "test/dna-score.test.mjs",
-  "test/duplicate-identity.test.mjs", "test/direct-tone.test.mjs",
-  "test/prompt-contract.test.mjs", "test/catalog-build.test.mjs",
-  "test/inertness.mjs", "test/acceptance.test.mjs"];
+// Discovered, not listed. A hardcoded suite list silently stops covering any
+// test added later - which is exactly when a new fixture starts writing to a
+// production path. Everything in test/ runs except this file (which would
+// recurse) and the helpers, which are imported rather than executed.
+const NOT_A_SUITE_MEMBER = new Set(["no-production-mutation.test.mjs", "safe-fixture.mjs", "run-all.mjs"]);
+const SUITE = fs.readdirSync("test")
+  .filter(name => name.endsWith(".mjs") && !NOT_A_SUITE_MEMBER.has(name))
+  .sort()
+  .map(name => path.join("test", name));
 
 let suiteOk = true;
 for (const t of SUITE) {
   try { execFileSync(process.execPath, [t], { stdio: "pipe" }); }
   catch { suiteOk = false; console.error(`         suite member failed: ${t}`); }
 }
-check("C2", "every suite member that touches production paths ran", suiteOk);
+check("C2", `every suite member ran (${SUITE.length} discovered)`, suiteOk && SUITE.length > 0);
 
 const after = census();
 

@@ -4,36 +4,12 @@ const REQUEST_TIMEOUT_MS = 30000;
 const MAX_ATTEMPTS = 5;
 
 
-/*
- * Verified fallback IDs for seed/reference titles that already exist
- * in our initial library.
- *
- * These are primarily here so a temporary Cinemeta outage cannot
- * prevent the initial catalog from being built.
- *
- * Future recommendations should normally arrive with an IMDb ID
- * already supplied by the recommendation/automation process.
- */
-const KNOWN_IMDB_IDS = new Map([
-  ["movie:i origins:2014", "tt2884206"],
-  ["movie:time lapse:2014", "tt2669336"],
-  ["movie:identity:2003", "tt0309698"],
-  ["movie:old:2021", "tt10954652"],
-  ["movie:radius:2017", "tt6097798"],
-  ["movie:the forgotten:2004", "tt0356618"],
-  ["movie:coherence:2013", "tt2866360"],
-  ["movie:no one will save you:2023", "tt14509110"],
-  ["movie:knowing:2009", "tt0448011"],
-  ["movie:arq:2016", "tt5640450"],
-  ["movie:in the shadow of the moon:2019", "tt8110640"],
-  ["movie:splice:2009", "tt1017460"],
-  ["movie:transcendence:2014", "tt2209764"],
-  ["movie:the titan:2018", "tt4986098"],
-  ["movie:annihilation:2018", "tt2798920"],
-  ["movie:lucy:2014", "tt2872732"],
-  ["movie:cube:1997", "tt0123755"],
-  ["series:fringe:2008", "tt1119644"]
-]);
+// The seed-id map and the User-Agent are the only per-addon values in this
+// file, so they live in the generated ./known-ids.mjs and this module stays
+// vendored verbatim. A new addon starts with an empty map: seeds exist only so
+// a Cinemeta outage cannot block an already-known catalog from building, and a
+// fresh repo has nothing to protect yet.
+import { KNOWN_IMDB_IDS, USER_AGENT } from "./known-ids.mjs";
 
 
 function sleep(ms) {
@@ -228,7 +204,7 @@ async function fetchJsonOnce(
 
           headers: {
             "User-Agent":
-              "WTF-SciFi-Stremio-Automation/2.1",
+              USER_AGENT,
 
             "Accept":
               "application/json"
