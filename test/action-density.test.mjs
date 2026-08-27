@@ -5,12 +5,19 @@
 // key legitimately reserializes a file, so a byte check would fail on a correct
 // migration and tempt someone to weaken the real assertion.
 //
-// The second half is the more important half. MG-7 is ADDITIVE: action_density
-// is descriptive only. It is not weighted, not required-known and referenced by
-// no guardrail, which is precisely why the legacy records carrying null keep
-// scoring exactly as they did. The MG-7.2 policy flip may only happen once
-// legacy coverage is complete, so these assertions are the fence that stops it
-// happening early and silently emptying DNA Match.
+// HISTORICAL CONTEXT, NOT THE CURRENT STATE. MG-7 was additive: action_density
+// was descriptive only - unweighted, not required-known, referenced by no
+// guardrail - so that the legacy records still carrying null kept scoring
+// exactly as they had. Those assertions were the fence that stopped the policy
+// flip happening before coverage was complete.
+//
+// THE CURRENT STATE IS DIFFERENT AND THE ASSERTIONS BELOW REFLECT IT. Coverage
+// reached 127/127 at MG-7.2, the flip happened, and MG-7.3 then corrected the
+// semantics: both action dimensions are required-known, DNA Match requires all
+// 28, action_density is referenced by the action-first guardrail and by three
+// substance-gated archetypes, and NEITHER dimension carries a baseline weight.
+// The AD* assertions are now the fence around THAT state - see the MG73-* block
+// lower down for the final-semantics coverage.
 //
 // Run with: node test/action-density.test.mjs
 
@@ -198,11 +205,16 @@ check("AD20", "the old density-contaminated intensity anchors are gone", (() => 
   return !text.includes("action-driven throughout") && !text.includes("regular action");
 })());
 
-check("AD21", "the profile records that the two are independent and legacy intensity is unrevised", (() => {
+check("AD21", "the profile records the two as independent AND the backlog as closed", (() => {
   const text = profile.dna_dimensions.principles.independent_dimensions;
   return text.includes(DIM) && text.includes("action_intensity")
-    && text.includes("null") && /rubric/i.test(text);
-})());
+    && /rubric/i.test(text)
+    // the history may be described, but only in the past tense
+    && /no legacy backlog remains/i.test(text)
+    && /MUST carry known integer values for BOTH/i.test(text)
+    && !/carries action_density null/i.test(text)
+    && !/are NOT corrected by the text change alone/i.test(text);
+})(), "independent_dimensions still describes the migration as ongoing");
 
 // ---------------------------------------------------------------- nothing was inferred
 check("AD22", "no density was derived from intensity: any non-null value is a real integer", (() => {
@@ -343,6 +355,90 @@ check("MG73-Q", "horror policy is untouched: weight -6, contextual, never hard-e
   profile.dna_baseline.weights.horror === -6
   && profile.dna_guardrails.combination.some(c => c.id === "horror_without_science_or_mystery" && c.penalty === -30)
   && !profile.dna_guardrails.hard_exclusion.some(h => h.dimension === "horror"));
+
+// ---------------------------------------------------------------- MG-7.3.1
+// The FINAL state, and the decisive citations behind the values that were
+// corrected. These exist because the failure mode here is silent: documentation
+// that still describes a finished migration as ongoing, and a load-bearing
+// source quietly dropped from an item's provenance.
+
+const legacySet = JSON.parse(fs.readFileSync("tools/migrations/mg7-legacy-set.json", "utf8"));
+const legacyIds = new Set(legacySet.identities);
+const legacyItems = items.filter(i => legacyIds.has(i.imdb_id));
+
+// -- A, B: the frozen legacy set is fully researched --------------------------
+check("MG731-A", "all " + legacySet.count + " legacy identities carry an integer action_density",
+  legacyItems.length === legacySet.count && legacyItems.every(i => Number.isInteger(i.dna.action_density)),
+  legacyItems.filter(i => !Number.isInteger(i.dna.action_density)).map(i => i.title).join(", "));
+check("MG731-B", "all " + legacySet.count + " legacy identities carry an integer action_intensity",
+  legacyItems.length === legacySet.count && legacyItems.every(i => Number.isInteger(i.dna.action_intensity)),
+  legacyItems.filter(i => !Number.isInteger(i.dna.action_intensity)).map(i => i.title).join(", "));
+
+// -- C, D: and so does every CURRENT public item, legacy or not ---------------
+check("MG731-C", "no current public item has a null action_density",
+  items.every(i => Number.isInteger(i.dna.action_density)),
+  items.filter(i => !Number.isInteger(i.dna.action_density)).map(i => i.title).join(", "));
+check("MG731-D", "no current public item has a null action_intensity",
+  items.every(i => Number.isInteger(i.dna.action_intensity)),
+  items.filter(i => !Number.isInteger(i.dna.action_intensity)).map(i => i.title).join(", "));
+
+// -- F, G: the daily prompt describes TODAY, not the migration ----------------
+{
+  const promptText = fs.readFileSync("DAILY_AUTOMATION_PROMPT.md", "utf8");
+  const fenceText = promptText.split(String.fromCharCode(96, 96, 96)).filter((_, i) => i % 2 === 1)[0] || "";
+  check("MG731-F", "the prompt does NOT tell the task a null-density backlog still exists",
+    !/carry null because they have not been measured yet/i.test(fenceText)
+    && !/that is a backlog/i.test(fenceText)
+    && /THERE IS NO LEGACY BACKLOG/i.test(fenceText));
+  check("MG731-G", "the prompt requires BOTH action metrics on every new discovery",
+    /action_density AND action_intensity must each be an integer 0\.\.10/i.test(fenceText)
+    && /NEITHER may be null on a new discovery/i.test(fenceText));
+}
+
+// -- K, L: the MG-7.3 policy is still exactly what was approved ----------------
+check("MG731-K", "the approved MG-7.3 action policy is unchanged", (() => {
+  const b = profile.dna_baseline;
+  const g = profile.dna_guardrails.combination.find(c => c.id === "action_first_without_investigation");
+  const actionArchetypes = b.archetypes.filter(a => a.requires.some(r => r.dimension === "action_density"));
+  return !("action_density" in b.weights) && !("action_intensity" in b.weights)
+    && b.unweighted.includes("action_density") && b.unweighted.includes("action_intensity")
+    && b.completeness_defaults.required_known_dimensions.includes("action_density")
+    && b.completeness_defaults.required_known_dimensions.includes("action_intensity")
+    && actionArchetypes.length === 3
+    && b.archetypes.every(a => !a.penalise || (!("action_density" in a.penalise) && !("action_intensity" in a.penalise)))
+    && g.all_of.length === 4
+    && g.all_of.every(c => c.at_or_below === (c.dimension === "scientific_investigation" ? 3 : 5))
+    && g.any_of.some(c => c.dimension === "action_density" && c.at_or_above === 6);
+})());
+check("MG731-L", "thresholds are still 82 / 90",
+  profile.automation_rules.minimum_match_score === 82 && profile.automation_rules.best_match_score === 90);
+
+// -- the decisive citations must not be silently dropped ----------------------
+// Each URL below is the document that actually CAUSED the stored value, not a
+// page that merely identifies the right title. Losing one would leave a
+// Content-DNA value unauditable, which is the whole point of the source field.
+{
+  const DECISIVE = [
+    ["tt0453467", "Deja Vu", "timeout.com/movies/deja-vu-1",
+      "Time Out, David Jenkins: 'take away a couple of neatly staged action sequences' - the basis for density 4"],
+    ["tt0119675", "Mimic", "loudandclearreviews.com/mimic-1997-review-del-toro-film-thriller-movie",
+      "first half crime thriller, second half 'all-out horror fest' - the basis for density 5"],
+    ["tt0460686", "Threshold", "metacritic.com/tv/threshold",
+      "hosts the Entertainment Weekly line 'with all of its bad-guy chases' - the basis for density 4"],
+    ["tt21109170", "Signal One", "flickeringmyth.com/movie-review-signal-one-2026",
+      "'the bulk of the film' is communication attempts, violence minimal - the basis for density 1 / intensity 3"],
+    ["tt5791732", "The Laplace's Demon", "quinlan.it/2017/11/03/il-demone-di-laplace",
+      "'renounces blood apocalypses', avoids graphic violence - the basis for density 1 / intensity 3"],
+    ["tt27652287", "The A-Frame", "25yearslatersite.com/tv/features/fantasia-2024-the-a-frame",
+      "'buckets of blood... great practical gore effects' - the basis for intensity 7"]
+  ];
+  const byImdb = new Map(items.map(i => [i.imdb_id, i]));
+  for (const [id, title, fragment, why] of DECISIVE) {
+    const item = byImdb.get(id);
+    check("MG731-SRC", title + " still cites the source that decided its value",
+      Boolean(item) && String(item.source || "").includes(fragment), why);
+  }
+}
 
 // ---------------------------------------------------------------- coverage report
 {

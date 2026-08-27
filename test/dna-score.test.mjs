@@ -165,7 +165,8 @@ check("C9", "penalty scale is derived, not authored", Math.abs(policy.penaltySca
   // missing_required" held trivially. The additive scifi-action row gates on
   // action_density, which is null on every record predating the shape
   // migration, so that row now reports missing_required - by design, and it is
-  // why the row is empty until the backfill runs.
+  // why the row WAS empty until the backfill ran. The backfill is complete, so
+  // the row now fills from genuinely measured densities.
   //
   // Asserting "nothing is missing" would now be false; deleting the assertion
   // would lose the protection. So it pins the exact blast radius instead: the

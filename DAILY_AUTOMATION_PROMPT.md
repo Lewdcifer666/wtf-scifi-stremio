@@ -384,12 +384,17 @@ Read the authoritative Content DNA contract from data/taste-profile.json on the 
 - dna_confidence is a number 0.0..1.0 expressing confidence in the DESCRIPTIVE fingerprint, not confidence that the user will enjoy the title. Never inflate it so a title clears a DNA eligibility threshold.
 - dna_tags may contain only values from dna_dimensions.tag_registry. An empty array is valid. Never invent a tag, and never substitute the unrelated top-level controlled_tags vocabulary.
 
-ACTION DENSITY IS MANDATORY AND RESEARCHED ON EVERY NEW DISCOVERY.
+BOTH ACTION METRICS ARE MANDATORY AND RESEARCHED ON EVERY NEW DISCOVERY.
 
-action_density must be an integer 0..10 on every title accepted from now on.
-It must NEVER be null on a new discovery. Titles that predate the v4 migration
-carry null because they have not been measured yet; that is a backlog, not a
-precedent, and it is not permission to leave a new one unmeasured.
+action_density AND action_intensity must each be an integer 0..10 on every
+title accepted from now on. NEITHER may be null on a new discovery.
+
+THERE IS NO LEGACY BACKLOG. An earlier migration briefly introduced a null
+action_density on the titles that predated it, and that backlog has since been
+backfilled in full: every existing catalogue title now carries a researched
+density and an action_intensity assessed under the corrected peak-force rubric.
+A null in either field today means the research was simply not done, and the
+title must be dropped rather than accepted.
 
 action_density is HOW MUCH of the runtime contains action.
 action_intensity is HOW HARD that action hits WHEN it occurs.

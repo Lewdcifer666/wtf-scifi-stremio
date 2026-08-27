@@ -1,5 +1,11 @@
 // ONE-TIME v4 SHAPE MIGRATION: add action_density to every enriched record.
 //
+// HISTORICAL. This script ALREADY RAN, and the null values it wrote were
+// backfilled in full by the MG-7.2 batches. It is kept for auditability, not
+// because any legacy record still needs it - re-running it today is a no-op,
+// because it refuses to touch a record whose density is already researched.
+// Everything below describes the state AT THE TIME IT RAN.
+//
 // THIS SCRIPT RESEARCHES NOTHING AND INFERS NOTHING.
 //
 // It inserts exactly one key - "action_density": null - into every existing DNA
