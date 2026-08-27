@@ -114,7 +114,7 @@
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
-      "source": "https://www.imdb.com/title/tt4881364/",
+      "source": "https://www.imdb.com/title/tt4881364/ ; https://v3-cinemeta.strem.io/meta/movie/tt4881364.json ; https://en.wikipedia.org/wiki/Anti_Matter_(film)",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 3,
@@ -162,7 +162,7 @@
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
-      "source": "https://www.imdb.com/title/tt1757746/",
+      "source": "https://www.imdb.com/title/tt1757746/ ; https://v3-cinemeta.strem.io/meta/movie/tt1757746.json ; https://en.wikipedia.org/wiki/Extracted_(film)",
       "dna": {
         "scientific_investigation": 7,
         "biology_genetics": 2,
@@ -258,7 +258,7 @@
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
-      "source": "https://www.imdb.com/title/tt2234222/",
+      "source": "https://www.imdb.com/title/tt2234222/ ; https://v3-cinemeta.strem.io/meta/series/tt2234222.json ; https://en.wikipedia.org/wiki/Orphan_Black",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 10,
@@ -306,7 +306,7 @@
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
-      "source": "https://www.imdb.com/title/tt0808491/",
+      "source": "https://www.imdb.com/title/tt0808491/ ; https://v3-cinemeta.strem.io/meta/series/tt0808491.json ; https://en.wikipedia.org/wiki/The_Swarm_(TV_series)",
       "dna": {
         "scientific_investigation": 9,
         "biology_genetics": 10,
@@ -354,7 +354,7 @@
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
-      "source": "https://www.imdb.com/title/tt19231492/",
+      "source": "https://www.imdb.com/title/tt19231492/ ; https://v3-cinemeta.strem.io/meta/series/tt19231492.json ; https://en.wikipedia.org/wiki/Dark_Matter_(2024_TV_series)",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 2,

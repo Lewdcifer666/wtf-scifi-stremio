@@ -306,7 +306,7 @@
       "added_at": "2026-08-24T06:46:36Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-24-c1",
-      "source": "https://www.imdb.com/title/tt1118697/",
+      "source": "https://www.imdb.com/title/tt1118697/ ; https://v3-cinemeta.strem.io/meta/series/tt1118697.json ; https://en.wikipedia.org/wiki/Eleventh_Hour_(American_TV_series)",
       "dna": {
         "scientific_investigation": 10,
         "biology_genetics": 8,
@@ -354,7 +354,7 @@
       "added_at": "2026-08-24T06:46:36Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-24-c1",
-      "source": "https://www.imdb.com/title/tt0452718/",
+      "source": "https://www.imdb.com/title/tt0452718/ ; https://v3-cinemeta.strem.io/meta/series/tt0452718.json ; https://en.wikipedia.org/wiki/Surface_(2005_TV_series)",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 9,

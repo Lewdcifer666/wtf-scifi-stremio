@@ -254,7 +254,27 @@ Score candidates from 0-100 against the combined taste model. Only accept candid
 
 As soon as you hold enough qualifying candidates to fill both daily caps, STOP SEARCHING and move to finalization. Additional research past that point cannot improve the run and can only cost it the ability to commit.
 
-For every accepted title, verify the correct IMDb ID and prepare a complete item with imdb_id, type, title, year, status="watch", preference=null, rank=null, match_score, controlled tags only, a concise reason explaining the fit, useful aliases if needed, current UTC ISO-8601 added_at, added_by="daily-automation", a discovery_run_id based on today's UTC date plus a short run suffix, and source describing the research sources used.
+For every accepted title, verify the correct IMDb ID and prepare a complete item with imdb_id, type, title, year, status="watch", preference=null, rank=null, match_score, controlled tags only, a concise reason explaining the fit, useful aliases if needed, current UTC ISO-8601 added_at, added_by="daily-automation", a discovery_run_id based on today's UTC date plus a short run suffix, and source citing the research sources used AS URLS.
+
+SOURCE PROVENANCE IS MANDATORY AND IS NOT AN EVIDENCE SUMMARY.
+
+reason = the short human-readable card text.
+source = the ACTUAL MATERIAL the research rested on, as real http(s) URLs.
+
+Every accepted item must cite AT LEAST TWO DISTINCT USEFUL SOURCES:
+
+  1. a canonical identity / basic premise source
+  2. a substantive source that actually supports the stored Content DNA
+
+Use more where more are needed. A REPEATED CITATION IS NOT A SECOND SOURCE:
+the count is of DISTINCT normalized URLs, so a lookup that redirects back onto
+a page already cited buys nothing, and neither does re-citing the same document
+with a different query string or fragment.
+
+Never put a prose evidence summary in source - that belongs in reason. Never
+invent a URL. If a citation cannot be produced honestly, drop the title rather
+than weaken its provenance; a smaller run is always acceptable.
+
 
 CONTENT DNA IS REQUIRED ON EVERY ACCEPTED DISCOVERY.
 

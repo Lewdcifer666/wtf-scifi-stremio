@@ -66,7 +66,7 @@
       "added_at": "2026-08-25T06:46:05Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-25-d1",
-      "source": "https://www.imdb.com/title/tt8953768/",
+      "source": "https://www.imdb.com/title/tt8953768/ ; https://v3-cinemeta.strem.io/meta/movie/tt8953768.json ; https://www.rottentomatoes.com/m/multiverse",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 1,
@@ -258,7 +258,7 @@
       "added_at": "2026-08-25T06:46:05Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-25-d1",
-      "source": "https://www.imdb.com/title/tt1839683/",
+      "source": "https://www.imdb.com/title/tt1839683/ ; https://v3-cinemeta.strem.io/meta/series/tt1839683.json ; https://en.wikipedia.org/wiki/Awake_(TV_series)",
       "dna": {
         "scientific_investigation": 2,
         "biology_genetics": 0,
