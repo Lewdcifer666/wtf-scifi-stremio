@@ -582,7 +582,6 @@
         "scientific_investigation",
         "space_opera",
         "military_focus",
-        "action_intensity",
         "creature_threat",
         "survival_chase",
         "rule_discovery",
@@ -591,7 +590,8 @@
         "unknown_phenomenon",
         "mystery",
         "pace_speed",
-        "concept_escalation"
+        "concept_escalation",
+        "action_density"
       ],
       "note": "Baseline DNA score-eligibility. An item must satisfy ALL THREE conditions to be scored by the DNA path. required_known_dimensions must contain every dimension referenced ANYWHERE in dna_guardrails - hard_exclusion, combination all_of and combination any_of - so that an item can never pass a structural guardrail or dodge a combination penalty merely because the relevant dimension is unknown. An ineligible item is NOT excluded and NOT penalised by DNA; it falls back to the existing stable baseline ranking path until enrichment fills the missing values. Individual catalog rows may override these defaults in config/catalogs.json at F2-8, but may never remove a guardrail-referenced dimension from the required set."
     },
@@ -617,7 +617,7 @@
         },
         "penalise": {
           "survival_chase": 4,
-          "action_intensity": 3
+          "action_density": 3
         }
       },
       {
@@ -644,7 +644,7 @@
         },
         "penalise": {
           "military_focus": 5,
-          "action_intensity": 4
+          "action_density": 4
         }
       },
       {
@@ -666,7 +666,7 @@
           "unknown_phenomenon": 6
         },
         "penalise": {
-          "action_intensity": 3
+          "action_density": 3
         }
       },
       {
@@ -696,7 +696,7 @@
           "weirdness": 6
         },
         "penalise": {
-          "action_intensity": 3
+          "action_density": 3
         }
       },
       {
@@ -743,8 +743,8 @@
         "penalise": {
           "space_opera": 6,
           "superhero": 8,
-          "action_intensity": 4,
-          "survival_chase": 4
+          "survival_chase": 4,
+          "action_density": 4
         }
       }
     ],
@@ -788,8 +788,8 @@
             "at_or_above": 6
           },
           {
-            "dimension": "action_intensity",
-            "at_or_above": 7
+            "dimension": "action_density",
+            "at_or_above": 6
           }
         ],
         "note": "negative_signals #3. Space, military and action are each fine when investigation is present; this fires only when it is not."

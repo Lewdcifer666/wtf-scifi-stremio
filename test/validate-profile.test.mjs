@@ -192,7 +192,7 @@ expectError("Q ", "malformed tag in tag_registry is rejected", p => {
 }, "tag_registry");
 
 // --- R: a guardrail dimension missing from required_known_dimensions -------
-for (const dim of ["superhero", "comic_book_universe", "pace_speed", "creature_threat", "action_intensity"]) {
+for (const dim of ["superhero", "comic_book_universe", "pace_speed", "creature_threat", "action_density"]) {
   const p = clone(SCHEMA3);
   p.dna_baseline.completeness_defaults.required_known_dimensions =
     p.dna_baseline.completeness_defaults.required_known_dimensions.filter(d => d !== dim);

@@ -62,14 +62,46 @@ check("AD4", "every DNA vector is exactly the 28 registry keys",
   }));
 
 // ---------------------------------------------------------------- the fence
-check("AD5", DIM + " is UNWEIGHTED",
+// STILL UNWEIGHTED, AND THAT IS A CALIBRATED RESULT, NOT AN OVERSIGHT.
+//
+// The baseline score is a normalised weighted average: contentBase =
+// 100 * raw / baseMax. Adding weight W for a dimension raises raw by W*value and
+// baseMax by 10W, so a title gains only when value*10 > its current contentBase.
+// Measured across the completed 127-title set, that condition holds for 19
+// titles and fails for 95 - and the 19 are the LOWEST-scoring ones in the
+// corpus. A positive density weight would therefore lift the weakest Sci-Fi fits
+// and depress the strongest, which is precisely the "generic action with lasers"
+// outcome the profile exists to avoid. Simulated at W = 0, 2, 4, 6, 8 and 10;
+// every positive value reduced the mean and cut the number of titles at or above
+// 82. Sustained action is allowed to help by NO LONGER BEING PENALISED, not by
+// being rewarded in the average.
+check("AD5", DIM + " is UNWEIGHTED (calibrated: no positive weight helps)",
   profile.dna_baseline.unweighted.includes(DIM) && !(DIM in profile.dna_baseline.weights));
 
-check("AD6", DIM + " is NOT required-known",
-  !profile.dna_baseline.completeness_defaults.required_known_dimensions.includes(DIM));
+// MG-7.2 FLIPPED THIS. During the backfill action_density had to stay optional,
+// because 127 legacy records carried null and requiring it would have emptied
+// DNA Match. Coverage is now 127/127, so an unknown density is no longer a
+// legacy gap - it is an unresearched new discovery, and those must not score.
+check("AD6", DIM + " IS required-known now that coverage is complete",
+  profile.dna_baseline.completeness_defaults.required_known_dimensions.includes(DIM));
 
-check("AD7", "NO guardrail references " + DIM,
-  !JSON.stringify(profile.dna_guardrails).includes(DIM));
+check("AD6b", "and every source item actually satisfies it",
+  items.every(i => Number.isInteger(i.dna[DIM])),
+  items.filter(i => !Number.isInteger(i.dna[DIM])).map(i => i.title).join(", "));
+
+// The action-first guardrail now asks about RUNTIME SHARE, which is what
+// "action-first" always meant, instead of peak force. action_intensity must NOT
+// appear in any guardrail any more: a single savage sequence is not evidence
+// that a film is action-first.
+check("AD7", "the action-first guardrail keys on " + DIM + ", not peak force", (() => {
+  const g = profile.dna_guardrails.combination.find(c => c.id === "action_first_without_investigation");
+  return Boolean(g)
+    && g.any_of.some(c => c.dimension === DIM && c.at_or_above === 6)
+    && !g.any_of.some(c => c.dimension === "action_intensity");
+})());
+
+check("AD7b", "NO guardrail anywhere still references action_intensity",
+  !JSON.stringify(profile.dna_guardrails).includes("action_intensity"));
 
 check("AD8", "weights U unweighted is exactly the 28-dimension registry, disjointly", (() => {
   const w = Object.keys(profile.dna_baseline.weights);
@@ -79,11 +111,20 @@ check("AD8", "weights U unweighted is exactly the 28-dimension registry, disjoin
     && registry.every(d => w.includes(d) || u.includes(d));
 })());
 
-check("AD9", "DNA Match does NOT require " + DIM + ", so legacy rows are undisturbed", (() => {
+// The additive invariant was "DNA Match requires 27 of the 28". That was correct
+// only while density was unmeasured. The final invariant is that DNA Match
+// requires ALL 28 - it now demands a researched density - while action_density
+// remains UNWEIGHTED, which is the calibrated outcome: see AD5.
+check("AD9", "DNA Match now requires all 28 dimensions, including " + DIM, (() => {
   const def = config.catalogs.find(c => c.id === "dna-match");
   const req = requiredFor(policy, def);
-  return req.length === 27 && !req.includes(DIM);
-})(), "if this fails the MG-7.2 flip has happened and DNA Match will empty");
+  return req.length === 28 && req.includes(DIM);
+})());
+
+check("AD9b", "and no item is excluded from DNA Match for a missing density", (() => {
+  const def = config.catalogs.find(c => c.id === "dna-match");
+  return items.every(i => (scoreItem(policy, def, i, new Map()).reason || "") !== "missing_required:" + DIM);
+})());
 
 check("AD10", "minimum_match_score is still 82 and best_match_score still 90",
   profile.automation_rules.minimum_match_score === 82 && profile.automation_rules.best_match_score === 90);

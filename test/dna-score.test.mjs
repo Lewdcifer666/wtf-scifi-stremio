@@ -143,19 +143,13 @@ check("C9", "penalty scale is derived, not authored", Math.abs(policy.penaltySca
   check("F1d2", "0 and 10 on the same dimension produce different scores",
     r4b.score > r4.score, `${r4.score} vs ${r4b.score}`);
 
-  // 27 OF 28, AND THAT IS THE WHOLE POINT OF THE ADDITIVE MIGRATION.
-  //
-  // requiredFor() adds every WEIGHTS key for a baseline_profile row, so any
-  // dimension placed in dna_baseline.weights instantly becomes mandatory for
-  // DNA Match. action_density is deliberately UNWEIGHTED and not required-known,
-  // so it is absent from this set and the 127 legacy records that carry
-  // action_density null keep scoring exactly as they did before MG-7.
-  //
-  // If this ever reads 28, the MG-7.2 policy flip has happened - and it must not
-  // happen until legacy density coverage is complete, or DNA Match empties.
-  check("F1e", "DNA Match requires 27 of the 28 dimensions - NOT action_density",
-    requiredFor(policy, def("dna-match")).length === 27
-    && !requiredFor(policy, def("dna-match")).includes("action_density"),
+  // MG-7.2 replaced the additive invariant. It used to read "27 of the 28, NOT
+  // action_density", which was right only while density was unmeasured. With
+  // coverage at 127/127 DNA Match requires all 28: an unknown density now means
+  // an unresearched discovery, not a legacy gap, and it must not score.
+  check("F1e", "DNA Match requires all 28 dimensions",
+    requiredFor(policy, def("dna-match")).length === 28
+    && requiredFor(policy, def("dna-match")).includes("action_density"),
     String(requiredFor(policy, def("dna-match")).length));
   check("F1f", "row required set = baseline required U gate U weights U penalties", (() => {
     const req = new Set(requiredFor(policy, def("high-suspense")));
