@@ -96,6 +96,102 @@ An unsupported event must NOT be discarded before chain resolution. Discarding i
 
 Worked example. A = schema 2 rating, B = schema 3 event superseding A. B remains the chain tip; A does NOT return as active evidence; B contributes no interpreted preference; the title is conservatively excluded from new-title discovery. The same holds for A = rating, B = retraction, C = unsupported event superseding B: do not resurrect A, and do not treat B as the current opinion.
 
+FEEDBACK OWNERSHIP. THIS ADDON LEARNS ONLY FROM ITS OWN TITLES.
+
+The private feedback repository is SHARED. Other WTF addons - Fantasy, Action,
+Anime, Thriller - will write rating events into the same place from the same TV
+app, and a feedback event carries NO profile context: there is no field saying
+which addon surfaced the title. Without a filter, this task would silently learn
+Sci-Fi taste from an anime the user rated, or from an action film, and would bend
+this profile toward preferences that were never expressed about science fiction.
+
+THE ORDER IS NOT NEGOTIABLE. Ownership is the LAST step, applied only to already
+resolved effective tips:
+
+  1. Read ALL structurally usable feedback events.
+  2. Build the GLOBAL feedback_id -> event map.
+  3. Resolve the supersedes graph GLOBALLY.
+  4. Determine the effective current chain tips GLOBALLY.
+  5. Preserve unsupported-schema events in that topology exactly as described
+     above.
+  6. ONLY THEN apply the ownership filter below, for taste learning.
+
+TOPOLOGY FIRST, OWNERSHIP SECOND. Ownership must never influence which event is
+the chain tip. Filtering earlier would let a superseded or retracted opinion
+become active again, which is the precise failure the resolution rules already
+exist to prevent.
+
+THE RULE
+
+A resolved effective tip may contribute to Sci-Fi taste learning or
+personalization ONLY when BOTH hold:
+
+  - it has a valid, non-null imdb_id, AND
+  - that imdb_id is already present in THIS repository's own current public
+    identity set: data/library.json plus every data/discoveries/*.json.
+
+That identity set is already built once in PHASE A. Reuse it; do not rebuild it.
+
+If the effective tip's imdb_id is NOT in this repository's public identity set,
+it contributes EXACTLY ZERO to all of:
+
+  - content preference learning
+  - tone preference learning
+  - execution-fit learning
+  - personalized score generation
+  - Sci-Fi recommendation weighting
+
+Zero means zero. Not a reduced weight, not weak context, not a tie-breaker.
+
+WHAT NOT TO DO WITH A NON-OWNED EVENT
+
+- Do NOT delete it, and do NOT treat it as absent.
+- Do NOT remove it from the supersedes topology. It still supersedes what it
+  supersedes.
+- Do NOT resurrect an older, Sci-Fi-looking parent because the newer chain tip
+  is not owned. If the current tip is not owned, that title simply has no usable
+  Sci-Fi opinion. An earlier event in the same chain is still superseded and
+  still contributes nothing.
+- Do NOT count it in this profile's evidence tiers - it is not one of the
+  independent titles voting on a dimension.
+
+NULL imdb_id CONTRIBUTES ZERO
+
+Schema 1 and 2 events carry no profile context, so an event with a null imdb_id
+offers no safe proof of which addon it came from. It therefore contributes zero
+to Sci-Fi learning. Do NOT use source_id as a cross-profile ownership substitute:
+source_id is local catalog plumbing, it is not a cross-addon identity, and two
+addons can produce the same source_id for entirely different titles.
+
+An event with a null imdb_id still participates fully in topology, and the
+existing conservative dedupe rule still applies.
+
+UNSUPPORTED SCHEMAS ARE A SEPARATE MATTER
+
+If the effective tip uses an unsupported schema, the existing OPAQUE semantics
+apply unchanged - unavailable for learning, neither positive nor negative.
+Ownership is an additional, independent filter, not a replacement for that rule.
+An unsupported tip that IS owned is still opaque. A supported tip that is NOT
+owned is still unusable here.
+
+CROSS-ADDON DUPLICATES ARE INTENTIONAL
+
+The same IMDb identity may legitimately exist in more than one addon - a title
+can be both science fiction and action. When it does, BOTH profiles may consume
+that title's feedback, each projecting it through its OWN registry and its own
+weights. That is correct and is not double-counting: they are separate taste
+models answering separate questions. Ownership is about whether THIS addon
+surfaced the title, never about claiming exclusivity over it.
+
+REPORT, WITHOUT LEAKING
+
+Record in your private diagnostic reasoning how many effective tips were
+excluded as not-owned, and note that count in the run record. Never expose their
+titles, ids, ratings, free text or any other private field - the existing
+public/private separation rules apply to non-owned events exactly as they do to
+owned ones.
+
+
 SCHEMA 1 (historical events):
 - rating: the user's overall signal for that title.
 - more_like_this (yes/maybe/no/null): the LEGACY recommendation signal. It is still usable evidence, but it is weaker and semantically ambiguous: a single "no" could have meant bad acting, bad pacing, a boring monster, poor effects, disliking the premise, or not wanting the subject matter again. Never treat it as a precise statement about the premise, and never let it alone blacklist a subject, setting or topic.
