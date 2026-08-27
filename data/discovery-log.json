@@ -1,115 +1,12 @@
 {
   "schema_version": 1,
   "runs": [
-    {
-      "run_id": "2026-08-22-a1",
-      "timestamp": "2026-08-22T19:56:00Z",
-      "searched": 15,
-      "accepted": 8,
-      "rejected": 7,
-      "duplicates": 0,
-      "accepted_items": [
-        {"imdb_id":"tt5791732","type":"movie","title":"The Laplace's Demon","match_score":96},
-        {"imdb_id":"tt3528756","type":"movie","title":"The Incident","match_score":93},
-        {"imdb_id":"tt0080360","type":"movie","title":"Altered States","match_score":89},
-        {"imdb_id":"tt4922674","type":"movie","title":"Parallel","match_score":88},
-        {"imdb_id":"tt0115571","type":"movie","title":"The Arrival","match_score":87},
-        {"imdb_id":"tt11640020","type":"series","title":"Debris","match_score":99},
-        {"imdb_id":"tt0460686","type":"series","title":"Threshold","match_score":98},
-        {"imdb_id":"tt13016388","type":"series","title":"3 Body Problem","match_score":97}
-      ],
-      "rejection_summary": "Lower-priority candidates were withheld because they leaned too strongly toward outbreak/survival or psychological horror, were comparatively slow/withholding, scored below the 82-point threshold, or lost out to stronger candidates at the configured daily series cap. No existing-library duplicates were found among the accepted titles."
-    },
-    {
-      "run_id": "2026-08-23-b1",
-      "timestamp": "2026-08-23T06:35:07Z",
-      "searched": 25,
-      "accepted": 8,
-      "rejected": 13,
-      "duplicates": 4,
-      "accepted_items": [
-        {"imdb_id":"tt12042730","type":"movie","title":"Project Hail Mary","match_score":99},
-        {"imdb_id":"tt21109170","type":"movie","title":"Signal One","match_score":96},
-        {"imdb_id":"tt4881364","type":"movie","title":"Anti Matter","match_score":95},
-        {"imdb_id":"tt1757746","type":"movie","title":"Extracted","match_score":94},
-        {"imdb_id":"tt27652287","type":"movie","title":"The A-Frame","match_score":91},
-        {"imdb_id":"tt2234222","type":"series","title":"Orphan Black","match_score":99},
-        {"imdb_id":"tt0808491","type":"series","title":"The Swarm","match_score":98},
-        {"imdb_id":"tt19231492","type":"series","title":"Dark Matter","match_score":95}
-      ],
-      "rejection_summary": "The effective feedback reinforced suspense and mystery as positive qualities even when a title's overall rating is only moderate, while a DNF for boredom strengthened the existing penalty on slow or withholding material. The run therefore favored investigation-heavy science, biology/ecology, experimental technology and reality-rule discovery; slower/ambiguous psychological entries and more survival/action-oriented candidates were withheld. Superseded feedback was not double-counted, and previously discovered/library titles encountered during research were deduplicated."
-    },
-    {
-      "run_id": "2026-08-24-c1",
-      "timestamp": "2026-08-24T06:46:36Z",
-      "searched": 24,
-      "accepted": 8,
-      "rejected": 16,
-      "duplicates": 0,
-      "accepted_items": [
-        {"imdb_id":"tt38283916","type":"movie","title":"The Reality Experiment","match_score":97},
-        {"imdb_id":"tt4209174","type":"movie","title":"Chimera Strain","match_score":94},
-        {"imdb_id":"tt1835955","type":"movie","title":"Errors of the Human Body","match_score":93},
-        {"imdb_id":"tt0106188","type":"movie","title":"12:01","match_score":90},
-        {"imdb_id":"tt5342650","type":"movie","title":"Reset","match_score":88},
-        {"imdb_id":"tt0429422","type":"series","title":"ReGenesis","match_score":99},
-        {"imdb_id":"tt1118697","type":"series","title":"Eleventh Hour","match_score":98},
-        {"imdb_id":"tt0452718","type":"series","title":"Surface","match_score":95}
-      ],
-      "rejection_summary": "Current active feedback strongly reinforced suspense, alien/unknown mystery and explicit More Like This preference while retracted chains contributed zero taste weight. The run therefore prioritized active scientific investigation, genetics/biology, experiments with escalating consequences and discoverable reality/time systems; action-first, generic creature, psychological-horror and slow-withholding candidates were penalized. Existing library and prior discovery state were checked before acceptance."
-    },
-    {
-      "run_id": "2026-08-25-d1",
-      "timestamp": "2026-08-25T06:46:05Z",
-      "searched": 23,
-      "accepted": 6,
-      "rejected": 15,
-      "duplicates": 2,
-      "accepted_items": [
-        {"imdb_id":"tt1867091","type":"movie","title":"The Reconstruction of William Zero","match_score":96},
-        {"imdb_id":"tt8953768","type":"movie","title":"Multiverse","match_score":94},
-        {"imdb_id":"tt4694518","type":"movie","title":"Domain","match_score":93},
-        {"imdb_id":"tt0830361","type":"series","title":"The Lost Room","match_score":98},
-        {"imdb_id":"tt6632666","type":"series","title":"Project Blue Book","match_score":96},
-        {"imdb_id":"tt1839683","type":"series","title":"Awake","match_score":91}
-      ],
-      "rejection_summary": "Current active evidence kept premise interest positive for investigative biology while separately softening creature/chase-heavy presentation, and independently reinforced suspense plus alien/unknown mystery. The run therefore favored genetic experiments, impossible systems with discoverable rules, reality anomalies, scientific UFO investigation and escalating mystery; more generic creature, action-first and horror-first candidates were withheld. Superseded and retracted feedback contributed no active taste weight."
-    },
-    {
-      "run_id": "2026-08-26-e1",
-      "timestamp": "2026-08-26T07:04:09Z",
-      "searched": 24,
-      "accepted": 8,
-      "rejected": 16,
-      "duplicates": 0,
-      "accepted_items": [
-        {"imdb_id":"tt1773389","type":"movie","title":"Einstein's God Model","match_score":94},
-        {"imdb_id":"tt3153582","type":"movie","title":"Listening","match_score":93},
-        {"imdb_id":"tt2049543","type":"movie","title":"Synchronicity","match_score":92},
-        {"imdb_id":"tt6179746","type":"movie","title":"The Gateway","match_score":91},
-        {"imdb_id":"tt6544220","type":"movie","title":"The Mandela Effect","match_score":90},
-        {"imdb_id":"tt0452573","type":"series","title":"The Triangle","match_score":96},
-        {"imdb_id":"tt8005176","type":"series","title":"The Feed","match_score":93},
-        {"imdb_id":"tt2758950","type":"series","title":"Helix","match_score":94}
-      ],
-      "rejection_summary": "Current active feedback reinforced explicit interest in investigative science, unusual phenomena, mystery and premise-driven discovery while keeping creature content separate from chase-heavy presentation. The run therefore favored laboratory experiments, mind/reality systems, parallel-world mechanics and science-led anomaly investigation; weaker action-first, generic horror and insufficiently investigative candidates were withheld. Retracted chains contributed zero taste weight."
-    },
-    {
-      "run_id": "2026-08-26-f1",
-      "timestamp": "2026-08-26T18:05:00Z",
-      "searched": 6,
-      "accepted": 6,
-      "rejected": 0,
-      "duplicates": 0,
-      "accepted_items": [
-        {"imdb_id":"tt2331047","type":"movie","title":"Rememory","match_score":92},
-        {"imdb_id":"tt12298506","type":"movie","title":"Black Box","match_score":93},
-        {"imdb_id":"tt4154916","type":"movie","title":"Replicas","match_score":88},
-        {"imdb_id":"tt9849210","type":"series","title":"Biohackers","match_score":98},
-        {"imdb_id":"tt8134186","type":"series","title":"Devs","match_score":96},
-        {"imdb_id":"tt11280740","type":"series","title":"Severance","match_score":98}
-      ],
-      "rejection_summary": "Current active feedback favored premise-driven experimental science, biology, mystery and suspense while keeping execution complaints title-specific and creature interest separate from chase-heavy presentation. All six researched candidates cleared the threshold and were new public identities; retracted chains contributed zero taste weight. Unsupported feedback schemas: 0."
-    }
+    {"run_id":"2026-08-22-a1","timestamp":"2026-08-22T19:56:00Z","searched":15,"accepted":8,"rejected":7,"duplicates":0,"accepted_items":[{"imdb_id":"tt5791732","type":"movie","title":"The Laplace's Demon","match_score":96},{"imdb_id":"tt3528756","type":"movie","title":"The Incident","match_score":93},{"imdb_id":"tt0080360","type":"movie","title":"Altered States","match_score":89},{"imdb_id":"tt4922674","type":"movie","title":"Parallel","match_score":88},{"imdb_id":"tt0115571","type":"movie","title":"The Arrival","match_score":87},{"imdb_id":"tt11640020","type":"series","title":"Debris","match_score":99},{"imdb_id":"tt0460686","type":"series","title":"Threshold","match_score":98},{"imdb_id":"tt13016388","type":"series","title":"3 Body Problem","match_score":97}],"rejection_summary":"Lower-priority candidates were withheld because they leaned too strongly toward outbreak/survival or psychological horror, were comparatively slow/withholding, scored below the 82-point threshold, or lost out to stronger candidates at the configured daily series cap. No existing-library duplicates were found among the accepted titles."},
+    {"run_id":"2026-08-23-b1","timestamp":"2026-08-23T06:35:07Z","searched":25,"accepted":8,"rejected":13,"duplicates":4,"accepted_items":[{"imdb_id":"tt12042730","type":"movie","title":"Project Hail Mary","match_score":99},{"imdb_id":"tt21109170","type":"movie","title":"Signal One","match_score":96},{"imdb_id":"tt4881364","type":"movie","title":"Anti Matter","match_score":95},{"imdb_id":"tt1757746","type":"movie","title":"Extracted","match_score":94},{"imdb_id":"tt27652287","type":"movie","title":"The A-Frame","match_score":91},{"imdb_id":"tt2234222","type":"series","title":"Orphan Black","match_score":99},{"imdb_id":"tt0808491","type":"series","title":"The Swarm","match_score":98},{"imdb_id":"tt19231492","type":"series","title":"Dark Matter","match_score":95}],"rejection_summary":"The effective feedback reinforced suspense and mystery as positive qualities even when a title's overall rating is only moderate, while a DNF for boredom strengthened the existing penalty on slow or withholding material. The run therefore favored investigation-heavy science, biology/ecology, experimental technology and reality-rule discovery; slower/ambiguous psychological entries and more survival/action-oriented candidates were withheld. Superseded feedback was not double-counted, and previously discovered/library titles encountered during research were deduplicated."},
+    {"run_id":"2026-08-24-c1","timestamp":"2026-08-24T06:46:36Z","searched":24,"accepted":8,"rejected":16,"duplicates":0,"accepted_items":[{"imdb_id":"tt38283916","type":"movie","title":"The Reality Experiment","match_score":97},{"imdb_id":"tt4209174","type":"movie","title":"Chimera Strain","match_score":94},{"imdb_id":"tt1835955","type":"movie","title":"Errors of the Human Body","match_score":93},{"imdb_id":"tt0106188","type":"movie","title":"12:01","match_score":90},{"imdb_id":"tt5342650","type":"movie","title":"Reset","match_score":88},{"imdb_id":"tt0429422","type":"series","title":"ReGenesis","match_score":99},{"imdb_id":"tt1118697","type":"series","title":"Eleventh Hour","match_score":98},{"imdb_id":"tt0452718","type":"series","title":"Surface","match_score":95}],"rejection_summary":"Current active feedback strongly reinforced suspense, alien/unknown mystery and explicit More Like This preference while retracted chains contributed zero taste weight. The run therefore prioritized active scientific investigation, genetics/biology, experiments with escalating consequences and discoverable reality/time systems; action-first, generic creature, psychological-horror and slow-withholding candidates were penalized. Existing library and prior discovery state were checked before acceptance."},
+    {"run_id":"2026-08-25-d1","timestamp":"2026-08-25T06:46:05Z","searched":23,"accepted":6,"rejected":15,"duplicates":2,"accepted_items":[{"imdb_id":"tt1867091","type":"movie","title":"The Reconstruction of William Zero","match_score":96},{"imdb_id":"tt8953768","type":"movie","title":"Multiverse","match_score":94},{"imdb_id":"tt4694518","type":"movie","title":"Domain","match_score":93},{"imdb_id":"tt0830361","type":"series","title":"The Lost Room","match_score":98},{"imdb_id":"tt6632666","type":"series","title":"Project Blue Book","match_score":96},{"imdb_id":"tt1839683","type":"series","title":"Awake","match_score":91}],"rejection_summary":"Current active evidence kept premise interest positive for investigative biology while separately softening creature/chase-heavy presentation, and independently reinforced suspense plus alien/unknown mystery. The run therefore favored genetic experiments, impossible systems with discoverable rules, reality anomalies, scientific UFO investigation and escalating mystery; more generic creature, action-first and horror-first candidates were withheld. Superseded and retracted feedback contributed no active taste weight."},
+    {"run_id":"2026-08-26-e1","timestamp":"2026-08-26T07:04:09Z","searched":24,"accepted":8,"rejected":16,"duplicates":0,"accepted_items":[{"imdb_id":"tt1773389","type":"movie","title":"Einstein's God Model","match_score":94},{"imdb_id":"tt3153582","type":"movie","title":"Listening","match_score":93},{"imdb_id":"tt2049543","type":"movie","title":"Synchronicity","match_score":92},{"imdb_id":"tt6179746","type":"movie","title":"The Gateway","match_score":91},{"imdb_id":"tt6544220","type":"movie","title":"The Mandela Effect","match_score":90},{"imdb_id":"tt0452573","type":"series","title":"The Triangle","match_score":96},{"imdb_id":"tt8005176","type":"series","title":"The Feed","match_score":93},{"imdb_id":"tt2758950","type":"series","title":"Helix","match_score":94}],"rejection_summary":"Current active feedback reinforced explicit interest in investigative science, unusual phenomena, mystery and premise-driven discovery while keeping creature content separate from chase-heavy presentation. The run therefore favored laboratory experiments, mind/reality systems, parallel-world mechanics and science-led anomaly investigation; weaker action-first, generic horror and insufficiently investigative candidates were withheld. Retracted chains contributed zero taste weight."},
+    {"run_id":"2026-08-26-f1","timestamp":"2026-08-26T18:05:00Z","searched":6,"accepted":6,"rejected":0,"duplicates":0,"accepted_items":[{"imdb_id":"tt2331047","type":"movie","title":"Rememory","match_score":92},{"imdb_id":"tt12298506","type":"movie","title":"Black Box","match_score":93},{"imdb_id":"tt4154916","type":"movie","title":"Replicas","match_score":88},{"imdb_id":"tt9849210","type":"series","title":"Biohackers","match_score":98},{"imdb_id":"tt8134186","type":"series","title":"Devs","match_score":96},{"imdb_id":"tt11280740","type":"series","title":"Severance","match_score":98}],"rejection_summary":"Current active feedback favored premise-driven experimental science, biology, mystery and suspense while keeping execution complaints title-specific and creature interest separate from chase-heavy presentation. All six researched candidates cleared the threshold and were new public identities; retracted chains contributed zero taste weight. Unsupported feedback schemas: 0."},
+    {"run_id":"2026-08-27-g1","timestamp":"2026-08-27T07:50:44Z","searched":8,"accepted":4,"rejected":3,"duplicates":1,"accepted_items":[{"imdb_id":"tt5723416","type":"movie","title":"The Beyond","match_score":89},{"imdb_id":"tt14190592","type":"series","title":"The Lazarus Project","match_score":94},{"imdb_id":"tt9169658","type":"series","title":"Emergence","match_score":91},{"imdb_id":"tt4568372","type":"series","title":"Residue","match_score":87}],"rejection_summary":"Current active evidence continued to favor premise-driven science, unusual phenomena, mystery, rule discovery and reality anomalies. Recent positive premise evidence around parallel-reality mystery strengthened weirdness and rule-driven concepts, while action and suspense preferences remained title- and tone-specific rather than content exclusions. One researched candidate was already present in the public watch catalog and was deduplicated. Unsupported feedback schemas: 0."}
   ]
 }
