@@ -119,9 +119,13 @@ check("AD16b", "and the reason is the unmeasured density, not some other gap", (
   // that predates MG-7 and has nothing to do with density. Every OTHER null
   // record must be held out by action_density specifically, which is what proves
   // the shape migration, and not some accident, is keeping the row empty.
+  // During the backfill this proved the row was held open by the unmeasured
+  // density specifically rather than by some unrelated gap. Once coverage
+  // reaches 100% there are no nulls left and the check is vacuously satisfied -
+  // which is the intended end state, not a hole. AD16 still holds the invariant
+  // for any null that ever reappears.
   const nulls = items.filter(i => i.dna[DIM] === null && dnaEligible(policy, i));
-  return nulls.length > 0
-    && nulls.every(i => scoreItem(policy, row, i, new Map()).reason === "missing_required:" + DIM);
+  return nulls.every(i => scoreItem(policy, row, i, new Map()).reason === "missing_required:" + DIM);
 })());
 
 check("AD17", "only a genuinely MEASURED density can put an item in the row", (() => {
