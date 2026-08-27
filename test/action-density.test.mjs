@@ -16,7 +16,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { makePolicy, scoreItem, requiredFor, dnaEligible } from "../scripts/dna-score.mjs";
+import { makePolicy, scoreItem, requiredFor, dnaEligible, bestArchetype, evalRule } from "../scripts/dna-score.mjs";
 import { CANONICAL_DIMENSIONS } from "../scripts/registry.mjs";
 
 let passed = 0, failed = 0;
@@ -228,6 +228,121 @@ check("AD25", "15 logical rows are declared", config.catalogs.length === 15, Str
 
 check("AD26", "the manifest id is unchanged",
   config.manifest.id === "com.github.wtfscifi.automated-watchlist", config.manifest.id);
+
+// ---------------------------------------------------------------- MG-7.3
+// The final action SEMANTICS. MG-7.2 fixed the dimensional mismatch by moving
+// the old action_intensity penalties onto action_density; MG-7.3 asked the
+// separate question of whether that inherited PREFERENCE should have survived
+// the rubric change at all, and concluded it should not.
+//
+// The intended end state:
+//   low-action excellent Sci-Fi is not punished for lacking action
+//   high-action excellent Sci-Fi gets a SMALL advantage, via archetypes only
+//   generic high-action weak-Sci-Fi is still strongly penalised
+
+// A realistic Sci-Fi shape: mid values everywhere, and the dimensions this
+// profile penalises set to 0 rather than 5. A fixture carrying military 5,
+// superhero 5 and comedy 5 is not a Sci-Fi title and would drag every score
+// down for reasons unrelated to what is being tested.
+const PENALISED = ["horror", "military_focus", "space_opera", "superhero",
+  "comic_book_universe", "comedy", "survival_chase", "creature_threat"];
+const fx = over => {
+  const dna = Object.fromEntries(registry.map(d => [d, 5]));
+  for (const n of PENALISED) dna[n] = 0;
+  return { imdb_id: "tt0000001", type: "movie", title: "fx", year: 2020, status: "watch",
+    dna_confidence: 0.9, dna: { ...dna, ...over } };
+};
+const dnaMatch = config.catalogs.find(c => c.id === "dna-match");
+const scoreOf = item => scoreItem(policy, dnaMatch, item, new Map()).score;
+const STRONG = { scientific_investigation: 8, rule_discovery: 8, concept_escalation: 8, mystery: 8, unknown_phenomenon: 8, suspense: 7 };
+const WEAK = { scientific_investigation: 2, rule_discovery: 2, concept_escalation: 2, mystery: 2, unknown_phenomenon: 2 };
+
+// -- A: the documentation matches the executable policy ----------------------
+{
+  const note = profile.dna_baseline.unweighted_note;
+  const stale = [
+    "is not required-known", "not required-known", "referenced by no guardrail",
+    "no guardrail references it", "awaiting", "until the backfill", "backfill reaches",
+    "descriptive-only for now", "It earns a scoring role only after the backfill"
+  ];
+  check("MG73-A1", "unweighted_note carries none of the stale MG-7 claims",
+    !stale.some(t => note.includes(t)), stale.filter(t => note.includes(t)).join(" | "));
+  check("MG73-A2", "and it states the two action dimensions ARE required-known and researched",
+    /REQUIRED-KNOWN AND FULLY RESEARCHED/i.test(note));
+  check("MG73-A3", "every dimension the note calls unweighted really is",
+    profile.dna_baseline.unweighted.every(d => !(d in profile.dna_baseline.weights)));
+}
+
+// -- B, C, D: completeness ---------------------------------------------------
+check("MG73-B", "action_density is required-known",
+  profile.dna_baseline.completeness_defaults.required_known_dimensions.includes("action_density"));
+check("MG73-C", "action_intensity is required-known even though it is unweighted",
+  profile.dna_baseline.completeness_defaults.required_known_dimensions.includes("action_intensity")
+  && !("action_intensity" in profile.dna_baseline.weights));
+check("MG73-D", "DNA Match requires all 28 dimensions", requiredFor(policy, dnaMatch).length === 28);
+
+// -- E, F: neither action dimension inherently lowers fit --------------------
+check("MG73-E", "raising PEAK FORCE alone never lowers a title's baseline fit", (() => {
+  const lo = scoreOf(fx({ ...STRONG, action_density: 2, action_intensity: 2 }));
+  const hi = scoreOf(fx({ ...STRONG, action_density: 2, action_intensity: 9 }));
+  return hi >= lo;
+})());
+check("MG73-F", "raising DENSITY alone never lowers an otherwise strong Sci-Fi title", (() => {
+  const lo = scoreOf(fx({ ...STRONG, action_density: 1, action_intensity: 6 }));
+  const hi = scoreOf(fx({ ...STRONG, action_density: 8, action_intensity: 6 }));
+  return hi >= lo;
+})());
+
+// -- G, H: action may help, absence of action must not hurt ------------------
+check("MG73-G", "a high-density strong-concept title is not worse than its low-density twin", (() => {
+  const lo = scoreOf(fx({ ...STRONG, action_density: 1, action_intensity: 6 }));
+  const hi = scoreOf(fx({ ...STRONG, action_density: 7, action_intensity: 7 }));
+  return hi >= lo;
+})());
+check("MG73-G2", "and an action archetype is what makes that possible", (() => {
+  const a = bestArchetype(policy, fx({ ...STRONG, action_density: 7, action_intensity: 7 }).dna);
+  return Boolean(a) && ["investigative_scifi_action", "rule_discovery_action", "high_concept_action"].includes(a.id);
+})());
+check("MG73-H", "a LOW-density strong-concept title still scores excellently",
+  scoreOf(fx({ ...STRONG, action_density: 0, action_intensity: 1 })) >= 80,
+  String(scoreOf(fx({ ...STRONG, action_density: 0, action_intensity: 1 }))));
+
+// -- I, J, K, L: the action-first guardrail -----------------------------------
+const guard = profile.dna_guardrails.combination.find(c => c.id === "action_first_without_investigation");
+const firesOn = over => evalRule(guard, fx(over).dna);
+check("MG73-I", "high density + weak substance IS action-first",
+  firesOn({ ...WEAK, action_density: 8, action_intensity: 8 }));
+check("MG73-J", "low scientific_investigation but HIGH rule/mystery/concept is NOT action-first",
+  !firesOn({ scientific_investigation: 2, rule_discovery: 9, mystery: 8, concept_escalation: 8, action_density: 8, action_intensity: 8 }));
+check("MG73-K", "military 8 WITH strong discovery/concept is NOT action-first",
+  !firesOn({ scientific_investigation: 2, rule_discovery: 9, mystery: 8, concept_escalation: 8, military_focus: 8, action_density: 4 }));
+check("MG73-L", "military 8 WITH weak discovery/concept IS action-first",
+  firesOn({ ...WEAK, military_focus: 8, action_density: 4 }));
+check("MG73-J2", "and the strong-concept high-action title still scores well",
+  scoreOf(fx({ scientific_investigation: 2, rule_discovery: 9, mystery: 8, concept_escalation: 8, unknown_phenomenon: 7, action_density: 8, action_intensity: 8 })) >= 70);
+
+// -- M: no blind action penalty survives anywhere -----------------------------
+check("MG73-M", "no archetype penalises action_density or action_intensity",
+  profile.dna_baseline.archetypes.every(a => !a.penalise
+    || (!("action_density" in a.penalise) && !("action_intensity" in a.penalise))),
+  profile.dna_baseline.archetypes.filter(a => a.penalise && ("action_density" in a.penalise || "action_intensity" in a.penalise)).map(a => a.id).join(", "));
+check("MG73-M2", "and every action archetype requires REAL Sci-Fi substance, never density alone",
+  profile.dna_baseline.archetypes
+    .filter(a => a.requires.some(r => r.dimension === "action_density"))
+    .every(a => a.requires.length >= 2
+      && a.requires.some(r => ["scientific_investigation", "rule_discovery", "concept_escalation", "mystery"].includes(r.dimension))));
+
+// -- P, Q: things that must not have moved ------------------------------------
+check("MG73-P", "action_density is still barred from feedback projection", (() => {
+  const text = fs.readFileSync("DAILY_AUTOMATION_PROMPT.md", "utf8");
+  const fence = text.split(String.fromCharCode(96, 96, 96)).filter((_, i) => i % 2 === 1)[0] || "";
+  return fence.includes("horror, action_density, action_intensity")
+    && !/CONTENT-PROJECTABLE dimensions are exactly:[^.]*action_density/.test(fence);
+})());
+check("MG73-Q", "horror policy is untouched: weight -6, contextual, never hard-excluded",
+  profile.dna_baseline.weights.horror === -6
+  && profile.dna_guardrails.combination.some(c => c.id === "horror_without_science_or_mystery" && c.penalty === -30)
+  && !profile.dna_guardrails.hard_exclusion.some(h => h.dimension === "horror"));
 
 // ---------------------------------------------------------------- coverage report
 {

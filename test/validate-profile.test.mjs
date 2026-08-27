@@ -254,12 +254,12 @@ check("W ", "all_of true + empty any_of fires", fires(creatureChase, {
 
 // X: all_of true, non-empty any_of all false -> does not fire
 check("X ", "all_of true + non-empty any_of all false does not fire", !fires(actionFirst, {
-  scientific_investigation: 2, space_opera: 0, military_focus: 0, action_intensity: 0
+  scientific_investigation: 2, rule_discovery: 1, concept_escalation: 1, mystery: 1, space_opera: 0, military_focus: 0, action_density: 0
 }));
 
 // Y: all_of true, one any_of true -> fires
 check("Y ", "all_of true + one any_of true fires", fires(actionFirst, {
-  scientific_investigation: 2, space_opera: 0, military_focus: 7, action_intensity: 0
+  scientific_investigation: 2, rule_discovery: 1, concept_escalation: 1, mystery: 1, space_opera: 0, military_focus: 0, action_density: 8
 }));
 
 // Z: a null dimension makes its condition false, in both directions
@@ -375,11 +375,17 @@ check("AF1", "item with superhero=null is NOT DNA-score-eligible", !eligible(enr
 check("AF2", "item with superhero=null is NOT hard-excluded either", !hardExcluded(enriched({ superhero: null })));
 check("AF3", "item below min_confidence is NOT eligible", !eligible({ ...enriched(), dna_confidence: 0.5 }));
 check("AF4", "item below min_known_dimensions is NOT eligible", (() => {
+  // Strip OPTIONAL dimensions until exactly min_known - 1 remain known, keeping
+  // every required one measured. Deriving the target from min_known rather than
+  // from required_known.length matters now that required_known may be STRICTER
+  // than the guardrail minimum: action_intensity is required-known with no
+  // guardrail referencing it, so the two counts no longer move together.
   const item = enriched();
-  // strip down to 17 known dimensions, keeping every required one known
   const optional = CANONICAL_DIMENSIONS.filter(d => !CD.required_known_dimensions.includes(d));
-  for (const id of optional.slice(0, optional.length - 2)) item.dna[id] = null;
-  return !eligible(item);
+  const target = CD.min_known_dimensions - 1;
+  let known = CANONICAL_DIMENSIONS.length;
+  for (const id of optional) { if (known <= target) break; item.dna[id] = null; known--; }
+  return known === target && !eligible(item);
 })());
 check("AG1", "fully enriched item IS eligible", eligible(enriched()));
 check("AG2", "eligible item with superhero=8 IS hard-excluded", hardExcluded(enriched({ superhero: 8 })));
@@ -408,7 +414,14 @@ check("REG", "required_known_dimensions covers every guardrail-referenced dimens
     for (const c of [...r.all_of, ...r.any_of]) referenced.add(c.dimension);
   }
   const required = new Set(CD.required_known_dimensions);
-  return [...referenced].every(d => required.has(d)) && referenced.size === required.size;
+  // SUPERSET, NOT EQUALITY. The guardrail-referenced set is the FLOOR: an item
+  // must never dodge a guardrail through an unknown value. Product-level
+  // research completeness is a separate, stricter concern - MG-7.3 keeps
+  // action_intensity required-known although no guardrail reads it any more,
+  // because a discovery that never measured how hard its action hits is not
+  // finished. Demanding exact equality would force us to stop measuring a
+  // dimension the moment it stopped gating a rule.
+  return [...referenced].every(d => required.has(d));
 })(), `required=${CD.required_known_dimensions.length}`);
 check("REG", "superhero rubric 10 does not mention comic-book structure",
   !SCHEMA3.dna_dimensions.dimensions.find(d => d.id === "superhero").rubric["10"].includes("comic"));

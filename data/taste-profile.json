@@ -561,7 +561,6 @@
       "isolation": 0,
       "comedy": -4,
       "horror": -6,
-      "action_intensity": -8,
       "survival_chase": -10,
       "military_focus": -12
     },
@@ -570,9 +569,10 @@
       "pace_speed",
       "space_opera",
       "superhero",
-      "comic_book_universe"
+      "comic_book_universe",
+      "action_intensity"
     ],
-    "unweighted_note": "These five carry no linear baseline weight. pace_speed is meaningful only in combination (see dna_guardrails.combination.slow_without_discovery). Three of them - space_opera, superhero and comic_book_universe - are handled entirely by dna_guardrails so that a descriptive measurement is never confused with a policy decision. action_density is UNWEIGHTED ON PURPOSE at MG-7: it is descriptive-only for now, it is not required-known, and no guardrail references it, so every legacy record carrying action_density null keeps scoring exactly as it did. It earns a scoring role only after the backfill reaches full coverage. weights and unweighted are disjoint and their union is exactly the 28 registry ids.",
+    "unweighted_note": "These six carry no linear baseline weight, and each for its own reason. pace_speed is meaningful only in combination (see dna_guardrails.combination.slow_without_discovery). space_opera, superhero and comic_book_universe are handled entirely by dna_guardrails so that a descriptive measurement is never confused with a policy decision. action_density and action_intensity are unweighted BY CALIBRATION, not because they are unmeasured: the baseline is a normalised weighted average, so a positive weight on a dimension the corpus scores low on behaves as a new requirement rather than a bonus - measured over the completed 127-title set, a positive action_density weight would have raised only the 19 lowest-scoring titles and lowered the other 95, and a negative action_intensity weight penalised titles purely for having forceful sequences. BOTH ARE REQUIRED-KNOWN AND FULLY RESEARCHED. action_density is referenced by dna_guardrails.combination.action_first_without_investigation and by the three action archetypes; sustained action earns its advantage there, through the archetype path, never through the linear average. weights and unweighted are disjoint and their union is exactly the 28 registry ids.",
     "completeness_defaults": {
       "min_known_dimensions": 18,
       "min_confidence": 0.6,
@@ -591,9 +591,10 @@
         "mystery",
         "pace_speed",
         "concept_escalation",
-        "action_density"
+        "action_density",
+        "action_intensity"
       ],
-      "note": "Baseline DNA score-eligibility. An item must satisfy ALL THREE conditions to be scored by the DNA path. required_known_dimensions must contain every dimension referenced ANYWHERE in dna_guardrails - hard_exclusion, combination all_of and combination any_of - so that an item can never pass a structural guardrail or dodge a combination penalty merely because the relevant dimension is unknown. An ineligible item is NOT excluded and NOT penalised by DNA; it falls back to the existing stable baseline ranking path until enrichment fills the missing values. Individual catalog rows may override these defaults in config/catalogs.json at F2-8, but may never remove a guardrail-referenced dimension from the required set."
+      "note": "Baseline DNA score-eligibility. An item must satisfy ALL THREE conditions to be scored by the DNA path. required_known_dimensions must contain every dimension referenced ANYWHERE in dna_guardrails - hard_exclusion, combination all_of and combination any_of - so that an item can never pass a structural guardrail or dodge a combination penalty merely because the relevant dimension is unknown. It MAY be stricter than that minimum: product-level research completeness is a separate concern from the guardrail floor, and action_intensity is required-known even though no guardrail references it, because a discovery that has not measured how hard its action hits is not finished. An ineligible item is NOT excluded and NOT penalised by DNA; it falls back to the existing stable baseline ranking path until enrichment fills the missing values. Individual catalog rows may override these defaults in config/catalogs.json at F2-8, but may never remove a guardrail-referenced dimension from the required set."
     },
     "archetypes": [
       {
@@ -616,8 +617,7 @@
           "mystery": 5
         },
         "penalise": {
-          "survival_chase": 4,
-          "action_density": 3
+          "survival_chase": 4
         }
       },
       {
@@ -643,8 +643,7 @@
           "concept_escalation": 6
         },
         "penalise": {
-          "military_focus": 5,
-          "action_density": 4
+          "military_focus": 5
         }
       },
       {
@@ -664,9 +663,6 @@
           "weirdness": 7,
           "mystery": 7,
           "unknown_phenomenon": 6
-        },
-        "penalise": {
-          "action_density": 3
         }
       },
       {
@@ -694,9 +690,6 @@
           "mind_consciousness": 8,
           "concept_escalation": 8,
           "weirdness": 6
-        },
-        "penalise": {
-          "action_density": 3
         }
       },
       {
@@ -743,12 +736,87 @@
         "penalise": {
           "space_opera": 6,
           "superhero": 8,
-          "survival_chase": 4,
-          "action_density": 4
+          "survival_chase": 4
+        }
+      },
+      {
+        "id": "investigative_scifi_action",
+        "label": "Investigative Sci-Fi Action",
+        "weight": 1,
+        "requires_mode": "all",
+        "requires": [
+          {
+            "dimension": "action_density",
+            "at_or_above": 5
+          },
+          {
+            "dimension": "scientific_investigation",
+            "at_or_above": 5
+          }
+        ],
+        "emphasis": {
+          "scientific_investigation": 9,
+          "action_density": 8,
+          "unknown_phenomenon": 7,
+          "mystery": 6,
+          "suspense": 6,
+          "action_intensity": 5
+        }
+      },
+      {
+        "id": "rule_discovery_action",
+        "label": "Rule-Discovery Action",
+        "weight": 1,
+        "requires_mode": "all",
+        "requires": [
+          {
+            "dimension": "action_density",
+            "at_or_above": 5
+          },
+          {
+            "dimension": "rule_discovery",
+            "at_or_above": 5
+          }
+        ],
+        "emphasis": {
+          "rule_discovery": 9,
+          "action_density": 8,
+          "concept_escalation": 7,
+          "mystery": 6,
+          "suspense": 6,
+          "action_intensity": 5
+        }
+      },
+      {
+        "id": "high_concept_action",
+        "label": "High-Concept Action",
+        "weight": 1,
+        "requires_mode": "all",
+        "requires": [
+          {
+            "dimension": "action_density",
+            "at_or_above": 5
+          },
+          {
+            "dimension": "concept_escalation",
+            "at_or_above": 5
+          },
+          {
+            "dimension": "mystery",
+            "at_or_above": 5
+          }
+        ],
+        "emphasis": {
+          "concept_escalation": 9,
+          "mystery": 8,
+          "action_density": 8,
+          "unknown_phenomenon": 6,
+          "suspense": 6,
+          "action_intensity": 5
         }
       }
     ],
-    "archetype_note": "Scoring takes the BEST-matching archetype, never an average across them. Averaging distinct interests produces a mediocre midpoint and erases exactly the clusters this profile exists to find. requires_mode is mandatory on every archetype and has no default: 'all' means every entry in requires must hold, 'any' means at least one must hold. An archetype whose requires cannot be evaluated because the referenced dimensions are unknown simply does not match. Consumed by build-site.mjs at F2-8; unused in F2-6."
+    "archetype_note": "Scoring takes the BEST-matching archetype, never an average across them. Averaging distinct interests produces a mediocre midpoint and erases exactly the clusters this profile exists to find. requires_mode is mandatory on every archetype and has no default: 'all' means every entry in requires must hold, 'any' means at least one must hold. An archetype whose requires cannot be evaluated because the referenced dimensions are unknown simply does not match. The three action archetypes added at MG-7.3 are the ONLY route by which sustained action improves a general DNA Match score, and each requires action_density >= 5 TOGETHER WITH real Sci-Fi substance - investigation, rule discovery, or concept escalation plus mystery. None rewards density alone, and because scoring takes the single best-matching archetype rather than a sum, action flavours cannot stack. Consumed by build-site.mjs at F2-8; unused in F2-6."
   },
   "dna_guardrails": {
     "description": "Policy applied to descriptive DNA measurements. Not learnable away by ordinary feedback; changing these requires a deliberate edit of this file.",
@@ -776,6 +844,18 @@
           {
             "dimension": "scientific_investigation",
             "at_or_below": 3
+          },
+          {
+            "dimension": "rule_discovery",
+            "at_or_below": 5
+          },
+          {
+            "dimension": "concept_escalation",
+            "at_or_below": 5
+          },
+          {
+            "dimension": "mystery",
+            "at_or_below": 5
           }
         ],
         "any_of": [
@@ -792,7 +872,7 @@
             "at_or_above": 6
           }
         ],
-        "note": "negative_signals #3. Space, military and action are each fine when investigation is present; this fires only when it is not."
+        "note": "negative_signals #3, rewritten at MG-7.3. HIGH ACTION IS NOT THE PROBLEM. Space, military and sustained action are all fine when the title carries real Sci-Fi substance, so this fires only when scientific investigation AND rule discovery AND concept escalation AND mystery are all weak at the same time. A title with low literal scientific_investigation but strong rule discovery, mystery or concept escalation is doing Sci-Fi work by another route and is deliberately spared."
       },
       {
         "id": "creature_chase_without_investigation",
