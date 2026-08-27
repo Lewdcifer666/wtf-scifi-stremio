@@ -182,7 +182,7 @@ function cloneItem(source, overrides) {
     const lib = JSON.parse(fs.readFileSync("data/library.json", "utf8"));
     return ["tt3839880", "tt1017460"].every(id => {
       const item = lib.items.find(i => i.imdb_id === id);
-      return item && item.dna && Object.keys(item.dna).length === 27;
+      return item && item.dna && Object.keys(item.dna).length === 28;
     });
   })());
 }

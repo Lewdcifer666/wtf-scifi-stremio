@@ -19,7 +19,7 @@
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-26-e1",
       "source": "https://www.imdb.com/title/tt1773389/ ; https://www.rottentomatoes.com/m/einsteins_god_model",
-      "dna": {"scientific_investigation":10,"biology_genetics":1,"alien_unknown_life":0,"unknown_phenomenon":8,"mystery":8,"suspense":6,"rule_discovery":7,"concept_escalation":8,"weirdness":8,"reality_anomaly":7,"time_anomaly":3,"mind_consciousness":9,"experiments":10,"conspiracy":5,"scientist_presence":10,"research_setting":9,"isolation":6,"creature_threat":0,"survival_chase":2,"horror":5,"action_intensity":2,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":4},
+      "dna": {"scientific_investigation":10,"biology_genetics":1,"alien_unknown_life":0,"unknown_phenomenon":8,"mystery":8,"suspense":6,"rule_discovery":7,"concept_escalation":8,"weirdness":8,"reality_anomaly":7,"time_anomaly":3,"mind_consciousness":9,"experiments":10,"conspiracy":5,"scientist_presence":10,"research_setting":9,"isolation":6,"creature_threat":0,"survival_chase":2,"horror":5,"action_density":null,"action_intensity":2,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":4},
       "dna_confidence": 0.88,
       "dna_tags": ["lab", "dimension", "experiment_gone_wrong"]
     },
@@ -39,7 +39,7 @@
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-26-e1",
       "source": "https://www.imdb.com/title/tt3153582/ ; https://v3-cinemeta.strem.io/meta/movie/tt3153582.json ; https://www.rottentomatoes.com/m/listening_2014",
-      "dna": {"scientific_investigation":9,"biology_genetics":3,"alien_unknown_life":0,"unknown_phenomenon":4,"mystery":6,"suspense":7,"rule_discovery":6,"concept_escalation":8,"weirdness":5,"reality_anomaly":2,"time_anomaly":0,"mind_consciousness":10,"experiments":10,"conspiracy":8,"scientist_presence":9,"research_setting":8,"isolation":4,"creature_threat":0,"survival_chase":4,"horror":3,"action_intensity":4,"military_focus":3,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":6},
+      "dna": {"scientific_investigation":9,"biology_genetics":3,"alien_unknown_life":0,"unknown_phenomenon":4,"mystery":6,"suspense":7,"rule_discovery":6,"concept_escalation":8,"weirdness":5,"reality_anomaly":2,"time_anomaly":0,"mind_consciousness":10,"experiments":10,"conspiracy":8,"scientist_presence":9,"research_setting":8,"isolation":4,"creature_threat":0,"survival_chase":4,"horror":3,"action_density":null,"action_intensity":4,"military_focus":3,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":6},
       "dna_confidence": 0.9,
       "dna_tags": ["lab", "experiment_gone_wrong"]
     },
@@ -59,7 +59,7 @@
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-26-e1",
       "source": "https://www.imdb.com/title/tt2049543/ ; https://v3-cinemeta.strem.io/meta/movie/tt2049543.json ; https://en.wikipedia.org/wiki/Synchronicity_(film)",
-      "dna": {"scientific_investigation":8,"biology_genetics":0,"alien_unknown_life":0,"unknown_phenomenon":6,"mystery":8,"suspense":7,"rule_discovery":8,"concept_escalation":8,"weirdness":7,"reality_anomaly":8,"time_anomaly":10,"mind_consciousness":3,"experiments":9,"conspiracy":7,"scientist_presence":9,"research_setting":7,"isolation":3,"creature_threat":0,"survival_chase":3,"horror":2,"action_intensity":3,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":5},
+      "dna": {"scientific_investigation":8,"biology_genetics":0,"alien_unknown_life":0,"unknown_phenomenon":6,"mystery":8,"suspense":7,"rule_discovery":8,"concept_escalation":8,"weirdness":7,"reality_anomaly":8,"time_anomaly":10,"mind_consciousness":3,"experiments":9,"conspiracy":7,"scientist_presence":9,"research_setting":7,"isolation":3,"creature_threat":0,"survival_chase":3,"horror":2,"action_density":null,"action_intensity":3,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":5},
       "dna_confidence": 0.92,
       "dna_tags": ["lab", "dimension", "experiment_gone_wrong"]
     },
@@ -79,7 +79,7 @@
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-26-e1",
       "source": "https://www.imdb.com/title/tt6179746/ ; https://www.rottentomatoes.com/m/the_gateway_2018",
-      "dna": {"scientific_investigation":8,"biology_genetics":0,"alien_unknown_life":0,"unknown_phenomenon":6,"mystery":6,"suspense":6,"rule_discovery":7,"concept_escalation":7,"weirdness":6,"reality_anomaly":10,"time_anomaly":2,"mind_consciousness":2,"experiments":10,"conspiracy":2,"scientist_presence":9,"research_setting":9,"isolation":3,"creature_threat":0,"survival_chase":3,"horror":2,"action_intensity":3,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":5},
+      "dna": {"scientific_investigation":8,"biology_genetics":0,"alien_unknown_life":0,"unknown_phenomenon":6,"mystery":6,"suspense":6,"rule_discovery":7,"concept_escalation":7,"weirdness":6,"reality_anomaly":10,"time_anomaly":2,"mind_consciousness":2,"experiments":10,"conspiracy":2,"scientist_presence":9,"research_setting":9,"isolation":3,"creature_threat":0,"survival_chase":3,"horror":2,"action_density":null,"action_intensity":3,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":5},
       "dna_confidence": 0.92,
       "dna_tags": ["lab", "parallel_reality", "dimension", "experiment_gone_wrong"]
     },
@@ -99,7 +99,7 @@
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-26-e1",
       "source": "https://www.imdb.com/title/tt6544220/ ; https://en.wikipedia.org/wiki/The_Mandela_Effect_(film)",
-      "dna": {"scientific_investigation":5,"biology_genetics":0,"alien_unknown_life":0,"unknown_phenomenon":9,"mystery":9,"suspense":7,"rule_discovery":8,"concept_escalation":9,"weirdness":9,"reality_anomaly":10,"time_anomaly":5,"mind_consciousness":7,"experiments":7,"conspiracy":3,"scientist_presence":4,"research_setting":4,"isolation":5,"creature_threat":0,"survival_chase":2,"horror":5,"action_intensity":2,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":5},
+      "dna": {"scientific_investigation":5,"biology_genetics":0,"alien_unknown_life":0,"unknown_phenomenon":9,"mystery":9,"suspense":7,"rule_discovery":8,"concept_escalation":9,"weirdness":9,"reality_anomaly":10,"time_anomaly":5,"mind_consciousness":7,"experiments":7,"conspiracy":3,"scientist_presence":4,"research_setting":4,"isolation":5,"creature_threat":0,"survival_chase":2,"horror":5,"action_density":null,"action_intensity":2,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":5},
       "dna_confidence": 0.9,
       "dna_tags": ["simulation", "parallel_reality", "dimension"]
     },
@@ -119,7 +119,7 @@
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-26-e1",
       "source": "https://www.imdb.com/title/tt0452573/ ; https://en.wikipedia.org/wiki/The_Triangle_(miniseries)",
-      "dna": {"scientific_investigation":8,"biology_genetics":0,"alien_unknown_life":0,"unknown_phenomenon":10,"mystery":9,"suspense":8,"rule_discovery":8,"concept_escalation":9,"weirdness":8,"reality_anomaly":9,"time_anomaly":9,"mind_consciousness":3,"experiments":7,"conspiracy":8,"scientist_presence":7,"research_setting":5,"isolation":4,"creature_threat":0,"survival_chase":4,"horror":2,"action_intensity":6,"military_focus":4,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":7},
+      "dna": {"scientific_investigation":8,"biology_genetics":0,"alien_unknown_life":0,"unknown_phenomenon":10,"mystery":9,"suspense":8,"rule_discovery":8,"concept_escalation":9,"weirdness":8,"reality_anomaly":9,"time_anomaly":9,"mind_consciousness":3,"experiments":7,"conspiracy":8,"scientist_presence":7,"research_setting":5,"isolation":4,"creature_threat":0,"survival_chase":4,"horror":2,"action_density":null,"action_intensity":6,"military_focus":4,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":7},
       "dna_confidence": 0.93,
       "dna_tags": ["underwater", "dimension", "experiment_gone_wrong"]
     },
@@ -139,7 +139,7 @@
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-26-e1",
       "source": "https://www.imdb.com/title/tt8005176/ ; https://www.rottentomatoes.com/tv/the_feed",
-      "dna": {"scientific_investigation":6,"biology_genetics":1,"alien_unknown_life":0,"unknown_phenomenon":8,"mystery":8,"suspense":8,"rule_discovery":7,"concept_escalation":8,"weirdness":7,"reality_anomaly":3,"time_anomaly":0,"mind_consciousness":10,"experiments":8,"conspiracy":7,"scientist_presence":6,"research_setting":5,"isolation":2,"creature_threat":0,"survival_chase":4,"horror":3,"action_intensity":4,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":6},
+      "dna": {"scientific_investigation":6,"biology_genetics":1,"alien_unknown_life":0,"unknown_phenomenon":8,"mystery":8,"suspense":8,"rule_discovery":7,"concept_escalation":8,"weirdness":7,"reality_anomaly":3,"time_anomaly":0,"mind_consciousness":10,"experiments":8,"conspiracy":7,"scientist_presence":6,"research_setting":5,"isolation":2,"creature_threat":0,"survival_chase":4,"horror":3,"action_density":null,"action_intensity":4,"military_focus":0,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":6},
       "dna_confidence": 0.88,
       "dna_tags": ["lab", "experiment_gone_wrong"]
     },
@@ -159,7 +159,7 @@
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-26-e1",
       "source": "https://www.imdb.com/title/tt2758950/ ; https://en.wikipedia.org/wiki/Helix_(TV_series)",
-      "dna": {"scientific_investigation":10,"biology_genetics":10,"alien_unknown_life":0,"unknown_phenomenon":8,"mystery":8,"suspense":8,"rule_discovery":7,"concept_escalation":9,"weirdness":7,"reality_anomaly":1,"time_anomaly":0,"mind_consciousness":4,"experiments":10,"conspiracy":9,"scientist_presence":10,"research_setting":10,"isolation":10,"creature_threat":6,"survival_chase":7,"horror":7,"action_intensity":5,"military_focus":3,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":7},
+      "dna": {"scientific_investigation":10,"biology_genetics":10,"alien_unknown_life":0,"unknown_phenomenon":8,"mystery":8,"suspense":8,"rule_discovery":7,"concept_escalation":9,"weirdness":7,"reality_anomaly":1,"time_anomaly":0,"mind_consciousness":4,"experiments":10,"conspiracy":9,"scientist_presence":10,"research_setting":10,"isolation":10,"creature_threat":6,"survival_chase":7,"horror":7,"action_density":null,"action_intensity":5,"military_focus":3,"space_opera":0,"superhero":0,"comic_book_universe":0,"comedy":0,"pace_speed":7},
       "dna_confidence": 0.94,
       "dna_tags": ["research_station", "lab", "infection", "mutation", "containment", "experiment_gone_wrong"]
     }

@@ -31,6 +31,7 @@ export const CANONICAL_DIMENSIONS = [
   "creature_threat",
   "survival_chase",
   "horror",
+  "action_density",
   "action_intensity",
   "military_focus",
   "space_opera",

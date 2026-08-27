@@ -179,8 +179,8 @@
     "favorite"
   ],
   "dna_dimensions": {
-    "registry_version": 1,
-    "count": 27,
+    "registry_version": 2,
+    "count": 28,
     "scale": {
       "min": 0,
       "max": 10,
@@ -192,7 +192,7 @@
       "unknown_is_not_zero": "Missing or null means UNKNOWN, never 'definitely absent'. Never substitute 0.",
       "unknown_never_satisfies": "A threshold comparison against an unknown value is false in both directions. Unknown can never satisfy a positive or a negative test.",
       "unknown_is_not_safe": "Unknown must not be read as 'passes the guardrail'. An item is not DNA-score-eligible unless every dimension referenced ANYWHERE in dna_guardrails is known - hard_exclusion, combination all_of and combination any_of alike. See dna_baseline.completeness_defaults.required_known_dimensions.",
-      "independent_dimensions": "creature_threat and survival_chase are separate information and must never be combined, averaged or substituted for one another, here or in any downstream consumer."
+      "independent_dimensions": "creature_threat and survival_chase are separate information and must never be combined, averaged or substituted for one another, here or in any downstream consumer. The same holds for action_density and action_intensity: action_density is HOW MUCH of the runtime contains action, action_intensity is HOW HARD that action hits WHEN it occurs. Neither may be derived from the other, from a trailer, from pace_speed or from a genre label, and action_density requires whole-runtime or whole-season structural evidence. Every record predating the MG-7 shape migration carries action_density null, meaning not yet measured - null is never zero, so such a record cannot satisfy a gate, cannot dodge a guardrail and must never be read as having no action. The action_intensity rubric was corrected at MG-7 to mean peak force rather than runtime share; values recorded before that correction were assessed under the older density-contaminated rubric and are NOT corrected by the text change alone."
     },
     "tag_registry": [
       "glacier",
@@ -445,14 +445,27 @@
         }
       },
       {
+        "id": "action_density",
+        "label": "Action Density",
+        "direction": "absent_to_dominant",
+        "rubric": {
+          "0": "essentially no action across the runtime",
+          "3": "a few isolated action scenes in an otherwise low-action runtime",
+          "5": "action recurs regularly, roughly a third of the runtime",
+          "8": "action occupies most of the runtime",
+          "10": "near-continuous action"
+        }
+      },
+      {
         "id": "action_intensity",
         "label": "Action Intensity",
         "direction": "absent_to_dominant",
         "rubric": {
           "0": "none",
-          "5": "regular action",
-          "8": "action-forward",
-          "10": "action-driven throughout"
+          "3": "minor scuffles",
+          "5": "ordinary force and stakes when action occurs",
+          "8": "large, punishing set pieces",
+          "10": "peak sequences are extreme in force, scale and stakes"
         }
       },
       {
@@ -553,12 +566,13 @@
       "military_focus": -12
     },
     "unweighted": [
+      "action_density",
       "pace_speed",
       "space_opera",
       "superhero",
       "comic_book_universe"
     ],
-    "unweighted_note": "These four carry no linear baseline weight. pace_speed is meaningful only in combination (see dna_guardrails.combination.slow_without_discovery). The other three are handled entirely by dna_guardrails so that a descriptive measurement is never confused with a policy decision. weights and unweighted are disjoint and their union is exactly the 27 registry ids.",
+    "unweighted_note": "These five carry no linear baseline weight. pace_speed is meaningful only in combination (see dna_guardrails.combination.slow_without_discovery). Three of them - space_opera, superhero and comic_book_universe - are handled entirely by dna_guardrails so that a descriptive measurement is never confused with a policy decision. action_density is UNWEIGHTED ON PURPOSE at MG-7: it is descriptive-only for now, it is not required-known, and no guardrail references it, so every legacy record carrying action_density null keeps scoring exactly as it did. It earns a scoring role only after the backfill reaches full coverage. weights and unweighted are disjoint and their union is exactly the 28 registry ids.",
     "completeness_defaults": {
       "min_known_dimensions": 18,
       "min_confidence": 0.6,

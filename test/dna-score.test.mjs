@@ -50,10 +50,10 @@ console.log("F2-8 DNA scoring");
 console.log("");
 
 // ---------------------------------------------------------------- config
-check("C1", "config declares 14 catalog definitions", config.catalogs.length === 14, `got ${config.catalogs.length}`);
+check("C1", "config declares 15 catalog definitions", config.catalogs.length === 15, `got ${config.catalogs.length}`);
 check("C2", "config schema_version is 2", config.schema_version === 2);
-check("C3", "manifest.version is 2.1.0", config.manifest.version === "2.1.0");
-check("C4", "five DNA rows are declared", DNA_DEFS.length === 5, DNA_DEFS.map(d => d.id).join(","));
+check("C3", "manifest.version is 2.2.0", config.manifest.version === "2.2.0");
+check("C4", "six DNA rows are declared", DNA_DEFS.length === 6, DNA_DEFS.map(d => d.id).join(","));
 check("C5", "archetype_bonus_max = 25", def("dna-match").dna.archetype_bonus_max === 25, String(def("dna-match").dna.archetype_bonus_max));
 check("C6", "High Suspense min_score = 60", def("high-suspense").min_score === 60, String(def("high-suspense").min_score));
 for (const id of ["dna-match", "fringe-dna", "investigation-first", "concept-escalating"]) {
@@ -143,7 +143,19 @@ check("C9", "penalty scale is derived, not authored", Math.abs(policy.penaltySca
   check("F1d2", "0 and 10 on the same dimension produce different scores",
     r4b.score > r4.score, `${r4.score} vs ${r4b.score}`);
 
-  check("F1e", "DNA Match requires all 27 dimensions", requiredFor(policy, def("dna-match")).length === 27,
+  // 27 OF 28, AND THAT IS THE WHOLE POINT OF THE ADDITIVE MIGRATION.
+  //
+  // requiredFor() adds every WEIGHTS key for a baseline_profile row, so any
+  // dimension placed in dna_baseline.weights instantly becomes mandatory for
+  // DNA Match. action_density is deliberately UNWEIGHTED and not required-known,
+  // so it is absent from this set and the 127 legacy records that carry
+  // action_density null keep scoring exactly as they did before MG-7.
+  //
+  // If this ever reads 28, the MG-7.2 policy flip has happened - and it must not
+  // happen until legacy density coverage is complete, or DNA Match empties.
+  check("F1e", "DNA Match requires 27 of the 28 dimensions - NOT action_density",
+    requiredFor(policy, def("dna-match")).length === 27
+    && !requiredFor(policy, def("dna-match")).includes("action_density"),
     String(requiredFor(policy, def("dna-match")).length));
   check("F1f", "row required set = baseline required U gate U weights U penalties", (() => {
     const req = new Set(requiredFor(policy, def("high-suspense")));
@@ -153,9 +165,35 @@ check("C9", "penalty scale is derived, not authored", Math.abs(policy.penaltySca
       && Object.keys(cfg.penalties).every(d => req.has(d))
       && [...cfg.gate.all_of, ...cfg.gate.any_of].every(c => req.has(c.dimension));
   })());
-  check("F1g", "current F2-7 vectors are complete, so nothing is missing_required",
-    items.filter(i => dnaEligible(policy, i)).every(it =>
-      DNA_DEFS.every(d => !(scoreItem(policy, d, it, new Map()).reason || "").startsWith("missing_required"))));
+  // MG-7 CHANGED THIS CONTRACT ON PURPOSE, SO THE ASSERTION GOT STRONGER.
+  //
+  // Before MG-7 every vector was complete for every row, so "nothing is ever
+  // missing_required" held trivially. The additive scifi-action row gates on
+  // action_density, which is null on every record predating the shape
+  // migration, so that row now reports missing_required - by design, and it is
+  // why the row is empty until the backfill runs.
+  //
+  // Asserting "nothing is missing" would now be false; deleting the assertion
+  // would lose the protection. So it pins the exact blast radius instead: the
+  // ONLY row allowed to report missing_required is scifi-action, and the ONLY
+  // dimension it may report is action_density. If the migration ever leaked
+  // into a pre-existing row, or a second dimension went unmeasured, this fails.
+  check("F1g", "the ONLY missing_required is action_density on scifi-action", (() => {
+    for (const it of items.filter(i => dnaEligible(policy, i))) {
+      for (const d of DNA_DEFS) {
+        const reason = scoreItem(policy, d, it, new Map()).reason || "";
+        if (!reason.startsWith("missing_required")) continue;
+        if (d.id !== "scifi-action") return false;
+        if (reason !== "missing_required:action_density") return false;
+      }
+    }
+    return true;
+  })());
+  check("F1h", "every PRE-EXISTING DNA row still scores every eligible item", (() => {
+    const preExisting = DNA_DEFS.filter(d => d.id !== "scifi-action");
+    return items.filter(i => dnaEligible(policy, i)).every(it =>
+      preExisting.every(d => !(scoreItem(policy, d, it, new Map()).reason || "").startsWith("missing_required")));
+  })());
 }
 
 // ---------------------------------------------------------------- FIX 2: clamp before guardrails

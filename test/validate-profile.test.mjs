@@ -389,10 +389,10 @@ check("AG4", "eligible item with comic_book_universe=7 IS hard-excluded", hardEx
 // ---------------------------------------------------------------------------
 // Registry invariants
 // ---------------------------------------------------------------------------
-check("REG", "profile declares exactly 27 dimensions", SCHEMA3.dna_dimensions.dimensions.length === 27, `got ${SCHEMA3.dna_dimensions.dimensions.length}`);
-check("REG", "profile count field is 27", SCHEMA3.dna_dimensions.count === 27);
+check("REG", "profile declares exactly 28 dimensions", SCHEMA3.dna_dimensions.dimensions.length === 28, `got ${SCHEMA3.dna_dimensions.dimensions.length}`);
+check("REG", "profile count field is 28", SCHEMA3.dna_dimensions.count === 28);
 check("REG", "profile declares exactly 20 DNA tags", SCHEMA3.dna_dimensions.tag_registry.length === 20, `got ${SCHEMA3.dna_dimensions.tag_registry.length}`);
-check("REG", "canonical dimension list is 27", CANONICAL_DIMENSIONS.length === 27);
+check("REG", "canonical dimension list is 28", CANONICAL_DIMENSIONS.length === 28);
 check("REG", "canonical DNA tag list is 20", CANONICAL_DNA_TAGS.length === 20);
 check("REG", "creature_threat and survival_chase are both present and distinct",
   CANONICAL_DIMENSIONS.includes("creature_threat") && CANONICAL_DIMENSIONS.includes("survival_chase"));

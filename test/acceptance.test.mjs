@@ -221,7 +221,7 @@ console.log("");
   check("B2", "each logical catalog has a movie and a series entry",
     config.catalogs.every(d => manifest.catalogs.some(c => c.id === `${d.id}-movie` && c.type === "movie")
       && manifest.catalogs.some(c => c.id === `${d.id}-series` && c.type === "series")));
-  check("B3", `manifest version is ${config.manifest.version}`, manifest.version === "2.1.0", manifest.version);
+  check("B3", `manifest version is ${config.manifest.version}`, manifest.version === config.manifest.version, manifest.version);
 
   const byId = new Map(items.filter(i => i.imdb_id).map(i => [i.imdb_id, i]));
   const LABEL = d => d.name.replace(/^[^\p{L}]+/u, "").trim();

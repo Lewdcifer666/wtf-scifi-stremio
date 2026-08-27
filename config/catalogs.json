@@ -2,7 +2,7 @@
   "schema_version": 2,
   "manifest": {
     "id": "com.github.wtfscifi.automated-watchlist",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "name": "WTF Sci-Fi Discovery",
     "description": "Automated high-concept sci-fi and mystery watchlists: scientists, biology, impossible phenomena, hidden systems, time/reality anomalies and escalating WTF concepts."
   },
@@ -264,6 +264,39 @@
         },
         "penalties": {
           "space_opera": 4
+        }
+      }
+    },
+    {
+      "id": "scifi-action",
+      "name": "⚡ Sci-Fi + Action",
+      "filter": "dna",
+      "sort": "dna_score",
+      "min_score": 50,
+      "dna": {
+        "mode": "weighted",
+        "gate": {
+          "all_of": [
+            {
+              "dimension": "action_density",
+              "at_or_above": 6
+            }
+          ],
+          "any_of": []
+        },
+        "weights": {
+          "action_density": 14,
+          "scientific_investigation": 10,
+          "unknown_phenomenon": 9,
+          "mystery": 9,
+          "concept_escalation": 9,
+          "rule_discovery": 8,
+          "action_intensity": 8,
+          "suspense": 7
+        },
+        "penalties": {
+          "military_focus": 8,
+          "space_opera": 5
         }
       }
     }

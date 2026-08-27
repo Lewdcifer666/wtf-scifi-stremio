@@ -288,6 +288,34 @@ Read the authoritative Content DNA contract from data/taste-profile.json on the 
 - dna_confidence is a number 0.0..1.0 expressing confidence in the DESCRIPTIVE fingerprint, not confidence that the user will enjoy the title. Never inflate it so a title clears a DNA eligibility threshold.
 - dna_tags may contain only values from dna_dimensions.tag_registry. An empty array is valid. Never invent a tag, and never substitute the unrelated top-level controlled_tags vocabulary.
 
+ACTION DENSITY IS MANDATORY AND RESEARCHED ON EVERY NEW DISCOVERY.
+
+action_density must be an integer 0..10 on every title accepted from now on.
+It must NEVER be null on a new discovery. Titles that predate the v4 migration
+carry null because they have not been measured yet; that is a backlog, not a
+precedent, and it is not permission to leave a new one unmeasured.
+
+action_density is HOW MUCH of the runtime contains action.
+action_intensity is HOW HARD that action hits WHEN it occurs.
+
+These are two separate measurements. Do NOT derive action_density from:
+
+  - trailer editing, which compresses every action beat a film has
+  - action_intensity, which says nothing about how often action happens
+  - pace_speed, which is narrative momentum, not action
+  - IMDb or streaming genre labels
+  - one or two heavily discussed sequences
+
+It requires WHOLE-RUNTIME or WHOLE-SEASON structural evidence, and at least
+one of the cited sources must substantively support that judgement - a review
+or recap describing how the film or season actually paces its action, an
+episode guide, a structural analysis. A synopsis is not enough. If that
+evidence cannot be found, do not accept the title.
+
+A quiet, talky investigation film with one late set piece is LOW density and
+may still be HIGH intensity. Getting that pair the wrong way round is the
+specific error this split exists to prevent.
+
 Content DNA answers "what kind of title is this", never "will the user like it". Score it from the title's own story structure against the rubric anchors. Feedback may decide WHETHER a candidate is recommended; it must never bend the descriptive fingerprint. Do not raise a dimension because the user liked a similar title, and do not lower one because the user disliked a similar title.
 
 Do not rewrite data/library.json for daily additions. Instead create one append-only file in the PUBLIC catalog repository at data/discoveries/<run_id>.json with schema_version=1, run_id, timestamp, and an items array containing the accepted titles. The site builder combines the unique public source records for catalog generation and FAILS CLOSED if the same public identity appears more than once. The automation must prevent duplicates before writing them. Do not create duplicate Past 24h entries; that catalog is generated from added_by and added_at.
@@ -335,7 +363,7 @@ Then move BASE only through legitimate ACTIVE CONTENT evidence. Ratings, did-not
 
 The CONTENT-PROJECTABLE dimensions are exactly: scientific_investigation, biology_genetics, alien_unknown_life, unknown_phenomenon, mystery, rule_discovery, concept_escalation, weirdness, reality_anomaly, time_anomaly, mind_consciousness, experiments, conspiracy, scientist_presence, research_setting, isolation, creature_threat.
 
-Never project content preference into suspense, horror, action_intensity, survival_chase, military_focus, comedy, pace_speed, space_opera, superhero or comic_book_universe. Those are tone, presentation or structural-policy dimensions; a liked premise that happens to contain heavy action, horror or military framing must never teach "I like action", "I like horror" or "I like military framing".
+Never project content preference into suspense, horror, action_density, action_intensity, survival_chase, military_focus, comedy, pace_speed, space_opera, superhero or comic_book_universe. Those are tone, presentation or structural-policy dimensions; a liked premise that happens to contain heavy action, horror or military framing must never teach "I like action", "I like horror" or "I like military framing".
 
 Per active title, votes are:
 - premise_interest yes/no: +/-1.00 to every CONTENT-PROJECTABLE dimension where the SOURCE title's DNA is >= 7.

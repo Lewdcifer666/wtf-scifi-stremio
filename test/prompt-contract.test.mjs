@@ -105,7 +105,9 @@ check("M4", "lists the 17 content-projectable dimensions", (() => {
   return PROJECTABLE.every(d => line.slice(0, 600).includes(d));
 })());
 check("M5", "forbids projecting content preference into tone/structural dimensions",
-  has("Never project content preference into suspense, horror, action_intensity, survival_chase, military_focus, comedy, pace_speed, space_opera, superhero or comic_book_universe"));
+  has("Never project content preference into suspense, horror, action_density, action_intensity, survival_chase, military_focus, comedy, pace_speed, space_opera, superhero or comic_book_universe"));
+check("M5b", "action_density is on the forbidden-projection list",
+  has("horror, action_density, action_intensity"));
 check("M6", "explains why that projection is forbidden",
   has('must never teach "I like action"'));
 check("M7", "premise_interest is +/-1.00 and schema-1 more_like_this is +/-0.50",
