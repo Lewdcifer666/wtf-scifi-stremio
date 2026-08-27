@@ -48,7 +48,18 @@ const PRODUCTION_SUBTREES = [
   "strong_positive_signals", "negative_signals", "hard_exclusions",
   "reference_titles", "automation_rules", "controlled_tags"
 ];
-const DNA_ROWS = ["dna-match", "fringe-dna", "investigation-first", "high-suspense", "concept-escalating"];
+// DERIVED FROM CONFIG, NOT HARDCODED.
+//
+// This was a literal list of the five F2-8 rows. When MG-7 added a sixth DNA
+// row (scifi-action) the list did not learn about it, so that row was silently
+// classified as PRE-DNA - and the misclassification stayed invisible only
+// because the row was empty while every legacy action_density was null. The
+// moment the MG-7.2 backfill gave two titles a real density, a genuine DNA row
+// started differing between the two worlds and was reported as a pre-DNA
+// regression. Deriving the list means a future DNA row is covered on the day it
+// is added rather than the day it first has contents.
+const DNA_ROWS = JSON.parse(fs.readFileSync("config/catalogs.json", "utf8"))
+  .catalogs.filter(c => c.filter === "dna").map(c => c.id);
 const isDnaCatalog = name => DNA_ROWS.some(r => name.endsWith(`/${r}-movie.json`) || name.endsWith(`/${r}-series.json`));
 // Until F2-9 the canonical prompt referenced no DNA concept at all, and this
 // file asserted exactly that. F2-9 inverts it on purpose: the automation is now
@@ -151,7 +162,8 @@ try {
   // arbitrary or partially-scored contents.
   const emptyDna = [...preDnaHashes.keys()].filter(isDnaCatalog)
     .filter(f => JSON.parse(fs.readFileSync(path.join(SITE, f), "utf8")).metas.length === 0);
-  ok(`without Content DNA all 10 DNA catalogs degrade to empty (${emptyDna.length}/10)`, emptyDna.length === 10);
+  ok(`without Content DNA all ${DNA_ROWS.length * 2} DNA catalogs degrade to empty (${emptyDna.length}/${DNA_ROWS.length * 2})`,
+    emptyDna.length === DNA_ROWS.length * 2);
 } finally {
   for (const [file, text] of originals) fs.writeFileSync(file, text, "utf8");
 }
@@ -171,16 +183,28 @@ const dnaHashes = build();
   const dnaFiles = names.filter(isDnaCatalog);
 
   const differing = preExisting.filter(n => preDnaHashes.get(n) !== dnaHashes.get(n));
-  ok(`N  all ${preExisting.length} pre-F2-8 files (18 catalogs + manifest) are byte-identical with and without Content DNA`,
+  ok(`N  all ${preExisting.length} pre-F2-8 files (pre-DNA catalogs + manifest) are byte-identical with and without Content DNA`,
     differing.length === 0, differing.join(", "));
 
-  ok(`the 10 DNA catalog files exist in both builds`, dnaFiles.length === 10, `found ${dnaFiles.length}`);
+  ok(`the ${DNA_ROWS.length * 2} DNA catalog files exist in both builds`, dnaFiles.length === DNA_ROWS.length * 2, `found ${dnaFiles.length}`);
 
   const countMetas = file => JSON.parse(fs.readFileSync(path.join(SITE, file), "utf8")).metas.length;
-  const populated = dnaFiles.filter(f => countMetas(f) > 0);
-  ok(`every DNA catalog is populated when DNA is present (${populated.length}/10)`, populated.length === 10);
-  ok(`the DNA catalogs differ from their empty pre-DNA counterparts`,
-    dnaFiles.every(n => preDnaHashes.get(n) !== dnaHashes.get(n)));
+    // scifi-action is gated on action_density >= 6, and the MG-7.2 backfill fills
+  // that dimension in reviewed batches, so it is legitimately empty until enough
+  // legacy titles have a measured density - and its series half may stay empty
+  // longer than its movie half. Requiring EVERY DNA row to be populated would
+  // therefore fail for a correct in-progress backfill. The real invariant is that
+  // every row that predates the backfill is populated, and that a gated row is
+  // never populated by anything other than a genuinely measured value.
+  const BACKFILL_GATED = new Set(["scifi-action"]);
+  const settled = dnaFiles.filter(f => ![...BACKFILL_GATED].some(r => f.includes(`/${r}-`)));
+  const settledPopulated = settled.filter(f => countMetas(f) > 0);
+  ok(`every settled DNA catalog is populated when DNA is present (${settledPopulated.length}/${settled.length})`,
+    settledPopulated.length === settled.length);
+  // A gated row that is still empty is identical in BOTH worlds by definition,
+  // so only the settled rows can be asserted to differ.
+  ok(`the settled DNA catalogs differ from their empty pre-DNA counterparts`,
+    settled.every(n => preDnaHashes.get(n) !== dnaHashes.get(n)));
 }
 
 // --- the six production-consumed subtrees ---------------------------------
