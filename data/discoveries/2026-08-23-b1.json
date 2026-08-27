@@ -87,7 +87,7 @@
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
-      "source": "https://www.imdb.com/title/tt21109170/ ; https://www.rogerebert.com/reviews/signal-one-dennis-quaid-josh-hutcherson-movie-review-2026 ; https://www.rottentomatoes.com/m/signal_one",
+      "source": "https://www.imdb.com/title/tt21109170/ ; https://www.rogerebert.com/reviews/signal-one-dennis-quaid-josh-hutcherson-movie-review-2026 ; https://www.rottentomatoes.com/m/signal_one ; https://www.flickeringmyth.com/movie-review-signal-one-2026/",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 2,
@@ -272,7 +272,7 @@
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
-      "source": "https://www.imdb.com/title/tt27652287/ ; https://www.rottentomatoes.com/m/the_a_frame ; https://letterboxd.com/film/the-a-frame/",
+      "source": "https://www.imdb.com/title/tt27652287/ ; https://www.rottentomatoes.com/m/the_a_frame ; https://letterboxd.com/film/the-a-frame/ ; https://25yearslatersite.com/tv/features/fantasia-2024-the-a-frame-questions-a-mysterious-scientists-intentions/",
       "dna": {
         "scientific_investigation": 7,
         "biology_genetics": 8,
@@ -295,7 +295,7 @@
         "survival_chase": 2,
         "horror": 7,
         "action_density": 1,
-        "action_intensity": 4,
+        "action_intensity": 7,
         "military_focus": 0,
         "space_opera": 0,
         "superhero": 0,

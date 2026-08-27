@@ -27,7 +27,7 @@
       "added_at": "2026-08-22T19:56:00Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-22-a1",
-      "source": "https://www.imdb.com/title/tt5791732/ ; https://v3-cinemeta.strem.io/meta/movie/tt5791732.json ; https://en.wikipedia.org/wiki/The_Laplace%27s_Demon ; https://www.rottentomatoes.com/m/the_laplaces_demon ; https://letterboxd.com/film/the-laplaces-demon/",
+      "source": "https://www.imdb.com/title/tt5791732/ ; https://v3-cinemeta.strem.io/meta/movie/tt5791732.json ; https://en.wikipedia.org/wiki/The_Laplace%27s_Demon ; https://www.rottentomatoes.com/m/the_laplaces_demon ; https://letterboxd.com/film/the-laplaces-demon/ ; https://quinlan.it/2017/11/03/il-demone-di-laplace/",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 0,
