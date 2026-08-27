@@ -141,7 +141,20 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
   const existedBefore = fs.existsSync(file);
   const bytesBefore = existedBefore ? fs.readFileSync(file) : null;
 
-  const baseline = catalog("dna-match", "movie").metas.map(m => m.id).join(",");
+  // THE FALLBACK REFERENCE MUST BE AN UNPERSONALIZED BUILD.
+  //
+  // "falls back to baseline" means "behaves as if there were no personalization",
+  // NOT "matches whatever the current build produced". Those were the same thing
+  // only while personalized-scores.json was empty. Once a daily run emitted a
+  // real one, a fresh personalized score legitimately becomes the row score and
+  // min_score then admits titles the baseline score would have excluded, so the
+  // personalized dna-match row is a DIFFERENT set - here 87 items against 75.
+  //
+  // Comparing an invalid-file build against the personalized build therefore
+  // asserted that personalization does nothing, which contradicts X3/V5 and made
+  // this test fail the moment personalization started working. The reference is
+  // now captured with the file ABSENT, which is what "baseline" actually means.
+  let baseline;
   let survived = true;
   const cases = [
     ["invalid JSON", "{not json"],
@@ -151,6 +164,10 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
   ];
 
   withProductionFile(file, () => {
+    fs.rmSync(file, { force: true });
+    execFileSync(process.execPath, ["scripts/build-site.mjs"], { stdio: "pipe" });
+    baseline = catalog("dna-match", "movie").metas.map(m => m.id).join(",");
+
     for (const [label, body] of cases) {
       fs.writeFileSync(file, body, "utf8");
       try {
@@ -179,6 +196,18 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
 // unrelated global match_score, which would contradict the visible ordering.
 {
   const { makePolicy, scoreItem } = await import("../scripts/dna-score.mjs");
+  const { readPersonalizedScores } = await import("../scripts/personalized-scores.mjs");
+
+  // SCORE THE CARDS WITH THE SAME INPUTS THE BUILD USED.
+  //
+  // These rows are about which score is DISPLAYED, not about whether
+  // personalization exists. Recomputing the expected value with an empty map
+  // silently asserted "personalization contributes nothing", which contradicts
+  // V5/X3 and broke as soon as a daily run emitted a real personalized file.
+  // build-site.mjs passes the live map into scoreItem, so the expectation must
+  // use exactly that map - which keeps these assertions true whether the file is
+  // absent, empty, stale or fully applied.
+  const personalizedItems = readPersonalizedScores(fs, path.join("data", "personalized-scores.json")).items;
   const profile = JSON.parse(fs.readFileSync("data/taste-profile.json", "utf8"));
   const config = JSON.parse(fs.readFileSync("config/catalogs.json", "utf8"));
   const policy = makePolicy(profile);
@@ -209,7 +238,7 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
     let allMatch = true, checked = 0, sample = "";
     for (const type of ["movie", "series"]) {
       for (const meta of catalog(row, type).metas) {
-        const expected = scoreItem(policy, def, byId.get(meta.id), new Map()).score;
+        const expected = scoreItem(policy, def, byId.get(meta.id), personalizedItems).score;
         const needle = BULLET + " " + LABELS[row] + " " + expected + "/100";
         if (!meta.description.includes(needle)) {
           allMatch = false;
@@ -240,7 +269,7 @@ check("L3", "no DNA identifier appears as a JSON key anywhere in the generated c
     for (const type of ["movie", "series"]) {
       for (const meta of catalog("dna-match", type).metas) {
         const item = byId.get(meta.id);
-        const dnaScore = scoreItem(policy, def, item, new Map()).score;
+        const dnaScore = scoreItem(policy, def, item, personalizedItems).score;
         if (!item.match_score || item.match_score === dnaScore) continue;
         found++;
         if (!meta.description.includes("DNA Match " + dnaScore + "/100")) return false;

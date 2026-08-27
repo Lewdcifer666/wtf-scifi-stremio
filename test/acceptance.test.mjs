@@ -28,6 +28,11 @@ console.log("");
 const profile = JSON.parse(fs.readFileSync("data/taste-profile.json", "utf8"));
 const config = JSON.parse(fs.readFileSync("config/catalogs.json", "utf8"));
 const policy = makePolicy(profile);
+
+// The personalized map the site build actually consumes. Assertions that check a
+// REAL card must score with this; assertions over SYNTHETIC fixtures deliberately
+// keep using an empty map, because those fixtures are not in the file.
+const livePersonalized = readPersonalizedScores(fs, path.join("data", "personalized-scores.json")).items;
 const DIMS = policy.dimensions;
 const TAGS = new Set(profile.dna_dimensions.tag_registry);
 const CONTROLLED = new Set(profile.controlled_tags);
@@ -239,7 +244,11 @@ console.log("");
         if (Object.keys(m).length !== 7) problems.push(`${def.id}-${type}: ${m.id} unexpected meta keys`);
 
         if (def.filter === "dna") {
-          const expected = scoreItem(policy, def, src, new Map()).score;
+          // Score with the SAME map build-site.mjs used. An empty map here
+          // asserted that personalization never changes a displayed score,
+          // which contradicts R9/X3 and broke as soon as a daily run emitted a
+          // real personalized file.
+          const expected = scoreItem(policy, def, src, livePersonalized).score;
           if (!m.description.includes(`${LABEL(def)} ${expected}/100`)) problems.push(`${def.id}-${type}: ${m.id} wrong row score`);
           if (/• Match \d+\/100/.test(m.description)) problems.push(`${def.id}-${type}: ${m.id} shows the old Match label`);
         } else if (src.match_score) {
@@ -313,12 +322,28 @@ console.log("");
   const cat = (id, type) => JSON.parse(fs.readFileSync(path.join("site/catalog", type, `${id}-${type}.json`), "utf8"));
   const build = () => execFileSync(process.execPath, ["scripts/build-site.mjs"], { stdio: "pipe" });
 
+  // X6 restores against the REAL production build; X1/X2 compare against the
+  // unpersonalized baseline below. Two different references, two different
+  // questions - collapsing them is what made these assertions wrong.
   build();
-  const baseline = cat("dna-match", "movie").metas.map(m => m.description).join("|");
+  const preFixture = cat("dna-match", "movie").metas.map(m => m.description).join("|");
   const existedBefore = fs.existsSync(file);
   const shaBefore = sha256(file);
 
+  // THE FALLBACK REFERENCE IS AN UNPERSONALIZED BUILD.
+  //
+  // "falls back to the stable baseline" means "behaves as if there were no
+  // personalization". Capturing the reference from the CURRENT build made that
+  // reference personalized, so X1/X2 quietly asserted that personalization does
+  // nothing - true only while personalized-scores.json was empty, and false the
+  // moment a daily run emitted a real one.
+  let baseline;
+
   withProductionFile(file, () => {
+    fs.rmSync(file, { force: true });
+    build();
+    baseline = cat("dna-match", "movie").metas.map(m => m.description).join("|");
+
     // an empty items object is valid and must behave exactly like an absent file
     fs.writeFileSync(file, JSON.stringify({ schema_version: 1, generated_at: fresh(), items: {} }), "utf8");
     build();
@@ -358,7 +383,7 @@ console.log("");
     fs.existsSync(file) === existedBefore && sha256(file) === shaBefore,
     `existed ${existedBefore} -> ${fs.existsSync(file)}`);
   check("X6", "the build is restored to its pre-fixture output",
-    cat("dna-match", "movie").metas.map(m => m.description).join("|") === baseline);
+    cat("dna-match", "movie").metas.map(m => m.description).join("|") === preFixture);
 }
 
 console.log("");
