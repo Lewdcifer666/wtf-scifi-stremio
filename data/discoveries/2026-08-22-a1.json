@@ -12,13 +12,22 @@
       "preference": null,
       "rank": null,
       "match_score": 96,
-      "tags": ["best", "science", "experiment", "systems", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "science",
+        "experiment",
+        "systems",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A research team builds a system for predicting seemingly random events, then becomes trapped inside a deadly test of the very model they created — strong scientist, rule-discovery and escalating-system DNA.",
-      "aliases": ["Il demone di Laplace"],
+      "aliases": [
+        "Il demone di Laplace"
+      ],
       "added_at": "2026-08-22T19:56:00Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-22-a1",
-      "source": "https://www.imdb.com/title/tt5791732/ ; https://v3-cinemeta.strem.io/meta/movie/tt5791732.json ; https://en.wikipedia.org/wiki/The_Laplace%27s_Demon",
+      "source": "https://www.imdb.com/title/tt5791732/ ; https://v3-cinemeta.strem.io/meta/movie/tt5791732.json ; https://en.wikipedia.org/wiki/The_Laplace%27s_Demon ; https://www.rottentomatoes.com/m/the_laplaces_demon ; https://letterboxd.com/film/the-laplaces-demon/",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 0,
@@ -40,8 +49,8 @@
         "creature_threat": 3,
         "survival_chase": 6,
         "horror": 5,
-        "action_density": 2,
-        "action_intensity": 5,
+        "action_density": 1,
+        "action_intensity": 3,
         "military_focus": 0,
         "space_opera": 0,
         "superhero": 0,
@@ -50,7 +59,10 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt3528756",
@@ -61,9 +73,17 @@
       "preference": null,
       "rank": null,
       "match_score": 93,
-      "tags": ["best", "systems", "time", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "systems",
+        "time",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "Two groups are trapped in impossible repeating spaces — an endless staircase and an endless road — making the central hook the discovery of how an artificial-feeling reality system works.",
-      "aliases": ["El incidente"],
+      "aliases": [
+        "El incidente"
+      ],
       "added_at": "2026-08-22T19:56:00Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-22-a1",
@@ -99,7 +119,10 @@
         "pace_speed": 2
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["containment", "dimension"]
+      "dna_tags": [
+        "containment",
+        "dimension"
+      ]
     },
     {
       "imdb_id": "tt0080360",
@@ -110,7 +133,14 @@
       "preference": null,
       "rank": null,
       "match_score": 89,
-      "tags": ["biology", "science", "experiment", "mind", "phenomenon", "mystery"],
+      "tags": [
+        "biology",
+        "science",
+        "experiment",
+        "mind",
+        "phenomenon",
+        "mystery"
+      ],
       "reason": "A psycho-physiologist experiments on himself with sensory deprivation and drugs, producing increasingly bizarre changes tied to consciousness and possible genetic memory; horror elements are present, but the science experiment stays central.",
       "aliases": [],
       "added_at": "2026-08-22T19:56:00Z",
@@ -148,7 +178,12 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["lab", "body_horror", "mutation", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "body_horror",
+        "mutation",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt4922674",
@@ -159,7 +194,12 @@
       "preference": null,
       "rank": null,
       "match_score": 88,
-      "tags": ["systems", "time", "mystery", "phenomenon"],
+      "tags": [
+        "systems",
+        "time",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "Friends discover a mirror into parallel realities and begin exploiting information from the other side, with the premise continually generating new consequences rather than becoming a simple escape story.",
       "aliases": [],
       "added_at": "2026-08-22T19:56:00Z",
@@ -197,7 +237,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.78,
-      "dna_tags": ["parallel_reality", "dimension"]
+      "dna_tags": [
+        "parallel_reality",
+        "dimension"
+      ]
     },
     {
       "imdb_id": "tt0115571",
@@ -208,7 +251,13 @@
       "preference": null,
       "rank": null,
       "match_score": 87,
-      "tags": ["science", "alien", "conspiracy", "mystery", "phenomenon"],
+      "tags": [
+        "science",
+        "alien",
+        "conspiracy",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A radio astronomer detects evidence of intelligent alien life and follows the anomaly into a larger scientific conspiracy, keeping investigation and the need to understand the phenomenon at the center.",
       "aliases": [],
       "added_at": "2026-08-22T19:56:00Z",
@@ -246,7 +295,11 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["signal", "first_contact", "lab"]
+      "dna_tags": [
+        "signal",
+        "first_contact",
+        "lab"
+      ]
     },
     {
       "imdb_id": "tt11640020",
@@ -257,7 +310,17 @@
       "preference": null,
       "rank": null,
       "match_score": 99,
-      "tags": ["best", "science", "alien", "experiment", "conspiracy", "mystery", "phenomenon", "biology", "time"],
+      "tags": [
+        "best",
+        "science",
+        "alien",
+        "experiment",
+        "conspiracy",
+        "mystery",
+        "phenomenon",
+        "biology",
+        "time"
+      ],
       "reason": "Two agents investigate fragments of an alien spacecraft that cause a different bizarre phenomenon wherever they appear — genetic anomalies, reality changes and secret organizations make this exceptionally close to the Fringe formula.",
       "aliases": [],
       "added_at": "2026-08-22T19:56:00Z",
@@ -295,7 +358,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["artifact", "lab", "dimension", "experiment_gone_wrong"]
+      "dna_tags": [
+        "artifact",
+        "lab",
+        "dimension",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt0460686",
@@ -306,13 +374,23 @@
       "preference": null,
       "rank": null,
       "match_score": 98,
-      "tags": ["best", "science", "biology", "genetics", "alien", "experiment", "conspiracy", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "science",
+        "biology",
+        "genetics",
+        "alien",
+        "experiment",
+        "conspiracy",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A secret team of specialists investigates an extraterrestrial encounter, alien signals, DNA alteration and spreading biological effects — scientists actively testing an escalating unknown phenomenon rather than merely fighting it.",
       "aliases": [],
       "added_at": "2026-08-22T19:56:00Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-22-a1",
-      "source": "https://www.imdb.com/title/tt0460686/ ; https://v3-cinemeta.strem.io/meta/series/tt0460686.json ; https://en.wikipedia.org/wiki/Threshold_(TV_series)",
+      "source": "https://www.imdb.com/title/tt0460686/ ; https://v3-cinemeta.strem.io/meta/series/tt0460686.json ; https://en.wikipedia.org/wiki/Threshold_(TV_series) ; https://www.rottentomatoes.com/tv/threshold ; https://www.metacritic.com/tv/threshold/",
       "dna": {
         "scientific_investigation": 9,
         "biology_genetics": 9,
@@ -334,7 +412,7 @@
         "creature_threat": 4,
         "survival_chase": 4,
         "horror": 4,
-        "action_density": 3,
+        "action_density": 4,
         "action_intensity": 5,
         "military_focus": 6,
         "space_opera": 0,
@@ -344,7 +422,13 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.82,
-      "dna_tags": ["signal", "lab", "infection", "mutation", "first_contact"]
+      "dna_tags": [
+        "signal",
+        "lab",
+        "infection",
+        "mutation",
+        "first_contact"
+      ]
     },
     {
       "imdb_id": "tt13016388",
@@ -355,13 +439,23 @@
       "preference": null,
       "rank": null,
       "match_score": 97,
-      "tags": ["best", "science", "alien", "conspiracy", "mystery", "phenomenon", "technology"],
+      "tags": [
+        "best",
+        "science",
+        "alien",
+        "conspiracy",
+        "mystery",
+        "phenomenon",
+        "technology"
+      ],
       "reason": "Scientists confront apparently impossible events and evidence that fundamental physics may be breaking down, with the mystery expanding into a much larger extraterrestrial problem rather than a conventional space-opera story.",
-      "aliases": ["3 Body Problem"],
+      "aliases": [
+        "3 Body Problem"
+      ],
       "added_at": "2026-08-22T19:56:00Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-22-a1",
-      "source": "https://www.imdb.com/title/tt13016388/ ; https://v3-cinemeta.strem.io/meta/series/tt13016388.json ; https://en.wikipedia.org/wiki/3_Body_Problem_(TV_series)",
+      "source": "https://www.imdb.com/title/tt13016388/ ; https://v3-cinemeta.strem.io/meta/series/tt13016388.json ; https://en.wikipedia.org/wiki/3_Body_Problem_(TV_series) ; https://www.rottentomatoes.com/tv/3_body_problem ; https://www.metacritic.com/tv/3-body-problem/",
       "dna": {
         "scientific_investigation": 10,
         "biology_genetics": 4,
@@ -393,7 +487,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.92,
-      "dna_tags": ["simulation", "lab", "first_contact", "signal"]
+      "dna_tags": [
+        "simulation",
+        "lab",
+        "first_contact",
+        "signal"
+      ]
     }
   ]
 }

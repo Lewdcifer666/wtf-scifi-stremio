@@ -12,7 +12,14 @@
       "preference": null,
       "rank": null,
       "match_score": 97,
-      "tags": ["best", "science", "experiment", "systems", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "science",
+        "experiment",
+        "systems",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "University volunteers enter an unknown experiment that begins destabilizing reality itself, making the hook an escalating artificial system whose rules and consequences must be understood.",
       "aliases": [],
       "added_at": "2026-08-24T06:46:36Z",
@@ -50,7 +57,11 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.5,
-      "dna_tags": ["containment", "experiment_gone_wrong", "simulation"]
+      "dna_tags": [
+        "containment",
+        "experiment_gone_wrong",
+        "simulation"
+      ]
     },
     {
       "imdb_id": "tt4209174",
@@ -61,9 +72,17 @@
       "preference": null,
       "rank": null,
       "match_score": 94,
-      "tags": ["best", "biology", "genetics", "science", "experiment"],
+      "tags": [
+        "best",
+        "biology",
+        "genetics",
+        "science",
+        "experiment"
+      ],
       "reason": "A scientist pursues a cure for a lethal genetic disease by decoding the biological immortality of Turritopsis jellyfish, keeping genetics, experimental biology and unintended consequences central.",
-      "aliases": ["Chimera"],
+      "aliases": [
+        "Chimera"
+      ],
       "added_at": "2026-08-24T06:46:36Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-24-c1",
@@ -99,7 +118,13 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.75,
-      "dna_tags": ["lab", "mutation", "body_horror", "experiment_gone_wrong", "containment"]
+      "dna_tags": [
+        "lab",
+        "mutation",
+        "body_horror",
+        "experiment_gone_wrong",
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt1835955",
@@ -110,7 +135,15 @@
       "preference": null,
       "rank": null,
       "match_score": 93,
-      "tags": ["best", "biology", "genetics", "science", "experiment", "conspiracy", "mystery"],
+      "tags": [
+        "best",
+        "biology",
+        "genetics",
+        "science",
+        "experiment",
+        "conspiracy",
+        "mystery"
+      ],
       "reason": "A genetic researcher joins a molecular-biology institute, investigates a secret regeneration-gene project and uncovers a lethal experimental virus and conspiracy, strongly matching the science-first mystery profile.",
       "aliases": [],
       "added_at": "2026-08-24T06:46:36Z",
@@ -148,7 +181,13 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.78,
-      "dna_tags": ["lab", "mutation", "infection", "body_horror", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "mutation",
+        "infection",
+        "body_horror",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt0106188",
@@ -159,9 +198,17 @@
       "preference": null,
       "rank": null,
       "match_score": 90,
-      "tags": ["science", "experiment", "time", "mystery", "phenomenon"],
+      "tags": [
+        "science",
+        "experiment",
+        "time",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A repeating day is traced to an illegal particle-accelerator experiment, turning the time loop into a solvable scientific phenomenon rather than a purely symbolic device.",
-      "aliases": ["12:01 PM"],
+      "aliases": [
+        "12:01 PM"
+      ],
       "added_at": "2026-08-24T06:46:36Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-24-c1",
@@ -197,7 +244,11 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["time_loop", "lab", "experiment_gone_wrong"]
+      "dna_tags": [
+        "time_loop",
+        "lab",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt5342650",
@@ -208,13 +259,22 @@
       "preference": null,
       "rank": null,
       "match_score": 88,
-      "tags": ["science", "experiment", "time", "technology", "mystery"],
+      "tags": [
+        "science",
+        "experiment",
+        "time",
+        "technology",
+        "mystery"
+      ],
       "reason": "A research scientist uses experimental wormhole technology to enter parallel timelines, with unstable test results and repeated interventions revealing consequences of the system even though the plot carries more action than the strongest matches.",
-      "aliases": ["Fatal Countdown: Reset", "Reverse Time Rescue"],
+      "aliases": [
+        "Fatal Countdown: Reset",
+        "Reverse Time Rescue"
+      ],
       "added_at": "2026-08-24T06:46:36Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-24-c1",
-      "source": "https://www.imdb.com/title/tt5342650/ ; https://en.wikipedia.org/wiki/Reset_(2017_film)",
+      "source": "https://www.imdb.com/title/tt5342650/ ; https://en.wikipedia.org/wiki/Reset_(2017_film) ; https://www.rottentomatoes.com/m/reset_ni_shi_ying_jiu ; https://letterboxd.com/film/reset-2017/",
       "dna": {
         "scientific_investigation": 5,
         "biology_genetics": 2,
@@ -246,7 +306,12 @@
         "pace_speed": 8
       },
       "dna_confidence": 0.82,
-      "dna_tags": ["lab", "parallel_reality", "time_loop", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "parallel_reality",
+        "time_loop",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt0429422",
@@ -257,7 +322,14 @@
       "preference": null,
       "rank": null,
       "match_score": 99,
-      "tags": ["best", "biology", "genetics", "science", "experiment", "mystery"],
+      "tags": [
+        "best",
+        "biology",
+        "genetics",
+        "science",
+        "experiment",
+        "mystery"
+      ],
       "reason": "A biotechnology team of geneticists, virologists and microbiologists investigates biological threats and scientific anomalies, making active scientific problem-solving the core of the series rather than background flavor.",
       "aliases": [],
       "added_at": "2026-08-24T06:46:36Z",
@@ -295,7 +367,12 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.82,
-      "dna_tags": ["lab", "infection", "mutation", "research_station"]
+      "dna_tags": [
+        "lab",
+        "infection",
+        "mutation",
+        "research_station"
+      ]
     },
     {
       "imdb_id": "tt1118697",
@@ -306,9 +383,18 @@
       "preference": null,
       "rank": null,
       "match_score": 98,
-      "tags": ["best", "science", "biology", "experiment", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "science",
+        "biology",
+        "experiment",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A government scientist and FBI handler investigate dangerous experiments, rare diseases, neurological anomalies and environmental threats episode by episode — exceptionally close to the scientific-investigation side of Fringe.",
-      "aliases": ["Eleventh Hour: Einsatz in letzter Sekunde"],
+      "aliases": [
+        "Eleventh Hour: Einsatz in letzter Sekunde"
+      ],
       "added_at": "2026-08-24T06:46:36Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-24-c1",
@@ -344,7 +430,11 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["lab", "infection", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "infection",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt0452718",
@@ -355,9 +445,20 @@
       "preference": null,
       "rank": null,
       "match_score": 95,
-      "tags": ["best", "biology", "science", "ecology", "conspiracy", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "biology",
+        "science",
+        "ecology",
+        "conspiracy",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A marine biologist investigates the worldwide emergence of an unknown sea species while government secrecy grows around it, combining biology, ecology, conspiracy and sustained phenomenon discovery.",
-      "aliases": ["Surface: Unheimliche Tiefe", "Fathom"],
+      "aliases": [
+        "Surface: Unheimliche Tiefe",
+        "Fathom"
+      ],
       "added_at": "2026-08-24T06:46:36Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-24-c1",
@@ -393,7 +494,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["underwater", "alien_ecology", "mutation", "lab"]
+      "dna_tags": [
+        "underwater",
+        "alien_ecology",
+        "mutation",
+        "lab"
+      ]
     }
   ]
 }

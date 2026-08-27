@@ -12,7 +12,15 @@
       "preference": null,
       "rank": null,
       "match_score": 96,
-      "tags": ["best", "biology", "genetics", "science", "experiment", "mind", "mystery"],
+      "tags": [
+        "best",
+        "biology",
+        "genetics",
+        "science",
+        "experiment",
+        "mind",
+        "mystery"
+      ],
       "reason": "A geneticist wakes with fragmented memory and discovers an escalating cloning experiment around his own identity, keeping genetics, scientific consequences and the need to understand what happened at the center.",
       "aliases": [],
       "added_at": "2026-08-25T06:46:05Z",
@@ -50,7 +58,11 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["lab", "mutation", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "mutation",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt8953768",
@@ -61,13 +73,22 @@
       "preference": null,
       "rank": null,
       "match_score": 94,
-      "tags": ["best", "science", "experiment", "time", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "science",
+        "experiment",
+        "time",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A university quantum-physics experiment creates an entangled parallel existence, forcing the researchers to work out increasingly disturbing rules about duplicates, identity and reality.",
-      "aliases": ["Entangled"],
+      "aliases": [
+        "Entangled"
+      ],
       "added_at": "2026-08-25T06:46:05Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-25-d1",
-      "source": "https://www.imdb.com/title/tt8953768/ ; https://v3-cinemeta.strem.io/meta/movie/tt8953768.json ; https://www.rottentomatoes.com/m/multiverse",
+      "source": "https://www.imdb.com/title/tt8953768/ ; https://v3-cinemeta.strem.io/meta/movie/tt8953768.json ; https://www.rottentomatoes.com/m/multiverse ; https://letterboxd.com/film/multiverse-2019-1/",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 1,
@@ -99,7 +120,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["lab", "parallel_reality", "dimension", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "parallel_reality",
+        "dimension",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt4694518",
@@ -110,7 +136,13 @@
       "preference": null,
       "rank": null,
       "match_score": 93,
-      "tags": ["best", "systems", "experiment", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "systems",
+        "experiment",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "Isolated survivors begin discovering that their bunker network is not what it claims to be, turning the apparent apocalypse into a layered artificial-system mystery whose hidden purpose has to be uncovered.",
       "aliases": [],
       "added_at": "2026-08-25T06:46:05Z",
@@ -148,7 +180,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt0830361",
@@ -159,9 +194,17 @@
       "preference": null,
       "rank": null,
       "match_score": 98,
-      "tags": ["best", "systems", "mystery", "phenomenon", "time"],
+      "tags": [
+        "best",
+        "systems",
+        "mystery",
+        "phenomenon",
+        "time"
+      ],
       "reason": "A detective investigates a vanished motel room and ordinary objects with precise impossible properties, progressively learning a dense rule system tied to a reality-altering event.",
-      "aliases": ["Das verschwundene Zimmer"],
+      "aliases": [
+        "Das verschwundene Zimmer"
+      ],
       "added_at": "2026-08-25T06:46:05Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-25-d1",
@@ -197,7 +240,10 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.95,
-      "dna_tags": ["artifact", "dimension"]
+      "dna_tags": [
+        "artifact",
+        "dimension"
+      ]
     },
     {
       "imdb_id": "tt6632666",
@@ -208,9 +254,18 @@
       "preference": null,
       "rank": null,
       "match_score": 96,
-      "tags": ["best", "science", "alien", "conspiracy", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "science",
+        "alien",
+        "conspiracy",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A skeptical astrophysicist and Air Force officer investigate UFO cases while a larger cover-up emerges, combining active scientific inquiry, alien mystery, suspense and conspiracy.",
-      "aliases": ["Project Blue Book - Die unheimlichen Fälle der U.S. Air Force"],
+      "aliases": [
+        "Project Blue Book - Die unheimlichen Fälle der U.S. Air Force"
+      ],
       "added_at": "2026-08-25T06:46:05Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-25-d1",
@@ -246,7 +301,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.92,
-      "dna_tags": ["signal", "first_contact"]
+      "dna_tags": [
+        "signal",
+        "first_contact"
+      ]
     },
     {
       "imdb_id": "tt1839683",
@@ -257,7 +315,12 @@
       "preference": null,
       "rank": null,
       "match_score": 91,
-      "tags": ["mind", "mystery", "phenomenon", "conspiracy"],
+      "tags": [
+        "mind",
+        "mystery",
+        "phenomenon",
+        "conspiracy"
+      ],
       "reason": "A detective alternates between two internally consistent realities and uses clues crossing between them while investigating what caused the split, with the mystery expanding into conspiracy rather than simple dream logic.",
       "aliases": [],
       "added_at": "2026-08-25T06:46:05Z",
@@ -295,7 +358,9 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["parallel_reality"]
+      "dna_tags": [
+        "parallel_reality"
+      ]
     }
   ]
 }

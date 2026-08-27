@@ -12,9 +12,18 @@
       "preference": null,
       "rank": null,
       "match_score": 99,
-      "tags": ["best", "science", "biology", "alien", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "science",
+        "biology",
+        "alien",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A lone scientist reconstructs his mission and uses experimental science to investigate a mysterious organism threatening the Sun, with escalating biological and extraterrestrial discoveries rather than action-first spectacle.",
-      "aliases": ["Der Astronaut - Project Hail Mary"],
+      "aliases": [
+        "Der Astronaut - Project Hail Mary"
+      ],
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
@@ -50,7 +59,11 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.6,
-      "dna_tags": ["lab", "first_contact", "alien_ecology"]
+      "dna_tags": [
+        "lab",
+        "first_contact",
+        "alien_ecology"
+      ]
     },
     {
       "imdb_id": "tt21109170",
@@ -61,13 +74,20 @@
       "preference": null,
       "rank": null,
       "match_score": 96,
-      "tags": ["best", "science", "technology", "alien", "experiment", "mystery"],
+      "tags": [
+        "best",
+        "science",
+        "technology",
+        "alien",
+        "experiment",
+        "mystery"
+      ],
       "reason": "A computer scientist joins an isolated project built to communicate with alien intelligence, keeping experimental technology, scientific ethics and the need to understand an unknown signal at the center.",
       "aliases": [],
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
-      "source": "https://www.imdb.com/title/tt21109170/ ; https://www.rogerebert.com/reviews/signal-one-dennis-quaid-josh-hutcherson-movie-review-2026",
+      "source": "https://www.imdb.com/title/tt21109170/ ; https://www.rogerebert.com/reviews/signal-one-dennis-quaid-josh-hutcherson-movie-review-2026 ; https://www.rottentomatoes.com/m/signal_one",
       "dna": {
         "scientific_investigation": 8,
         "biology_genetics": 2,
@@ -89,8 +109,8 @@
         "creature_threat": 1,
         "survival_chase": 3,
         "horror": 2,
-        "action_density": 2,
-        "action_intensity": 5,
+        "action_density": 1,
+        "action_intensity": 3,
         "military_focus": 2,
         "space_opera": 0,
         "superhero": 0,
@@ -99,7 +119,12 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.6,
-      "dna_tags": ["signal", "lab", "first_contact", "research_station"]
+      "dna_tags": [
+        "signal",
+        "lab",
+        "first_contact",
+        "research_station"
+      ]
     },
     {
       "imdb_id": "tt4881364",
@@ -110,9 +135,18 @@
       "preference": null,
       "rank": null,
       "match_score": 95,
-      "tags": ["best", "science", "experiment", "mind", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "science",
+        "experiment",
+        "mind",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "An Oxford scientist's wormhole experiment leaves her unable to form new memories, turning the film into a direct investigation of what the experiment changed and what its impossible result means.",
-      "aliases": ["Antimatter"],
+      "aliases": [
+        "Antimatter"
+      ],
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
@@ -148,7 +182,11 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["lab", "dimension", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "dimension",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt1757746",
@@ -159,9 +197,19 @@
       "preference": null,
       "rank": null,
       "match_score": 94,
-      "tags": ["best", "science", "experiment", "mind", "mystery", "technology"],
+      "tags": [
+        "best",
+        "science",
+        "experiment",
+        "mind",
+        "mystery",
+        "technology"
+      ],
       "reason": "A scientist enters a murder suspect's memories using experimental technology and becomes trapped inside the system, making the central problem a scientific mind/memory puzzle that must be understood from within.",
-      "aliases": ["Memory Effect - Verloren in einer anderen Dimension", "Extraction"],
+      "aliases": [
+        "Memory Effect - Verloren in einer anderen Dimension",
+        "Extraction"
+      ],
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
@@ -197,7 +245,11 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.72,
-      "dna_tags": ["lab", "simulation", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "simulation",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt27652287",
@@ -208,13 +260,19 @@
       "preference": null,
       "rank": null,
       "match_score": 91,
-      "tags": ["science", "experiment", "biology", "technology", "mystery"],
+      "tags": [
+        "science",
+        "experiment",
+        "biology",
+        "technology",
+        "mystery"
+      ],
       "reason": "A quantum physicist's subatomic-portal experiment unexpectedly produces a cancer treatment, giving the premise a strong science-experiment and biological-consequence core despite its horror framing.",
       "aliases": [],
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
-      "source": "https://www.imdb.com/title/tt27652287/ ; https://www.rottentomatoes.com/m/the_a_frame",
+      "source": "https://www.imdb.com/title/tt27652287/ ; https://www.rottentomatoes.com/m/the_a_frame ; https://letterboxd.com/film/the-a-frame/",
       "dna": {
         "scientific_investigation": 7,
         "biology_genetics": 8,
@@ -246,7 +304,13 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.75,
-      "dna_tags": ["lab", "dimension", "body_horror", "mutation", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "dimension",
+        "body_horror",
+        "mutation",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt2234222",
@@ -257,7 +321,15 @@
       "preference": null,
       "rank": null,
       "match_score": 99,
-      "tags": ["best", "biology", "genetics", "science", "experiment", "conspiracy", "mystery"],
+      "tags": [
+        "best",
+        "biology",
+        "genetics",
+        "science",
+        "experiment",
+        "conspiracy",
+        "mystery"
+      ],
       "reason": "Cloning, tagged DNA, experimental programs and layered conspiracies continuously expand the central biological mystery, making it one of the closest available matches to the science-and-conspiracy side of Fringe.",
       "aliases": [],
       "added_at": "2026-08-23T06:35:07Z",
@@ -295,7 +367,11 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.92,
-      "dna_tags": ["lab", "mutation", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "mutation",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt0808491",
@@ -306,9 +382,18 @@
       "preference": null,
       "rank": null,
       "match_score": 98,
-      "tags": ["best", "biology", "science", "ecology", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "biology",
+        "science",
+        "ecology",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A global group of scientists investigates escalating ecological anomalies, unusual organisms and a previously unknown marine intelligence, strongly matching the biology/ecology/phenomenon profile.",
-      "aliases": ["Der Schwarm"],
+      "aliases": [
+        "Der Schwarm"
+      ],
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
@@ -344,7 +429,13 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.82,
-      "dna_tags": ["underwater", "alien_ecology", "research_station", "lab", "first_contact"]
+      "dna_tags": [
+        "underwater",
+        "alien_ecology",
+        "research_station",
+        "lab",
+        "first_contact"
+      ]
     },
     {
       "imdb_id": "tt19231492",
@@ -355,9 +446,18 @@
       "preference": null,
       "rank": null,
       "match_score": 95,
-      "tags": ["best", "science", "time", "systems", "mystery", "phenomenon"],
+      "tags": [
+        "best",
+        "science",
+        "time",
+        "systems",
+        "mystery",
+        "phenomenon"
+      ],
       "reason": "A physicist is thrown into an alternate version of his life and must learn the rules of a technology-driven multiverse; the series repeatedly turns suspense into discovery about the Box and its realities.",
-      "aliases": ["Dark Matter: Der Zeitenläufer"],
+      "aliases": [
+        "Dark Matter: Der Zeitenläufer"
+      ],
       "added_at": "2026-08-23T06:35:07Z",
       "added_by": "daily-automation",
       "discovery_run_id": "2026-08-23-b1",
@@ -393,7 +493,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["parallel_reality", "dimension", "lab", "experiment_gone_wrong"]
+      "dna_tags": [
+        "parallel_reality",
+        "dimension",
+        "lab",
+        "experiment_gone_wrong"
+      ]
     }
   ]
 }

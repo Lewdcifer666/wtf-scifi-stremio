@@ -57,7 +57,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.72,
-      "dna_tags": ["lab", "simulation"]
+      "dna_tags": [
+        "lab",
+        "simulation"
+      ]
     },
     {
       "imdb_id": "tt12680508",
@@ -115,7 +118,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["lab", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt2884206",
@@ -173,7 +179,9 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.82,
-      "dna_tags": ["lab"]
+      "dna_tags": [
+        "lab"
+      ]
     },
     {
       "imdb_id": "tt9016974",
@@ -347,7 +355,11 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["lab", "containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt11905962",
@@ -405,7 +417,12 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["research_station", "lab", "containment", "parasite"]
+      "dna_tags": [
+        "research_station",
+        "lab",
+        "containment",
+        "parasite"
+      ]
     },
     {
       "imdb_id": "tt0084787",
@@ -428,7 +445,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0084787.json ; https://en.wikipedia.org/wiki/The_Thing_(1982_film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0084787.json ; https://en.wikipedia.org/wiki/The_Thing_(1982_film) ; https://www.rottentomatoes.com/m/1021244-thing ; https://www.metacritic.com/movie/the-thing-1982/",
       "canonical_title": "The Thing",
       "resolved_year": 1982,
       "resolved_at": "2026-08-22T19:03:33.326Z",
@@ -463,7 +480,13 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.95,
-      "dna_tags": ["research_station", "lab", "containment", "body_horror", "first_contact"]
+      "dna_tags": [
+        "research_station",
+        "lab",
+        "containment",
+        "body_horror",
+        "first_contact"
+      ]
     },
     {
       "imdb_id": "tt0066769",
@@ -521,7 +544,12 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.93,
-      "dna_tags": ["lab", "containment", "research_station", "infection"]
+      "dna_tags": [
+        "lab",
+        "containment",
+        "research_station",
+        "infection"
+      ]
     },
     {
       "imdb_id": "tt2299206",
@@ -580,7 +608,11 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["glacier", "research_station", "mutation"]
+      "dna_tags": [
+        "glacier",
+        "research_station",
+        "mutation"
+      ]
     },
     {
       "imdb_id": "tt2716382",
@@ -637,7 +669,12 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["underwater", "parasite", "infection", "containment"]
+      "dna_tags": [
+        "underwater",
+        "parasite",
+        "infection",
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt0119675",
@@ -659,7 +696,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0119675.json ; https://en.wikipedia.org/wiki/Mimic_(film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0119675.json ; https://en.wikipedia.org/wiki/Mimic_(film) ; https://www.rottentomatoes.com/m/mimic ; https://www.metacritic.com/movie/mimic/",
       "canonical_title": "Mimic",
       "resolved_year": 1997,
       "resolved_at": "2026-08-22T19:03:58.882Z",
@@ -684,7 +721,7 @@
         "creature_threat": 9,
         "survival_chase": 7,
         "horror": 7,
-        "action_density": 5,
+        "action_density": 4,
         "action_intensity": 7,
         "military_focus": 0,
         "space_opera": 0,
@@ -694,7 +731,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["mutation", "lab"]
+      "dna_tags": [
+        "mutation",
+        "lab"
+      ]
     },
     {
       "imdb_id": "tt0945513",
@@ -716,7 +756,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0945513.json ; https://en.wikipedia.org/wiki/Source_Code",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0945513.json ; https://en.wikipedia.org/wiki/Source_Code ; https://www.rottentomatoes.com/m/source_code ; https://www.metacritic.com/movie/source-code/",
       "canonical_title": "Source Code",
       "resolved_year": 2011,
       "resolved_at": "2026-08-22T19:03:59.730Z",
@@ -751,7 +791,11 @@
         "pace_speed": 7
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["simulation", "time_loop", "lab"]
+      "dna_tags": [
+        "simulation",
+        "time_loop",
+        "lab"
+      ]
     },
     {
       "imdb_id": "tt0453467",
@@ -776,7 +820,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0453467.json ; https://en.wikipedia.org/wiki/D%C3%A9j%C3%A0_Vu_(2006_film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0453467.json ; https://en.wikipedia.org/wiki/D%C3%A9j%C3%A0_Vu_(2006_film) ; https://www.rottentomatoes.com/m/deja_vu ; https://www.metacritic.com/movie/deja-vu/",
       "canonical_title": "Deja Vu",
       "resolved_year": 2006,
       "resolved_at": "2026-08-22T19:04:00.546Z",
@@ -801,7 +845,7 @@
         "creature_threat": 0,
         "survival_chase": 3,
         "horror": 0,
-        "action_density": 6,
+        "action_density": 4,
         "action_intensity": 8,
         "military_focus": 4,
         "space_opera": 0,
@@ -811,7 +855,9 @@
         "pace_speed": 7
       },
       "dna_confidence": 0.87,
-      "dna_tags": ["lab"]
+      "dna_tags": [
+        "lab"
+      ]
     },
     {
       "imdb_id": "tt6908274",
@@ -869,7 +915,9 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.82,
-      "dna_tags": ["parallel_reality"]
+      "dna_tags": [
+        "parallel_reality"
+      ]
     },
     {
       "imdb_id": "tt1258197",
@@ -926,7 +974,10 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt5886046",
@@ -948,7 +999,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt5886046.json ; https://en.wikipedia.org/wiki/Escape_Room_(2019_film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt5886046.json ; https://en.wikipedia.org/wiki/Escape_Room_(2019_film) ; https://www.rottentomatoes.com/m/escape_room_2019 ; https://www.metacritic.com/movie/escape-room/",
       "canonical_title": "Escape Room",
       "resolved_year": 2019,
       "resolved_at": "2026-08-22T19:04:06.081Z",
@@ -983,7 +1034,9 @@
         "pace_speed": 7
       },
       "dna_confidence": 0.86,
-      "dna_tags": ["containment"]
+      "dna_tags": [
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt0309698",
@@ -1098,7 +1151,9 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["experiment_gone_wrong"]
+      "dna_tags": [
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt6097798",
@@ -1211,7 +1266,9 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.82,
-      "dna_tags": ["experiment_gone_wrong"]
+      "dna_tags": [
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt0186151",
@@ -1267,7 +1324,9 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["signal"]
+      "dna_tags": [
+        "signal"
+      ]
     },
     {
       "imdb_id": "tt10530176",
@@ -1323,7 +1382,9 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.82,
-      "dna_tags": ["signal"]
+      "dna_tags": [
+        "signal"
+      ]
     },
     {
       "imdb_id": "tt2397535",
@@ -1379,7 +1440,9 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["time_loop"]
+      "dna_tags": [
+        "time_loop"
+      ]
     },
     {
       "imdb_id": "tt1187064",
@@ -1400,7 +1463,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1187064.json ; https://en.wikipedia.org/wiki/Triangle_(2009_British_film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1187064.json ; https://en.wikipedia.org/wiki/Triangle_(2009_British_film) ; https://www.rottentomatoes.com/m/1212111-triangle ; https://letterboxd.com/film/triangle-2009/",
       "canonical_title": "Triangle",
       "resolved_year": 2009,
       "resolved_at": "2026-08-22T19:05:24.686Z",
@@ -1435,7 +1498,9 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.87,
-      "dna_tags": ["time_loop"]
+      "dna_tags": [
+        "time_loop"
+      ]
     },
     {
       "imdb_id": "tt2866360",
@@ -1492,7 +1557,9 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["parallel_reality"]
+      "dna_tags": [
+        "parallel_reality"
+      ]
     },
     {
       "imdb_id": "tt2910814",
@@ -1549,7 +1616,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.83,
-      "dna_tags": ["lab", "research_station", "containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "research_station",
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt1188729",
@@ -1570,7 +1642,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1188729.json ; https://en.wikipedia.org/wiki/Pandorum",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1188729.json ; https://en.wikipedia.org/wiki/Pandorum ; https://www.rottentomatoes.com/m/pandorum ; https://www.metacritic.com/movie/pandorum/",
       "canonical_title": "Pandorum",
       "resolved_year": 2009,
       "resolved_at": "2026-08-22T19:05:41.660Z",
@@ -1605,7 +1677,10 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["mutation", "containment"]
+      "dna_tags": [
+        "mutation",
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt14509110",
@@ -1625,7 +1700,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt14509110.json ; https://en.wikipedia.org/wiki/No_One_Will_Save_You",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt14509110.json ; https://en.wikipedia.org/wiki/No_One_Will_Save_You ; https://www.rottentomatoes.com/m/no_one_will_save_you ; https://www.metacritic.com/movie/no-one-will-save-you/",
       "canonical_title": "No One Will Save You",
       "resolved_year": 2023,
       "resolved_at": "2026-08-22T19:20:16.318Z",
@@ -1661,7 +1736,10 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["small_town", "first_contact"]
+      "dna_tags": [
+        "small_town",
+        "first_contact"
+      ]
     },
     {
       "imdb_id": "tt1179933",
@@ -1717,7 +1795,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["containment", "first_contact"]
+      "dna_tags": [
+        "containment",
+        "first_contact"
+      ]
     },
     {
       "imdb_id": "tt0118929",
@@ -1774,7 +1855,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["experiment_gone_wrong", "simulation"]
+      "dna_tags": [
+        "experiment_gone_wrong",
+        "simulation"
+      ]
     },
     {
       "imdb_id": "tt12349832",
@@ -1829,7 +1913,11 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["mutation", "parasite", "experiment_gone_wrong"]
+      "dna_tags": [
+        "mutation",
+        "parasite",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt17489650",
@@ -1885,7 +1973,11 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.75,
-      "dna_tags": ["body_horror", "alien_ecology", "containment"]
+      "dna_tags": [
+        "body_horror",
+        "alien_ecology",
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt0884328",
@@ -1905,7 +1997,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0884328.json ; https://en.wikipedia.org/wiki/The_Mist_(film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0884328.json ; https://en.wikipedia.org/wiki/The_Mist_(film) ; https://www.rottentomatoes.com/m/mist ; https://www.metacritic.com/movie/the-mist/",
       "canonical_title": "The Mist",
       "resolved_year": 2007,
       "resolved_at": "2026-08-22T19:06:06.465Z",
@@ -1940,7 +2032,13 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["small_town", "dimension", "containment", "experiment_gone_wrong", "alien_ecology"]
+      "dna_tags": [
+        "small_town",
+        "dimension",
+        "containment",
+        "experiment_gone_wrong",
+        "alien_ecology"
+      ]
     },
     {
       "imdb_id": "tt0448011",
@@ -1997,7 +2095,9 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.87,
-      "dna_tags": ["first_contact"]
+      "dna_tags": [
+        "first_contact"
+      ]
     },
     {
       "imdb_id": "tt0120184",
@@ -2054,7 +2154,12 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["underwater", "research_station", "containment", "artifact"]
+      "dna_tags": [
+        "underwater",
+        "research_station",
+        "containment",
+        "artifact"
+      ]
     },
     {
       "imdb_id": "tt0119081",
@@ -2110,7 +2215,11 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["dimension", "body_horror", "containment"]
+      "dna_tags": [
+        "dimension",
+        "body_horror",
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt5442430",
@@ -2131,7 +2240,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt5442430.json ; https://en.wikipedia.org/wiki/Life_(2017_film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt5442430.json ; https://en.wikipedia.org/wiki/Life_(2017_film) ; https://www.rottentomatoes.com/m/life_2017 ; https://www.metacritic.com/movie/life-2017/",
       "canonical_title": "Life",
       "resolved_year": 2017,
       "resolved_at": "2026-08-22T19:06:30.997Z",
@@ -2166,7 +2275,13 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.92,
-      "dna_tags": ["space_station", "lab", "containment", "first_contact", "alien_ecology"]
+      "dna_tags": [
+        "space_station",
+        "lab",
+        "containment",
+        "first_contact",
+        "alien_ecology"
+      ]
     },
     {
       "imdb_id": "tt0133751",
@@ -2187,7 +2302,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0133751.json ; https://en.wikipedia.org/wiki/The_Faculty",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0133751.json ; https://en.wikipedia.org/wiki/The_Faculty ; https://www.rottentomatoes.com/m/faculty ; https://www.metacritic.com/movie/the-faculty/",
       "canonical_title": "The Faculty",
       "resolved_year": 1998,
       "resolved_at": "2026-08-22T19:06:35.332Z",
@@ -2222,7 +2337,11 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["parasite", "infection", "small_town"]
+      "dna_tags": [
+        "parasite",
+        "infection",
+        "small_town"
+      ]
     },
     {
       "imdb_id": "tt2548396",
@@ -2279,7 +2398,13 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["space_station", "lab", "dimension", "parallel_reality", "experiment_gone_wrong"]
+      "dna_tags": [
+        "space_station",
+        "lab",
+        "dimension",
+        "parallel_reality",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt2395385",
@@ -2337,7 +2462,9 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.78,
-      "dna_tags": ["parallel_reality"]
+      "dna_tags": [
+        "parallel_reality"
+      ]
     },
     {
       "imdb_id": "tt5640450",
@@ -2358,7 +2485,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt5640450.json ; https://en.wikipedia.org/wiki/ARQ_(film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt5640450.json ; https://en.wikipedia.org/wiki/ARQ_(film) ; https://www.rottentomatoes.com/m/arq ; https://www.metacritic.com/movie/arq/",
       "canonical_title": "ARQ",
       "resolved_year": 2016,
       "resolved_at": "2026-08-22T19:20:16.559Z",
@@ -2394,7 +2521,10 @@
         "pace_speed": 7
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["time_loop", "lab"]
+      "dna_tags": [
+        "time_loop",
+        "lab"
+      ]
     },
     {
       "imdb_id": "tt3327624",
@@ -2415,7 +2545,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt3327624.json ; https://en.wikipedia.org/wiki/Infini",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt3327624.json ; https://en.wikipedia.org/wiki/Infini ; https://www.rottentomatoes.com/m/infini_2015 ; https://www.metacritic.com/movie/infini/",
       "canonical_title": "Infini",
       "resolved_year": 2015,
       "resolved_at": "2026-08-22T19:07:05.150Z",
@@ -2450,7 +2580,12 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.75,
-      "dna_tags": ["research_station", "infection", "containment", "alien_ecology"]
+      "dna_tags": [
+        "research_station",
+        "infection",
+        "containment",
+        "alien_ecology"
+      ]
     },
     {
       "imdb_id": "tt1031280",
@@ -2470,7 +2605,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1031280.json ; https://en.wikipedia.org/wiki/Splinter_(2008_film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1031280.json ; https://en.wikipedia.org/wiki/Splinter_(2008_film) ; https://www.rottentomatoes.com/m/10010329-splinter ; https://www.metacritic.com/movie/splinter/",
       "canonical_title": "Splinter",
       "resolved_year": 2008,
       "resolved_at": "2026-08-22T19:07:18.530Z",
@@ -2505,7 +2640,12 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["parasite", "infection", "body_horror", "containment"]
+      "dna_tags": [
+        "parasite",
+        "infection",
+        "body_horror",
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt8110640",
@@ -2619,7 +2759,11 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["signal", "experiment_gone_wrong", "dimension"]
+      "dna_tags": [
+        "signal",
+        "experiment_gone_wrong",
+        "dimension"
+      ]
     },
     {
       "imdb_id": "tt0139809",
@@ -2676,7 +2820,11 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["simulation", "lab", "parallel_reality"]
+      "dna_tags": [
+        "simulation",
+        "lab",
+        "parallel_reality"
+      ]
     },
     {
       "imdb_id": "tt1016301",
@@ -2735,7 +2883,9 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["containment"]
+      "dna_tags": [
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt1119191",
@@ -2756,7 +2906,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1119191.json ; https://en.wikipedia.org/wiki/The_Killing_Room",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1119191.json ; https://en.wikipedia.org/wiki/The_Killing_Room ; https://www.rottentomatoes.com/m/the_killing_room ; https://letterboxd.com/film/the-killing-room/",
       "canonical_title": "The Killing Room",
       "resolved_year": 2009,
       "resolved_at": "2026-08-22T19:08:09.932Z",
@@ -2791,7 +2941,11 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.82,
-      "dna_tags": ["containment", "lab", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "lab",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt1314655",
@@ -2846,7 +3000,9 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["containment"]
+      "dna_tags": [
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt1082807",
@@ -2866,7 +3022,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1082807.json ; https://en.wikipedia.org/wiki/The_Belko_Experiment",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt1082807.json ; https://en.wikipedia.org/wiki/The_Belko_Experiment ; https://www.rottentomatoes.com/m/the_belko_experiment ; https://www.metacritic.com/movie/the-belko-experiment/",
       "canonical_title": "The Belko Experiment",
       "resolved_year": 2016,
       "resolved_at": "2026-08-22T19:08:25.988Z",
@@ -2901,7 +3057,10 @@
         "pace_speed": 7
       },
       "dna_confidence": 0.87,
-      "dna_tags": ["containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt9764362",
@@ -2956,7 +3115,9 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["containment"]
+      "dna_tags": [
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt4547056",
@@ -2977,7 +3138,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt4547056.json ; https://en.wikipedia.org/wiki/The_Girl_with_All_the_Gifts_(film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt4547056.json ; https://en.wikipedia.org/wiki/The_Girl_with_All_the_Gifts_(film) ; https://www.rottentomatoes.com/m/the_girl_with_all_the_gifts ; https://www.metacritic.com/movie/the-girl-with-all-the-gifts/",
       "canonical_title": "The Girl with All the Gifts",
       "resolved_year": 2016,
       "resolved_at": "2026-08-22T19:08:38.524Z",
@@ -3012,7 +3173,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["infection", "mutation", "lab", "containment"]
+      "dna_tags": [
+        "infection",
+        "mutation",
+        "lab",
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt1017460",
@@ -3069,7 +3235,12 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.92,
-      "dna_tags": ["lab", "mutation", "body_horror", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "mutation",
+        "body_horror",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt2051879",
@@ -3126,7 +3297,11 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["underwater", "first_contact", "alien_ecology"]
+      "dna_tags": [
+        "underwater",
+        "first_contact",
+        "alien_ecology"
+      ]
     },
     {
       "imdb_id": "tt4520364",
@@ -3182,7 +3357,13 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["lab", "research_station", "mutation", "containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "research_station",
+        "mutation",
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt1713476",
@@ -3238,7 +3419,12 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["parasite", "infection", "small_town", "underwater"]
+      "dna_tags": [
+        "parasite",
+        "infection",
+        "small_town",
+        "underwater"
+      ]
     },
     {
       "imdb_id": "tt1219289",
@@ -3294,7 +3480,9 @@
         "pace_speed": 7
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["experiment_gone_wrong"]
+      "dna_tags": [
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt2209764",
@@ -3352,7 +3540,10 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["lab", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt17526714",
@@ -3373,7 +3564,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt17526714.json ; https://en.wikipedia.org/wiki/The_Substance",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt17526714.json ; https://en.wikipedia.org/wiki/The_Substance ; https://www.rottentomatoes.com/m/the_substance ; https://www.metacritic.com/movie/the-substance/",
       "canonical_title": "The Substance",
       "resolved_year": 2024,
       "resolved_at": "2026-08-22T19:09:20.266Z",
@@ -3408,7 +3599,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.92,
-      "dna_tags": ["body_horror", "mutation", "experiment_gone_wrong", "lab"]
+      "dna_tags": [
+        "body_horror",
+        "mutation",
+        "experiment_gone_wrong",
+        "lab"
+      ]
     },
     {
       "imdb_id": "tt4986098",
@@ -3465,7 +3661,13 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["lab", "mutation", "body_horror", "research_station", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "mutation",
+        "body_horror",
+        "research_station",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt3839880",
@@ -3522,7 +3724,10 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.8,
-      "dna_tags": ["containment", "simulation"]
+      "dna_tags": [
+        "containment",
+        "simulation"
+      ]
     },
     {
       "imdb_id": "tt5918982",
@@ -3578,7 +3783,11 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["body_horror", "lab", "experiment_gone_wrong"]
+      "dna_tags": [
+        "body_horror",
+        "lab",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt32768323",
@@ -3634,7 +3843,9 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.83,
-      "dna_tags": ["experiment_gone_wrong"]
+      "dna_tags": [
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt12299608",
@@ -3690,7 +3901,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["alien_ecology", "lab", "experiment_gone_wrong", "first_contact"]
+      "dna_tags": [
+        "alien_ecology",
+        "lab",
+        "experiment_gone_wrong",
+        "first_contact"
+      ]
     },
     {
       "imdb_id": "tt26584495",
@@ -3712,7 +3928,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "seed",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt26584495.json ; https://en.wikipedia.org/wiki/Companion_(film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt26584495.json ; https://en.wikipedia.org/wiki/Companion_(film) ; https://www.rottentomatoes.com/m/companion_2025 ; https://www.metacritic.com/movie/companion/",
       "canonical_title": "Companion",
       "resolved_year": 2025,
       "resolved_at": "2026-08-22T19:09:34.147Z",
@@ -3804,7 +4020,12 @@
         "pace_speed": 3
       },
       "dna_confidence": 0.95,
-      "dna_tags": ["first_contact", "lab", "containment", "artifact"]
+      "dna_tags": [
+        "first_contact",
+        "lab",
+        "containment",
+        "artifact"
+      ]
     },
     {
       "imdb_id": "tt2798920",
@@ -3862,7 +4083,13 @@
         "pace_speed": 4
       },
       "dna_confidence": 0.95,
-      "dna_tags": ["mutation", "alien_ecology", "lab", "body_horror", "first_contact"]
+      "dna_tags": [
+        "mutation",
+        "alien_ecology",
+        "lab",
+        "body_horror",
+        "first_contact"
+      ]
     },
     {
       "imdb_id": "tt2872732",
@@ -3883,7 +4110,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt2872732.json ; https://en.wikipedia.org/wiki/Lucy_(2014_film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt2872732.json ; https://en.wikipedia.org/wiki/Lucy_(2014_film) ; https://www.rottentomatoes.com/m/lucy_2014 ; https://www.metacritic.com/movie/lucy/",
       "canonical_title": "Lucy",
       "resolved_year": 2014,
       "resolved_at": "2026-08-22T19:20:17.283Z",
@@ -3919,7 +4146,9 @@
         "pace_speed": 8
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["experiment_gone_wrong"]
+      "dna_tags": [
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt8228288",
@@ -3976,7 +4205,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt3118452",
@@ -4031,7 +4263,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt0123755",
@@ -4087,7 +4322,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.92,
-      "dna_tags": ["containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt0285492",
@@ -4146,7 +4384,12 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.87,
-      "dna_tags": ["containment", "dimension", "parallel_reality", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "dimension",
+        "parallel_reality",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt2106651",
@@ -4166,7 +4409,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt2106651.json ; https://en.wikipedia.org/wiki/Spectral",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt2106651.json ; https://en.wikipedia.org/wiki/Spectral ; https://www.rottentomatoes.com/m/spectral ; https://www.metacritic.com/movie/spectral/",
       "canonical_title": "Spectral",
       "resolved_year": 2016,
       "resolved_at": "2026-08-22T19:11:13.931Z",
@@ -4201,7 +4444,10 @@
         "pace_speed": 6
       },
       "dna_confidence": 0.88,
-      "dna_tags": ["lab", "experiment_gone_wrong"]
+      "dna_tags": [
+        "lab",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt5774060",
@@ -4221,7 +4467,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt5774060.json ; https://en.wikipedia.org/wiki/Underwater_(film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt5774060.json ; https://en.wikipedia.org/wiki/Underwater_(film) ; https://www.rottentomatoes.com/m/underwater_2020 ; https://www.metacritic.com/movie/underwater/",
       "canonical_title": "Underwater",
       "resolved_year": 2020,
       "resolved_at": "2026-08-22T19:11:20.682Z",
@@ -4256,7 +4502,12 @@
         "pace_speed": 7
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["underwater", "research_station", "alien_ecology", "containment"]
+      "dna_tags": [
+        "underwater",
+        "research_station",
+        "alien_ecology",
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt26581740",
@@ -4310,7 +4561,9 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["small_town"]
+      "dna_tags": [
+        "small_town"
+      ]
     },
     {
       "imdb_id": "tt0387564",
@@ -4329,7 +4582,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0387564.json ; https://en.wikipedia.org/wiki/Saw_(film)",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt0387564.json ; https://en.wikipedia.org/wiki/Saw_(film) ; https://www.rottentomatoes.com/m/saw ; https://www.metacritic.com/movie/saw/",
       "canonical_title": "Saw",
       "resolved_year": 2004,
       "resolved_at": "2026-08-22T19:11:22.409Z",
@@ -4364,7 +4617,9 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.9,
-      "dna_tags": ["containment"]
+      "dna_tags": [
+        "containment"
+      ]
     },
     {
       "imdb_id": "tt27729779",
@@ -4385,7 +4640,7 @@
       "added_at": "2026-08-22T18:00:00Z",
       "added_by": "profile",
       "discovery_run_id": null,
-      "source": "https://v3-cinemeta.strem.io/meta/movie/tt27729779.json ; https://en.wikipedia.org/wiki/The_Platform_2",
+      "source": "https://v3-cinemeta.strem.io/meta/movie/tt27729779.json ; https://en.wikipedia.org/wiki/The_Platform_2 ; https://www.rottentomatoes.com/m/the_platform_2 ; https://www.metacritic.com/movie/the-platform-2/",
       "canonical_title": "The Platform 2",
       "resolved_year": 2024,
       "resolved_at": "2026-08-22T19:11:23.852Z",
@@ -4420,7 +4675,10 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.85,
-      "dna_tags": ["containment", "experiment_gone_wrong"]
+      "dna_tags": [
+        "containment",
+        "experiment_gone_wrong"
+      ]
     },
     {
       "imdb_id": "tt1119644",
@@ -4483,7 +4741,14 @@
         "pace_speed": 5
       },
       "dna_confidence": 0.95,
-      "dna_tags": ["lab", "dimension", "parallel_reality", "mutation", "experiment_gone_wrong", "body_horror"]
+      "dna_tags": [
+        "lab",
+        "dimension",
+        "parallel_reality",
+        "mutation",
+        "experiment_gone_wrong",
+        "body_horror"
+      ]
     }
   ]
 }
