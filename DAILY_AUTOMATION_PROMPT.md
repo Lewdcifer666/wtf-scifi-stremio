@@ -81,7 +81,7 @@ RETRACTION / DELETE SEMANTICS:
 
 FEEDBACK EVENTS CARRY A SCHEMA VERSION. HONOUR IT.
 
-Every event has an explicit integer schema_version. Currently supported feedback schemas are 1 and 2. Read each event under the rules of its own version and never treat the two as equivalent. Do not assume a missing or unexpected version.
+Every event has an explicit integer schema_version. Currently supported feedback schemas are 1, 2 and 3. Read each event under the rules of its own version and never treat them as equivalent. Do not assume a missing or unexpected version. Schema 3 adds exactly one field, profile_context, and changes nothing about what an opinion means.
 
 UNSUPPORTED SCHEMAS (anything that is not 1 or 2, including future schemas):
 
@@ -115,6 +115,77 @@ resolved effective tips:
   5. Preserve unsupported-schema events in that topology exactly as described
      above.
   6. ONLY THEN apply the ownership filter below, for taste learning.
+
+SCHEMA 3 CARRIES profile_context. IT IS NOT ONE EVENT-WIDE ON/OFF SWITCH.
+
+A schema-3 event carries profile_context: one of scifi, fantasy, action,
+anime, thriller, or null. It records the LENS the rating was given under -
+which addon's row the user was actually looking through - and null means that
+could not be proved, which is the normal answer for a manual rating or a title
+reached through Search. null is a real value, not a missing one.
+
+profile_context NEVER affects topology. Resolve the graph exactly as above: a
+v3 event whose context is action still supersedes an older Sci-Fi-looking
+parent, and that parent stays superseded. Context is read only after the
+effective tip is known.
+
+DIFFERENT SIGNALS TRAVEL DIFFERENT DISTANCES. Do not gate the whole event on
+one test. For each effective, non-retracted, supported tip, decide per class:
+
+  EXECUTION aspects - acting, characters, dialogue, pacing, visuals, effects,
+  ending_payoff, sound_music, originality - are UNIVERSAL. They judge how well
+  a title was made, not what it is about, so they contribute to Pe(a) whatever
+  profile_context says and whether or not this addon owns the title. A dislike
+  of bad acting is a dislike of bad acting.
+
+  THE NUMERIC RATING feeding E_base is PROFILE-SCOPED. Use it only when
+  profile_context is scifi, or when profile_context is null AND the imdb_id is
+  in this repository's own public identity set. Never use a rating whose
+  context is another profile: this profile's satisfaction anchor must not be
+  moved by how generous the user is when rating anime.
+
+  TONE aspects are PROFILE-SCOPED, for the same reason. Use them only when
+  profile_context is scifi, or null-and-owned. A thumbs-up on Horror given
+  while browsing Anime must not teach this profile to want more horror - Anime
+  weights horror positively on purpose and Sci-Fi ranks it down on purpose.
+
+  UNIVERSAL CONCEPT aspects - premise_concept, mystery, world_rules,
+  conspiracy, creature_threat, concept_escalation, weirdness - MAY cross
+  profile_context, because the user explicitly named a property that is
+  meaningful here too. For this profile they map: mystery -> mystery,
+  world_rules -> rule_discovery, conspiracy -> conspiracy, creature_threat ->
+  creature_threat, concept_escalation -> concept_escalation, weirdness ->
+  weirdness. premise_concept is not a direct mapping; see below.
+
+  THE REMAINING CONCEPT aspects - science_biology, alien_unknown,
+  scientific_investigation, reality_time_anomaly, mind_consciousness,
+  experiments - keep their established Sci-Fi mappings and are PROFILE-SCOPED:
+  scifi context, or null-and-owned.
+
+  premise_interest and legacy more_like_this are PROFILE-SCOPED AND need this
+  profile's own DNA for the source title. Use them only when the event is
+  attributable here (scifi context, or null-and-owned) AND the imdb_id is
+  valid AND that title is in this repository's identity set, so this profile
+  has its own Content DNA vector to project from. Never project another
+  profile's DNA through this registry.
+
+  DNF reasons are PROFILE-SCOPED title-level evidence, never a topic
+  rejection and never a blacklist. Use them only under scifi context or
+  null-and-owned. They do not become execution-aspect votes by themselves; if
+  the same event also carries explicit execution aspects, those still count
+  universally as above.
+
+  FREE TEXT is PROFILE-SCOPED and qualitative only, under the same test.
+  Structured fields always win. Never invent a deterministic mapping from
+  prose, and never expose it.
+
+An event with a null imdb_id still participates in topology and dedupe and
+contributes ZERO preference learning, exactly as before. An unsupported-schema
+tip stays opaque whatever its context. A retracted tip contributes nothing.
+
+v1 and v2 events have no profile_context at all. They fall back to the
+ownership rule below, unchanged - that remains the safe default and is not
+replaced by v3.
 
 TOPOLOGY FIRST, OWNERSHIP SECOND. Ownership must never influence which event is
 the chain tip. Filtering earlier would let a superseded or retracted opinion
