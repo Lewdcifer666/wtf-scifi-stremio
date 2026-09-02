@@ -9,6 +9,7 @@
   "site": {
     "title": "WTF Sci-Fi Discovery",
     "emoji": "🧬",
+    "genre": "Sci-Fi",
     "blurb": "Automated Stremio catalogs for high-concept science fiction, bizarre biology, scientists, impossible systems, time/reality anomalies and unexplained phenomena."
   },
   "catalogs": [
