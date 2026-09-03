@@ -2,7 +2,7 @@
   "schema_version": 2,
   "manifest": {
     "id": "com.github.wtfscifi.automated-watchlist",
-    "version": "2.2.0",
+    "version": "2.3.0",
     "name": "WTF Sci-Fi Discovery",
     "description": "Automated high-concept sci-fi and mystery watchlists: scientists, biology, impossible phenomena, hidden systems, time/reality anomalies and escalating WTF concepts."
   },

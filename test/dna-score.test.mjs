@@ -52,7 +52,7 @@ console.log("");
 // ---------------------------------------------------------------- config
 check("C1", "config declares 15 catalog definitions", config.catalogs.length === 15, `got ${config.catalogs.length}`);
 check("C2", "config schema_version is 2", config.schema_version === 2);
-check("C3", "manifest.version is 2.2.0", config.manifest.version === "2.2.0");
+check("C3", "manifest.version is 2.3.0", config.manifest.version === "2.3.0");
 check("C4", "six DNA rows are declared", DNA_DEFS.length === 6, DNA_DEFS.map(d => d.id).join(","));
 check("C5", "archetype_bonus_max = 25", def("dna-match").dna.archetype_bonus_max === 25, String(def("dna-match").dna.archetype_bonus_max));
 check("C6", "High Suspense min_score = 60", def("high-suspense").min_score === 60, String(def("high-suspense").min_score));

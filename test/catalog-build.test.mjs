@@ -36,7 +36,7 @@ const catalog = (id, type) => read(path.join("catalog", type, `${id}-${type}.jso
 
 // ---------------------------------------------------------------- manifest
 check("M1", "manifest declares 30 catalog entries", manifest.catalogs.length === 30, `got ${manifest.catalogs.length}`);
-check("M2", "manifest version is 2.2.0", manifest.version === "2.2.0", manifest.version);
+check("M2", "manifest version is 2.3.0", manifest.version === "2.3.0", manifest.version);
 check("M3", "every logical row exists for both movie and series", (() => {
   const ids = new Set(manifest.catalogs.map(c => `${c.type}:${c.id}`));
   return [...EXISTING_ROWS, ...NEW_ROWS].every(r => ids.has(`movie:${r}-movie`) && ids.has(`series:${r}-series`));
