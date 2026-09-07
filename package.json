@@ -11,6 +11,7 @@
     "build": "node scripts/build-site.mjs",
     "validate": "node scripts/validate.mjs",
     "personalize": "node scripts/rebuild-personalization.mjs",
-    "test": "node test/run-all.mjs"
+    "test": "node --check scripts/rebuild-personalization.mjs && node test/personalization-rebuild.test.mjs && node test/automation-contract.test.mjs && node scripts/validate.mjs",
+    "test:legacy": "node test/run-all.mjs"
   }
 }
