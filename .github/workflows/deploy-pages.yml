@@ -65,8 +65,11 @@ jobs:
             git push origin HEAD:main
           fi
 
-      - name: Run tests
-        run: npm test
+      - name: Check personalization architecture
+        run: |
+          node --check scripts/rebuild-personalization.mjs
+          node test/personalization-rebuild.test.mjs
+          node test/automation-contract.test.mjs
 
       - name: Validate source data
         run: node scripts/validate.mjs
