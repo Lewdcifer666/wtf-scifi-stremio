@@ -8,6 +8,7 @@ on:
       - "data/**"
       - "config/**"
       - "scripts/**"
+      - "test/**"
       - "package.json"
       - ".github/workflows/deploy-pages.yml"
 
@@ -63,6 +64,9 @@ jobs:
             git commit -m "Auto-repair duplicate discovery before validation"
             git push origin HEAD:main
           fi
+
+      - name: Run tests
+        run: npm test
 
       - name: Validate source data
         run: node scripts/validate.mjs

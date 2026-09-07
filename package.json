@@ -10,6 +10,7 @@
     "resolve": "node scripts/resolve-library.mjs",
     "build": "node scripts/build-site.mjs",
     "validate": "node scripts/validate.mjs",
+    "personalize": "node scripts/rebuild-personalization.mjs",
     "test": "node test/run-all.mjs"
   }
 }
