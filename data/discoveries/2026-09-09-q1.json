@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-09-09-q1",
+  "timestamp": "2026-09-09T06:09:47Z",
+  "items": [
+    {
+      "imdb_id": "tt0166936",
+      "type": "series",
+      "title": "Strange World",
+      "year": 1999,
+      "status": "watch",
+      "preference": null,
+      "rank": null,
+      "match_score": 85,
+      "tags": [
+        "biology",
+        "science",
+        "experiment",
+        "conspiracy",
+        "mystery",
+        "phenomenon",
+        "genetics",
+        "technology"
+      ],
+      "reason": "An Army scientist investigates a season-long stream of cloning, genetic engineering, engineered pathogens, brain implants and other abused science while uncovering the secret organization connecting the cases — investigation-first weird science with an escalating conspiracy.",
+      "aliases": [],
+      "added_at": "2026-09-09T06:09:47Z",
+      "added_by": "daily-automation",
+      "discovery_run_id": "2026-09-09-q1",
+      "source": "https://www.imdb.com/title/tt0166936/ ; https://www.tvguide.com/tvshows/strange-world/episodes-season-1/1030085578/ ; https://www.rottentomatoes.com/tv/strange_world/s01",
+      "dna": {
+        "scientific_investigation": 10,
+        "biology_genetics": 9,
+        "alien_unknown_life": 1,
+        "unknown_phenomenon": 8,
+        "mystery": 8,
+        "suspense": 7,
+        "rule_discovery": 7,
+        "concept_escalation": 8,
+        "weirdness": 8,
+        "reality_anomaly": 1,
+        "time_anomaly": 0,
+        "mind_consciousness": 5,
+        "experiments": 10,
+        "conspiracy": 9,
+        "scientist_presence": 10,
+        "research_setting": 6,
+        "isolation": 2,
+        "creature_threat": 3,
+        "survival_chase": 2,
+        "horror": 4,
+        "action_density": 3,
+        "action_intensity": 4,
+        "military_focus": 4,
+        "space_opera": 0,
+        "superhero": 0,
+        "comic_book_universe": 0,
+        "comedy": 0,
+        "pace_speed": 6
+      },
+      "dna_confidence": 0.9,
+      "dna_tags": [
+        "lab",
+        "infection",
+        "experiment_gone_wrong"
+      ]
+    }
+  ]
+}
