@@ -11,6 +11,7 @@ on:
       - "scripts/**"
       - "test/**"
       - "package.json"
+      - "DAILY_AUTOMATION_PROMPT.md"
       - ".github/workflows/deploy-pages.yml"
 
   schedule:

@@ -17,7 +17,7 @@ PHASE A — SMALL CURRENT STATE
 2. Fetch data/taste-profile.json in bounded chunks of about 250 lines until complete. Never make one unbounded request for this large file.
 3. Fetch scripts/dna-score.mjs and only the small scoring/policy files actually needed.
 4. A runnable checkout is an OPTIONAL optimization. Lack of local code execution, git clone, DNS from a shell, or a local workspace is NOT a failure condition.
-5. Personalization is non-blocking. In connector-only scheduled execution, do NOT reconstruct the private feedback history ad hoc. Preserve the existing public personalized-scores snapshot and use stable baseline DNA scoring for new candidates unless a deterministic repository-owned rebuild can actually be executed from a complete feedback snapshot. Never abort discovery solely because personalization cannot be refreshed.
+5. Personalization is non-blocking. `scripts/rebuild-personalization.mjs` remains the authoritative deterministic feedback resolver when a complete executable feedback snapshot is actually available. It supports feedback schemas 1, 2 and 3. In connector-only scheduled execution, do NOT reconstruct private feedback history ad hoc. Preserve the existing public personalized-scores snapshot and use stable baseline DNA scoring for new candidates unless that deterministic rebuild can actually run. The task must not abort the discovery run solely because personalization could not be refreshed.
 
 PHASE B — RESEARCH
 6. Search efficiently for Sci-Fi movies/series fitting the live profile: scientific investigation, biology/genetics/ecology/alien organisms, experiments with escalating consequences, unexplained phenomena, discoverable impossible systems, reality/time/memory/consciousness anomalies and meaningful mystery payoff.
