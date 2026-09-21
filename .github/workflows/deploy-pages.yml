@@ -17,7 +17,7 @@ on:
   schedule:
     # Rebuild hourly so items automatically leave
     # the Past 24h catalogs after 24 hours.
-    - cron: "17 * * * *"
+    - cron: "07 * * * *"
 
   workflow_dispatch:
 
