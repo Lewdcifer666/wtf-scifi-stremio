@@ -1,0 +1,32 @@
+{
+  "run_id": "2026-09-21-run11",
+  "timestamp": "2026-09-21T05:58:15Z",
+  "searched": 7,
+  "accepted": 0,
+  "rejected": 3,
+  "duplicates": 4,
+  "accepted_items": [],
+  "rejection_summary": [
+    {
+      "title": "Alien Code",
+      "reason": "Rejected after whole-runtime evidence review: intriguing cryptography/interdimensional premise, but insufficient evidence for a complete high-confidence DNA vector and an 82+ deterministic baseline score."
+    },
+    {
+      "title": "Control",
+      "imdb_id": "tt14036276",
+      "reason": "Rejected: single-room mystery has a strong hidden-system setup, but substantive reviews describe it as stretched, slow and increasingly confused, with weak payoff/execution evidence for the live profile."
+    },
+    {
+      "title": "Project Ithaca",
+      "imdb_id": "tt6490930",
+      "reason": "Rejected: alien-abduction mystery contains rule discovery and a government-research thread, but whole-runtime reviews characterize it as slow, convoluted, horror-forward and focused on trapped-character conflict rather than sustained scientific investigation."
+    }
+  ],
+  "duplicate_items": [
+    {"title": "Extracted", "imdb_id": "tt1757746", "type": "movie"},
+    {"title": "Synchronicity", "imdb_id": "tt2049543", "type": "movie"},
+    {"title": "The Gateway", "imdb_id": "tt6179746", "type": "movie"},
+    {"title": "Domain", "imdb_id": "tt4694518", "type": "movie"}
+  ],
+  "personalization": "preserved"
+}
