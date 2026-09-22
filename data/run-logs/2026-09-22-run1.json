@@ -1,0 +1,27 @@
+{
+  "run_id": "2026-09-22-run1",
+  "timestamp": "2026-09-22T05:57:45Z",
+  "searched": 5,
+  "accepted": 0,
+  "rejected": 2,
+  "duplicates": 3,
+  "accepted_items": [],
+  "rejection_summary": [
+    {
+      "title": "The Frame",
+      "imdb_id": "tt2567038",
+      "reason": "Rejected after whole-runtime evidence review: strong reality-collision premise and escalating impossible-world imagery, but the 127-minute story is primarily metaphysical/fantasy-romance, with little scientific investigation or testable rule discovery and a deliberately symbolic execution/payoff that does not safely support an 82+ baseline score."
+    },
+    {
+      "title": "41",
+      "imdb_id": "tt2319739",
+      "reason": "Rejected after whole-runtime evidence review: appealing motel-floor time portal and paradox mechanics, but evidence describes a thin, predictable treatment with a slow start, limited exploration of the time-travel system and distracting police subplot; insufficient sustained investigation/concept escalation for an 82+ baseline score."
+    }
+  ],
+  "duplicate_items": [
+    {"title": "Infinity Chamber", "imdb_id": "tt3839880", "type": "movie"},
+    {"title": "The Mandela Effect", "imdb_id": "tt6544220", "type": "movie"},
+    {"title": "Devs", "imdb_id": "tt8134186", "type": "series"}
+  ],
+  "personalization": "preserved"
+}
