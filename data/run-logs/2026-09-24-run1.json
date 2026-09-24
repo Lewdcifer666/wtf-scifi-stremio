@@ -1,0 +1,26 @@
+{
+  "run_id": "2026-09-24-run1",
+  "timestamp": "2026-09-24T06:05:00Z",
+  "searched": 3,
+  "accepted": 0,
+  "rejected": 3,
+  "duplicates": 0,
+  "accepted_items": [],
+  "rejection_summary": [
+    {
+      "imdb_id": "tt5864904",
+      "title": "The Capture",
+      "reason": "Strong scientist-led experiment and reality/time premise, but whole-runtime evidence indicates very weak progression, little meaningful rule discovery, and poor execution; not defensible at the 82 threshold."
+    },
+    {
+      "imdb_id": "tt0220605",
+      "title": "The Krone Experiment",
+      "reason": "Scientific-intelligence investigation of a mysterious destructive signal fits the premise profile, but available whole-runtime evidence is too thin and flags pacing, repetitive exposition, rushed/unsatisfying resolution, and ambiguity; insufficient for a confident complete DNA vector at 82+."
+    },
+    {
+      "imdb_id": "tt0119243",
+      "title": "Habitat",
+      "reason": "Biology, accelerated evolution and an experiment-gone-wrong are strong topic matches, but the film shifts into family/teen drama and fantasy-horror around a living house rather than sustained scientific investigation or rule discovery; below threshold."
+    }
+  ]
+}
