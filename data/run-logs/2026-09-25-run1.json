@@ -1,0 +1,15 @@
+{
+  "run_id": "2026-09-25-run1",
+  "timestamp": "2026-09-25T05:58:08Z",
+  "searched": 4,
+  "accepted": 0,
+  "rejected": 4,
+  "duplicates": 0,
+  "accepted_items": [],
+  "rejection_summary": [
+    {"imdb_id":"tt3430042","type":"movie","title":"The Phoenix Project","reason":"Strong scientist and experiment premise, but whole-runtime evidence describes a slow, talky drama without enough mystery, rule discovery, or sustained concept escalation to clear the 82-point baseline threshold."},
+    {"imdb_id":"tt4991112","type":"movie","title":"They Remain","reason":"Scientists investigate abnormal ecology and a mysterious artifact, but the film is deliberately slow, horror-forward and increasingly psychological and ambiguous; runtime evidence does not support enough concrete discovery or payoff for the live profile."},
+    {"imdb_id":"tt2660332","type":"movie","title":"LFO","reason":"A sound experiment produces mind control and escalating consequences, but the film centers manipulation, dark comedy and abuse of power rather than scientific investigation, mystery, or systematic rule discovery, leaving baseline fit below threshold."},
+    {"imdb_id":"tt4815122","type":"movie","title":"Time Trap","reason":"The time-dilation cave has strong anomaly, mystery and escalating-concept qualities, but the complete film is primarily an adventure and survival exploration with limited scientific investigation and incomplete explanation of the mechanism; insufficient for a defensible 82+ baseline match."}
+  ]
+}
