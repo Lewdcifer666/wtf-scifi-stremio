@@ -1,9 +1,11 @@
 {
   "schema_version": 1,
-  "state_token": "702c115d4d99329d4ca22edeb6abcd25d0cba8045379017a71faf0c3ad00c147",
+  "state_token": "24ece597ba383d28c2fd78c16798c0110d5feb6027f72cc085e7df1aa20f270f",
   "minimum_match_score": 82,
   "best_match_score": 90,
-  "personalization_enabled": true,
+  "personalization_enabled": false,
+  "personalization_status": "stale",
+  "personalization_applied_items": 0,
   "discovery_file_count": 14,
   "public_identities": [
     "movie:tt0066769",
