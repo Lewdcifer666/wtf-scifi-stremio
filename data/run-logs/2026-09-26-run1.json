@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-09-26-run1",
+  "timestamp": "2026-09-26T05:58:28Z",
+  "searched": 5,
+  "accepted": 1,
+  "rejected": 1,
+  "duplicates": 3,
+  "accepted_items": [
+    {
+      "imdb_id": "tt27841637",
+      "type": "movie",
+      "title": "Quantum Suicide",
+      "match_score": 88
+    }
+  ],
+  "rejection_summary": [
+    "The Device (2014): alien-device premise becomes slow domestic/abduction horror with little sustained scientific investigation or rule discovery.",
+    "Duplicates: Anti Matter (tt4881364), The Signal (tt2910814), The Beyond (tt5723416)."
+  ]
+}

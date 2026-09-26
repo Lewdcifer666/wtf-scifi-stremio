@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-09-26-run1",
+  "timestamp": "2026-09-26T05:58:28Z",
+  "items": [
+    {
+      "imdb_id": "tt27841637",
+      "type": "movie",
+      "title": "Quantum Suicide",
+      "year": 2024,
+      "status": "watch",
+      "preference": null,
+      "rank": null,
+      "match_score": 88,
+      "tags": [
+        "science",
+        "experiment",
+        "time",
+        "mystery",
+        "phenomenon"
+      ],
+      "reason": "A reclusive physicist builds a particle accelerator to pursue a grand unifying theory; repeated experiments increasingly distort his experience of reality and time, forcing him to test the implications of the phenomenon himself.",
+      "aliases": [],
+      "added_at": "2026-09-26T05:58:28Z",
+      "added_by": "daily-automation",
+      "discovery_run_id": "2026-09-26-run1",
+      "source": "https://www.imdb.com/title/tt27841637/ ; https://www.rottentomatoes.com/m/quantum_suicide ; https://filmthreat.com/reviews/quantum-suicide/ ; https://quantumsuici.de/official-release-announcement-coming-october-18-2024/",
+      "dna": {
+        "scientific_investigation": 10,
+        "biology_genetics": 0,
+        "alien_unknown_life": 0,
+        "unknown_phenomenon": 8,
+        "mystery": 8,
+        "suspense": 7,
+        "rule_discovery": 8,
+        "concept_escalation": 8,
+        "weirdness": 8,
+        "reality_anomaly": 9,
+        "time_anomaly": 8,
+        "mind_consciousness": 4,
+        "experiments": 10,
+        "conspiracy": 0,
+        "scientist_presence": 10,
+        "research_setting": 8,
+        "isolation": 6,
+        "creature_threat": 0,
+        "survival_chase": 1,
+        "horror": 2,
+        "action_density": 2,
+        "action_intensity": 3,
+        "military_focus": 0,
+        "space_opera": 0,
+        "superhero": 0,
+        "comic_book_universe": 0,
+        "comedy": 0,
+        "pace_speed": 5
+      },
+      "dna_confidence": 0.82,
+      "dna_tags": [
+        "lab",
+        "experiment_gone_wrong",
+        "parallel_reality"
+      ]
+    }
+  ]
+}
