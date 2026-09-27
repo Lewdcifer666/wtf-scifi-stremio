@@ -1,0 +1,14 @@
+{
+  "run_id": "2026-09-27-run1",
+  "timestamp": "2026-09-27T05:58:09Z",
+  "searched": 3,
+  "accepted": 0,
+  "rejected": 3,
+  "duplicates": 0,
+  "accepted_items": [],
+  "rejection_summary": [
+    "Forgotten Experiment (2023, tt7106686): strong scientist/time-anomaly premise, but whole-runtime evidence reports unclear temporal mechanics, confusing execution and a dragged-out finale; not enough reliable rule discovery/execution quality for the 82 threshold.",
+    "The Universal Theory (2023, tt18453866): physicist-led quantum/parallel-universe mystery, but evidence describes the parallel-world mechanism as elusive/incomprehensible, the story as convoluted and ponderous, and the conclusion as unsatisfactory; rejected under the live payoff/withholding guardrail.",
+    "Supercollider (2013, tt2326124): collider/alternate-reality setup is relevant, but the film becomes catastrophe/action-first and available whole-runtime evidence says it spends too little time explaining or theorizing the phenomenon; rejected below threshold."
+  ]
+}
