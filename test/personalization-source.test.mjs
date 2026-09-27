@@ -38,7 +38,7 @@ try {
   write(path.join(checkout, "events", "old.json"), old);
   write(path.join(checkout, "events", "nested", "correction.json"), correction);
   write(path.join(checkout, "events", "second.json"), second);
-  write(path.join(checkout, "settings.json"), { metadata: true });
+  write(path.join(checkout, "settings.json"), { metadata: true, feedback_id: "metadata-reference", schema_version: 1, rated_at: "display-format" });
   write(path.join(checkout, ".gitignore"), "ignored.json\n");
   git(checkout, "add", "."); git(checkout, "commit", "-m", "Complete synthetic history");
   git(checkout, "push", "origin", "main");

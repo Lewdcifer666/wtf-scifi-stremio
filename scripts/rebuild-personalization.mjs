@@ -169,8 +169,8 @@ function requireClean(root, directory) {
 function containsFeedbackRecord(value) {
   if (Array.isArray(value)) return value.some(containsFeedbackRecord);
   if (!obj(value)) return false;
-  if (typeof value.feedback_id === "string"
-    || (Number.isInteger(value.schema_version) && ("rated_at" in value || "supersedes" in value))) return true;
+  if (typeof value.feedback_id === "string" && "rated_at" in value
+    && "status" in value && ("imdb_id" in value || "source_id" in value)) return true;
   return Object.values(value).some(containsFeedbackRecord);
 }
 
