@@ -62,7 +62,9 @@ const events = [
   }
 ];
 
-const tips = resolveFeedback(events);
+assert.throws(() => resolveFeedback(events), /unsupported or missing feedback schema_version/,
+  "an unsupported event must block rebuilding the whole snapshot rather than silently remove evidence");
+const tips = resolveFeedback(events.filter(e => e.schema_version !== 4));
 const signals = deriveSignals({ tips, publicItems });
 
 assert.deepEqual(signals.ratings, [5], "non-owned v3 numeric rating must remain profile-scoped");
@@ -76,8 +78,8 @@ assert.ok(signals.tonePreferences.get("suspense") > 0,
   "owned/null-context v3 tone feedback must contribute");
 assert.equal(signals.tonePreferences.has("military_focus"), false,
   "non-owned v3 tone feedback must remain profile-scoped");
-assert.equal(signals.unsupportedTips, 1,
-  "schema 3 is supported; only schema 4 should be opaque in this fixture");
+assert.equal(signals.unsupportedTips, 0,
+  "only fully validated feedback may reach the signal calculation");
 
 const superseded = resolveFeedback([
   { schema_version: 2, feedback_id: "old", supersedes: null, imdb_id: "tt1000001", status: "seen", rating: 1, rated_at: "2026-09-01T00:00:00Z" },

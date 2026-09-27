@@ -1,6 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
+import { randomUUID } from "node:crypto";
 import { makePolicy, dnaEligible, hardExcluded, baselineContentPre } from "./dna-score.mjs";
 
 const SUPPORTED = new Set([1, 2, 3]);
@@ -22,12 +24,54 @@ const clamp=(v,a,b)=>Math.min(Math.max(v,a),b), tier=n=>n<1?0:n===1?.3:n===2?.6:
 const goodId=x=>typeof x==="string"&&IMDB.test(x), obj=x=>x&&typeof x==="object"&&!Array.isArray(x);
 
 function identity(e){ return goodId(e?.imdb_id)?`imdb:${e.imdb_id}`:typeof e?.source_id==="string"&&e.source_id?`source:${e.source_id}`:null; }
-function when(x){ const t=Date.parse(x||""); return Number.isFinite(t)?t:-Infinity; }
+function when(x){ return Date.parse(x); }
+
+// Rebuilding must never turn a partial or malformed feedback history into a
+// fresh-looking snapshot. These are the common fields used by this resolver;
+// extra schema-owned fields remain inert. Unsupported schemas fail the entire
+// rebuild, so an opaque correction can never resurrect its older opinion.
+function validateFeedback(events) {
+  if (!Array.isArray(events)) throw new Error("feedback snapshot must be an array");
+  const byId = new Map();
+  for (const e of events) {
+    if (!obj(e) || !SUPPORTED.has(e.schema_version)) throw new Error("unsupported or missing feedback schema_version");
+    if (typeof e.feedback_id !== "string" || !e.feedback_id.trim()) throw new Error("feedback_id must be a nonempty string");
+    if (byId.has(e.feedback_id)) throw new Error("duplicate feedback_id");
+    if (e.supersedes != null && (typeof e.supersedes !== "string" || !e.supersedes.trim())) throw new Error("supersedes must be a feedback_id or null");
+    if (e.imdb_id !== null && !goodId(e.imdb_id)) throw new Error("imdb_id must be a valid IMDb id or null");
+    if (e.source_id != null && (typeof e.source_id !== "string" || !e.source_id.trim())) throw new Error("source_id must be a nonempty string or null");
+    if (typeof e.status !== "string" || !e.status.trim()) throw new Error("feedback status must be a nonempty string");
+    if (typeof e.rated_at !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/.test(e.rated_at)
+      || !Number.isFinite(when(e.rated_at))
+      || new Date(when(e.rated_at)).toISOString().slice(0, 19) !== e.rated_at.slice(0, 19)) throw new Error("rated_at must be a valid UTC timestamp");
+    if (e.rating != null && (!Number.isInteger(e.rating) || e.rating < 1 || e.rating > 5)) throw new Error("rating must be an integer from 1 to 5 or null");
+    if (e.schema_version === 3 && !CONTEXTS.has(e.profile_context)) throw new Error("unsupported or missing schema-3 profile_context");
+    for (const side of ["liked", "disliked"]) {
+      if (e[side] != null && (!Array.isArray(e[side]) || e[side].some(x => typeof x !== "string" || !x.trim()))) throw new Error(`${side} must be an array of aspect names`);
+    }
+    const interest = e.schema_version === 1 ? e.more_like_this : e.premise_interest;
+    if (interest != null && !["yes", "no", "maybe"].includes(interest)) throw new Error("unsupported feedback interest value");
+    byId.set(e.feedback_id, e);
+  }
+  for (const e of byId.values()) {
+    if (e.supersedes != null && !byId.has(e.supersedes)) throw new Error("incomplete feedback history: superseded event is missing");
+  }
+  const complete = new Set();
+  for (const start of byId.keys()) {
+    const chain = new Set();
+    let id = start;
+    while (id != null && !complete.has(id)) {
+      if (chain.has(id)) throw new Error("invalid feedback history: supersedes cycle");
+      chain.add(id);
+      id = byId.get(id).supersedes ?? null;
+    }
+    for (const id of chain) complete.add(id);
+  }
+  return byId;
+}
 
 export function resolveFeedback(events){
-  if(!Array.isArray(events)) throw new Error("feedback snapshot must be an array");
-  const byId=new Map();
-  for(const e of events){ if(!obj(e)||typeof e.feedback_id!=="string"||!e.feedback_id) continue; if(byId.has(e.feedback_id)) throw new Error(`duplicate feedback_id: ${e.feedback_id}`); byId.set(e.feedback_id,e); }
+  const byId=validateFeedback(events);
   const superseded=new Set([...byId.values()].map(e=>e.supersedes).filter(x=>typeof x==="string"&&x));
   const out=new Map(), loose=[];
   for(const e of byId.values()){
@@ -35,7 +79,7 @@ export function resolveFeedback(events){
     const k=identity(e); if(!k){loose.push(e);continue;}
     const p=out.get(k); if(!p||when(e.rated_at)>when(p.rated_at)||(when(e.rated_at)===when(p.rated_at)&&e.feedback_id>p.feedback_id)) out.set(k,e);
   }
-  return [...out.values(),...loose];
+  return [...out.values(),...loose].sort((a, b) => a.feedback_id < b.feedback_id ? -1 : a.feedback_id > b.feedback_id ? 1 : 0);
 }
 
 function add(store,key,title,val){ if(!val) return; if(!store.has(key)) store.set(key,new Map()); const m=store.get(key); m.set(title,clamp((m.get(title)||0)+val,-1,1)); }
@@ -92,7 +136,150 @@ export function buildPersonalizedSnapshot({profile,catalogs,publicItems,feedback
   return {snapshot,automationSignals,diagnostics:{resolved_tips:tips.length,supported_ratings:count,content_evidence_titles:s.contentEvidenceTitles,execution_evidence_titles:s.executionEvidenceTitles,unsupported_tips:s.unsupportedTips,non_owned_tips:s.nonOwnedTips,output_items:Object.keys(out).length}};
 }
 
-function args(argv){const o={publicRoot:".",output:null,signalsOutput:null,feedbackSnapshot:null,feedbackDir:null,executionEvidence:null,generatedAt:null}; for(let i=0;i<argv.length;i++){const a=argv[i],v=argv[i+1]; if(a==="--public-root")o.publicRoot=v;else if(a==="--output")o.output=v;else if(a==="--signals-output")o.signalsOutput=v;else if(a==="--feedback-snapshot")o.feedbackSnapshot=v;else if(a==="--feedback-dir")o.feedbackDir=v;else if(a==="--execution-evidence")o.executionEvidence=v;else if(a==="--generated-at")o.generatedAt=v;else throw new Error(`unknown argument: ${a}`);i++;}return o;}
-function feedback(o){if(o.feedbackSnapshot){const p=loadJson(o.feedbackSnapshot);return Array.isArray(p)?p:p.events;}if(o.feedbackDir)return files(o.feedbackDir).map(loadJson);throw new Error("provide --feedback-snapshot or --feedback-dir");}
-async function main(){const o=args(process.argv.slice(2)),root=path.resolve(o.publicRoot),profile=loadJson(path.join(root,"data/taste-profile.json")),catalogs=loadJson(path.join(root,"config/catalogs.json")),publicItems=loadPublicItems(root),feedbackEvents=feedback(o),executionEvidence=o.executionEvidence?loadJson(o.executionEvidence):{}; if(!Array.isArray(feedbackEvents))throw new Error("feedback snapshot must contain an array"); const {snapshot,automationSignals,diagnostics}=buildPersonalizedSnapshot({profile,catalogs,publicItems,feedbackEvents,executionEvidence,generatedAt:o.generatedAt||new Date()}); const text=JSON.stringify(snapshot)+"\n"; if(o.output)fs.writeFileSync(o.output,text);else process.stdout.write(text); if(o.signalsOutput)fs.writeFileSync(o.signalsOutput,JSON.stringify(automationSignals)+"\n"); process.stderr.write(`personalization: ${JSON.stringify(diagnostics)}\n`);}
+function git(root, ...argv) {
+  try { return execFileSync("git", ["-C", root, ...argv], { encoding: "utf8", maxBuffer: 32 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] }); }
+  catch { throw new Error(`feedback Git verification failed (${argv[0]})`); }
+}
+function isWithin(root, file) {
+  const relative = path.relative(root, file);
+  return relative === "" || (!relative.startsWith(`..${path.sep}`) && relative !== ".." && !path.isAbsolute(relative));
+}
+function remoteHead(root) {
+  const text = git(root, "ls-remote", "--symref", "origin", "HEAD");
+  const ref = text.match(/^ref: (refs\/heads\/[^\r\n\t]+)\tHEAD$/m)?.[1];
+  const sha = text.match(/^([a-f0-9]{40,64})\tHEAD$/m)?.[1];
+  if (!ref || !sha) throw new Error("feedback origin must expose its current default-branch HEAD");
+  return { ref, sha };
+}
+function trackedInventory(root, head, directory) {
+  if (directory !== "." && git(root, "cat-file", "-t", `${head}:${directory}`).trim() !== "tree") throw new Error("feedback directory must be a tracked directory");
+  const entries = git(root, "ls-tree", "-r", "-z", "--full-tree", head, "--", directory).split("\0").filter(Boolean).map(line => {
+    const match = /^(\d+) (\w+) ([a-f0-9]+)\t([\s\S]+)$/.exec(line);
+    if (!match) throw new Error("invalid feedback Git inventory");
+    return { mode: match[1], type: match[2], sha: match[3], file: match[4] };
+  });
+  if (entries.some(e => e.type !== "blob" || !["100644", "100755"].includes(e.mode))) throw new Error("feedback directory cannot contain symlinks or submodules");
+  return entries.filter(e => /\.json$/i.test(e.file)).sort((a, b) => a.file.localeCompare(b.file, "en"));
+}
+function requireClean(root, directory) {
+  if (git(root, "status", "--porcelain=v1", "--untracked-files=all", "--ignored=matching", "--", directory).trim()) {
+    throw new Error("feedback directory contains uncommitted, untracked or ignored files");
+  }
+}
+function containsFeedbackRecord(value) {
+  if (Array.isArray(value)) return value.some(containsFeedbackRecord);
+  if (!obj(value)) return false;
+  if (typeof value.feedback_id === "string"
+    || (Number.isInteger(value.schema_version) && ("rated_at" in value || "supersedes" in value))) return true;
+  return Object.values(value).some(containsFeedbackRecord);
+}
+
+// The publishing CLI only accepts a complete tracked event directory at the
+// origin's current default-branch revision. Caller-provided arrays remain useful
+// for pure calculations/tests, but are not a source-provenance publishing path.
+export function loadCompleteFeedback({ feedbackRepo, feedbackDir }) {
+  if (!feedbackRepo || !feedbackDir) throw new Error("provide --feedback-repo and --feedback-dir (the complete repository-relative event directory)");
+  const root = fs.realpathSync.native(path.resolve(feedbackRepo));
+  const gitRoot = fs.realpathSync.native(git(root, "rev-parse", "--show-toplevel").trim());
+  if (path.relative(root, gitRoot) !== "") throw new Error("--feedback-repo must name the checkout root");
+  const directory = feedbackDir.replace(/\\/g, "/").replace(/\/$/, "");
+  if (!directory || path.isAbsolute(directory) || directory.includes(":") || directory.split("/").some(x => x === ".." || !x || (x === "." && directory !== "."))) throw new Error("--feedback-dir must be a repository-relative directory without traversal");
+  const remote = remoteHead(root);
+  const head = git(root, "rev-parse", "HEAD").trim();
+  if (head !== remote.sha) throw new Error("feedback checkout is not at the current origin default-branch HEAD");
+  requireClean(root, directory);
+  const inventory = trackedInventory(root, head, directory);
+  const selected = new Set(inventory.map(entry => entry.file));
+  const events = [];
+  // A caller cannot present one nested folder as the complete history. Inspect
+  // the whole pinned tree and reject event records omitted by that selection.
+  // Unrelated configuration JSON outside the event directory stays inert.
+  for (const entry of trackedInventory(root, head, ".")) {
+    let payload;
+    try { payload = JSON.parse(git(root, "cat-file", "blob", entry.sha)); }
+    catch { throw new Error("a tracked source JSON file could not be read"); }
+    if (selected.has(entry.file)) events.push(payload);
+    else if (containsFeedbackRecord(payload)) {
+      throw new Error("incomplete feedback directory: event records exist elsewhere in the source repository");
+    }
+  }
+  if (events.length !== inventory.length) throw new Error("incomplete feedback source inventory");
+  validateFeedback(events);
+  const assertCurrent = () => {
+    const latest = remoteHead(root);
+    if (latest.sha !== head || latest.ref !== remote.ref || git(root, "rev-parse", "HEAD").trim() !== head) throw new Error("feedback HEAD changed during rebuild; existing snapshot preserved");
+    requireClean(root, ".");
+    if (JSON.stringify(trackedInventory(root, head, directory)) !== JSON.stringify(inventory)) throw new Error("feedback inventory changed during rebuild");
+  };
+  assertCurrent();
+  return { events, root, head, eventCount: inventory.length, assertCurrent };
+}
+
+function outputPath(file, feedbackRoot) {
+  const absolute = path.resolve(file);
+  const realParent = fs.realpathSync.native(path.dirname(absolute));
+  const resolved = path.join(realParent, path.basename(absolute));
+  if (isWithin(feedbackRoot, resolved) || (fs.existsSync(resolved) && fs.lstatSync(resolved).isSymbolicLink())) throw new Error("outputs must be outside the read-only feedback checkout and cannot be symlinks");
+  return resolved;
+}
+export function publishOutputs(outputs, source) {
+  const staged = [];
+  try {
+    for (const output of outputs) {
+      const file = outputPath(output.file, source.root);
+      if (staged.some(x => path.relative(x.file, file) === "")) throw new Error("snapshot and signals outputs must be different files");
+      const temporary = path.join(path.dirname(file), `.personalization-${randomUUID()}.tmp`);
+      const original = fs.existsSync(file) ? fs.readFileSync(file) : null;
+      fs.writeFileSync(temporary, output.text, { flag: "wx", mode: 0o600 });
+      staged.push({ file, temporary, original, published: false });
+    }
+    for (const output of staged) {
+      source.assertCurrent(); // Recheck immediately before each atomic replacement.
+      fs.renameSync(output.temporary, output.file);
+      output.published = true;
+    }
+    source.assertCurrent(); // A change noticed during replacement rolls all outputs back.
+  } catch (error) {
+    for (const output of staged.filter(x => x.published).reverse()) {
+      if (output.original === null) fs.rmSync(output.file, { force: true });
+      else {
+        fs.writeFileSync(output.temporary, output.original, { flag: "wx", mode: 0o600 });
+        fs.renameSync(output.temporary, output.file);
+      }
+    }
+    throw error;
+  } finally {
+    for (const output of staged) fs.rmSync(output.temporary, { force: true });
+  }
+}
+function args(argv) {
+  const options = { publicRoot: ".", output: null, signalsOutput: null, feedbackRepo: null, feedbackDir: null, executionEvidence: null };
+  const names = new Map([["--public-root", "publicRoot"], ["--output", "output"], ["--signals-output", "signalsOutput"], ["--feedback-repo", "feedbackRepo"], ["--feedback-dir", "feedbackDir"], ["--execution-evidence", "executionEvidence"]]);
+  const seen = new Set();
+  for (let i = 0; i < argv.length; i += 2) {
+    const flag = argv[i], value = argv[i + 1];
+    if (!names.has(flag)) throw new Error(`unsupported argument: ${flag}; arbitrary snapshots and timestamp overrides are not publishable inputs`);
+    if (seen.has(flag) || !value || value.startsWith("--")) throw new Error(`missing or repeated argument: ${flag}`);
+    seen.add(flag);
+    options[names.get(flag)] = value;
+  }
+  return options;
+}
+async function main() {
+  const options = args(process.argv.slice(2));
+  const root = path.resolve(options.publicRoot);
+  const source = loadCompleteFeedback(options);
+  const profile = loadJson(path.join(root, "data/taste-profile.json"));
+  const catalogs = loadJson(path.join(root, "config/catalogs.json"));
+  const publicItems = loadPublicItems(root);
+  const executionEvidence = options.executionEvidence ? loadJson(options.executionEvidence) : {};
+  const { snapshot, automationSignals, diagnostics } = buildPersonalizedSnapshot({ profile, catalogs, publicItems, feedbackEvents: source.events, executionEvidence });
+  const text = JSON.stringify(snapshot) + "\n";
+  const outputs = [];
+  if (options.signalsOutput) outputs.push({ file: options.signalsOutput, text: JSON.stringify(automationSignals) + "\n" });
+  if (options.output) outputs.push({ file: options.output, text }); // Publish the snapshot last.
+  publishOutputs(outputs, source);
+  if (!options.output) process.stdout.write(text);
+  process.stderr.write(`personalization: ${JSON.stringify({ ...diagnostics, source_revision: source.head, inventoried_events: source.eventCount })}\n`);
+}
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)) main().catch(e=>{console.error(`rebuild-personalization: ${e.message}`);process.exit(1);});
