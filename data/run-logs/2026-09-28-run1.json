@@ -1,0 +1,14 @@
+{
+  "run_id": "2026-09-28-run1",
+  "timestamp": "2026-09-28T06:02:55Z",
+  "searched": 3,
+  "accepted": 0,
+  "rejected": 3,
+  "duplicates": 0,
+  "accepted_items": [],
+  "rejection_summary": [
+    {"imdb_id":"tt0068390","title":"A Cold Night's Death","reason":"Strong isolated-research-station mystery, but limited systematic rule discovery and concept escalation leave it below the 82 threshold."},
+    {"imdb_id":"tt0115857","title":"The Lifeforce Experiment","reason":"Relevant laboratory consciousness experimentation, but whole-runtime evidence is insufficient for a defensible 82+ baseline score."},
+    {"imdb_id":"tt0091083","title":"From Beyond","reason":"Strong interdimensional experiment premise, but body-horror creature threat and survival increasingly displace sustained scientific investigation and rule discovery."}
+  ]
+}
