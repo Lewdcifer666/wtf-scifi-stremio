@@ -54,3 +54,42 @@ ChatGPT can then read/update the connected GitHub repository directly and create
 `Past 24h Findings` includes only titles with `added_by: "daily-automation"` and an `added_at` timestamp less than 24 hours old. Semi-automatic additions go to their normal matching catalogs but do not pollute the automated 24-hour row.
 
 The automation may add zero titles on a weak day. It should never lower quality simply to fill a quota, and it must never silently delete existing watchlist items.
+
+## Optional personalization rebuild
+
+Stable baseline DNA scores remain the default. An expired snapshot is never made
+active by changing its timestamp. Rebuilding requires a local checkout of the
+complete feedback repository, with `HEAD` equal to the current default-branch
+`HEAD` advertised by `origin`. The checkout must be clean, including untracked
+and ignored files. The script reads it only; it does not fetch, update or write
+the feedback repository.
+
+From the public repository, use the actual repository-relative directory that
+contains **all** feedback event JSON files, including nested, superseded and
+retracted events:
+
+```sh
+node scripts/rebuild-personalization.mjs --feedback-repo /path/to/feedback-checkout --feedback-dir events --output data/personalized-scores.json
+```
+
+Replace `events` with the complete event directory in that repository. Selecting
+one subdirectory is rejected when other event records exist elsewhere in the
+pinned source tree. Each selected JSON file must contain one supported feedback
+event. Unknown schemas, malformed events, dangling corrections, cycles,
+unreadable source files and an unavailable or changed origin abort the rebuild.
+The existing output remains byte-for-byte unchanged on failure. Baseline scoring
+continues while the saved snapshot is absent, stale, invalid or inapplicable.
+
+`--execution-evidence /path/to/evidence.json` supplies optional researched
+execution evidence. `--signals-output /path/to/private-output.json` is optional;
+keep that feedback-derived diagnostic output private. All outputs must be outside
+the read-only feedback checkout. The sanitized public snapshot contains only its
+schema version, generation time and per-title score pairs. The verified source
+revision and event count are reported to stderr for the run record.
+
+The CLI rejects arbitrary `--feedback-snapshot` inputs and `--generated-at`
+overrides. Its timestamp is created only after rebuilding from the verified
+source; the source is checked again immediately before output replacement. The
+exported calculation function accepts synthetic arrays and fixed times for tests,
+but it does not publish files. Scheduled connector-only discovery runs should
+continue with baseline scoring if this complete local rebuild cannot be done.
