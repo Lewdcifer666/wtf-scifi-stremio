@@ -1,0 +1,14 @@
+{
+  "run_id": "2026-09-30-run1",
+  "timestamp": "2026-09-30T05:58:50Z",
+  "searched": 4,
+  "accepted": 0,
+  "rejected": 3,
+  "duplicates": 1,
+  "accepted_items": [],
+  "rejection_summary": [
+    {"imdb_id":"tt2553424","title":"The Infinite Man","reason":"Inventive escalating time-loop mechanics, but the film is primarily a romantic comedy/personal relationship puzzle rather than sustained scientific investigation; baseline fit remains below the 82 threshold."},
+    {"imdb_id":"tt28150132","title":"Omni Loop","reason":"Two quantum physicists actively investigate time travel, but the film is deliberately repetitive, low-energy and ultimately more focused on mortality and family than sustained rule discovery or escalating scientific payoff; baseline fit remains below 82."},
+    {"imdb_id":"tt0070531","title":"Phase IV","reason":"Strong scientist-led ecological investigation of rapidly evolving intelligent ants, but sluggish execution, creature-conflict structure and an intentionally vague theatrical payoff keep the deterministic baseline fit below 82."}
+  ]
+}
