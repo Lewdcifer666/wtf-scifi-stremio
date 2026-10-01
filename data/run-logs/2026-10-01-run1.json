@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "run_id": "2026-10-01-run1",
+  "timestamp": "2026-10-01T05:58:28Z",
+  "searched": 4,
+  "accepted": 0,
+  "rejected": 3,
+  "duplicates": 1,
+  "accepted_items": [],
+  "rejection_summary": [
+    "Infinitum: Subject Unknown (tt12108622): strong parallel-reality/time-loop experiment premise, but whole-runtime evidence describes repetitive slow withholding, minimal scientific explanation, and an unsatisfying ambiguous payoff rather than meaningful rule discovery.",
+    "Burst Theory (tt2599938): scientists and vaccine research are central to the setup, but the complete film becomes a character-driven paranoia/conspiracy thriller with manipulated records and interpersonal suspicion rather than an escalating impossible scientific phenomenon.",
+    "Destination Inner Space (tt0060302): scientists investigate an alien craft and specimen initially, but the UFO is then largely abandoned as the film becomes a straightforward amphibious-monster attack and survival story.",
+    "Duplicate: The Laplace's Demon (tt5791732) is already present in the current public identity snapshot."
+  ]
+}
