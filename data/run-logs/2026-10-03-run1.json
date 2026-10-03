@@ -1,0 +1,14 @@
+{
+  "run_id": "2026-10-03-run1",
+  "timestamp": "2026-10-03T06:00:00Z",
+  "searched": 3,
+  "accepted": 0,
+  "rejected": 2,
+  "duplicates": 1,
+  "accepted_items": [],
+  "rejection_summary": [
+    "In Vitro (2024, tt17081498): biotechnology/cloning and biological consequences are central, but whole-runtime evidence shows a slow domestic/coercive-control thriller whose protagonist uncovers a husband's existing technology rather than sustained scientific investigation or systematic rule discovery; concept potential is repeatedly described as underexplored, so it does not clear the 82 baseline threshold.",
+    "ReEntry (2024, tt24084732): multidimensional travel begins as a scientific experiment and creates a parallel-dimension mystery, but the complete framing is primarily romantic/psychological drama about a returned husband and relationship choice; available evidence is insufficient for the dominant scientific investigation, rule-discovery and concept-escalation profile required for 82+.",
+    "The A-Frame (2024/2025, tt27652287): duplicate; exact canonical identity already exists in automation-state.public_identities."
+  ]
+}
