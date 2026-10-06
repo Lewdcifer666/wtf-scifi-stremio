@@ -1,0 +1,14 @@
+{
+  "run_id": "2026-10-06-run1",
+  "timestamp": "2026-10-06T06:00:00Z",
+  "searched": 3,
+  "accepted": 0,
+  "rejected": 3,
+  "duplicates": 0,
+  "accepted_items": [],
+  "rejection_summary": [
+    "The Mysterious Wall (1967/1968, tt0164187): scientists and a research station actively investigate a periodic electrostatic dome and attempt communication, but the phenomenon ultimately remains unresolved; the film shifts toward dreamlike personal visions and symbolic ambiguity rather than enough concrete rule discovery/payoff to clear the 82 baseline threshold.",
+    "X the Unknown (1956, tt0049967): strong scientist-led investigation identifies a radiation-feeding subterranean entity and develops/tests a neutralization method, but the latter structure becomes a creature-threat containment/destruction story and lacks enough broader high-concept escalation to clear 82.",
+    "Time Loop (2019/2020, tt8458534): father-and-son time-travel experiments create escalating temporal consequences, but available whole-runtime evidence indicates a confusing, poorly developed loop structure with insufficient sustained scientific investigation and rule discovery to clear 82."
+  ]
+}
