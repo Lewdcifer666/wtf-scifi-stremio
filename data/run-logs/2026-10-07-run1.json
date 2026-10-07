@@ -1,0 +1,14 @@
+{
+  "run_id": "2026-10-07-run1",
+  "timestamp": "2026-10-07T06:00:00Z",
+  "searched": 3,
+  "accepted": 0,
+  "rejected": 3,
+  "duplicates": 0,
+  "accepted_items": [],
+  "rejection_summary": [
+    "Primeval (2007-2011, tt0808096): a scientist-led team repeatedly investigates time anomalies and the prehistoric/future organisms crossing through them, with meaningful anomaly research and escalating temporal implications, but the complete-series structure devotes too much runtime to recurring creature-incursion containment/action and does not provide enough consistently dominant scientific rule discovery across the full run to clear the 82 baseline threshold.",
+    "The Stone Tape (1972, tt0069316): a research team actively tests an apparent haunting as a possible physical recording phenomenon in ancient stone, but the investigation ultimately escalates into supernatural horror with an unresolved/malevolent force rather than enough concrete discoverable-system payoff to clear 82.",
+    "Trinity (2003, tt0264108): the Arctic research-station/genetic-program premise strongly matches biology, experiments and secret research, but the film is primarily a slow psychological confrontation around an already-established breeding program rather than sustained investigation of an unknown phenomenon or progressively discovered rule system, so it remains below 82."
+  ]
+}
