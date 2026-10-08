@@ -1,0 +1,14 @@
+{
+  "run_id": "2026-10-04-run1",
+  "timestamp": "2026-10-04T05:56:04Z",
+  "searched": 6,
+  "accepted": 0,
+  "rejected": 3,
+  "duplicates": 3,
+  "accepted_items": [],
+  "rejection_summary": [
+    "Dimensions (2011, tt1703231): scientist/time-travel premise is substantially relationship and period-drama driven; whole-runtime evidence describes it as slow and emotionally focused, with insufficient sustained investigation and rule discovery for the 82 baseline threshold.",
+    "The Atomic Man / Timeslip (1955, tt0048964): strong opening anomaly and investigative first half, but substantive reception says the seven-second time displacement premise is underused as the plot shifts into industrial espionage, sabotage and gangster mechanics; insufficient sustained concept/rule escalation.",
+    "The Strange World of Planet X (1958, tt0051020): scientists and dangerous magnetic-field experiments are central early, but the consequences resolve into giant-insect/monster threat, military intervention and an alien warning rather than sustained scientific discovery; fails the profile's creature/action guardrail intent."
+  ]
+}
