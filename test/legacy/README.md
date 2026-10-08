@@ -27,8 +27,11 @@ Archived suites:
 - source-provenance.test.mjs
 - validate-profile.test.mjs
 
-Run a selected historical suite in a disposable checkout with
-`node test/legacy/run.mjs <name.test.mjs>`. The helper restores the old test
-location in that temporary checkout so original relative imports remain usable.
-Failures against obsolete behavior are expected; do not weaken current policy
-to satisfy a historical prompt assertion.
+Run every archived suite with `npm run test:legacy`. Select one or more with
+`npm run test:legacy -- <name.test.mjs> [another.test.mjs]`. The equivalent direct
+entry point is `node test/legacy/run.mjs`, with the same optional filenames.
+The helper restores each old test location in a disposable checkout so original
+relative imports remain usable. It prints each selected suite and returns a
+nonzero exit status if any suite fails. The normal `npm test` command does not
+run these archived suites. Failures against obsolete behavior are expected;
+do not weaken current policy to satisfy a historical prompt assertion.

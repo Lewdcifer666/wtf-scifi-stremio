@@ -12,7 +12,7 @@
     "validate": "node scripts/validate.mjs",
     "personalize": "node scripts/rebuild-personalization.mjs",
     "test": "node --check scripts/rebuild-personalization.mjs && node test/run-all.mjs",
-    "test:legacy": "node test/run-all.mjs"
+    "test:legacy": "node test/legacy/run.mjs"
   },
   "dependencies": {
     "ajv": "8.20.0"
