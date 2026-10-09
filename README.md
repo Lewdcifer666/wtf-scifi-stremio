@@ -17,8 +17,8 @@ A zero-server Stremio catalog system hosted on GitHub Pages. The source library 
 - IMDb-ID deduplication
 - Automatic metadata resolution through Cinemeta
 - Hourly Pages rebuild so the 24-hour catalog expires automatically
-- Full automation via a scheduled ChatGPT task
-- Semi automation: review recommendations in chat, approve numbers, then update GitHub directly
+- Research via the existing scheduled ChatGPT task, with deterministic GitHub publication after cutover
+- Validated pull requests for reviewed catalog changes
 
 ## First-time GitHub setup
 
@@ -27,25 +27,25 @@ A zero-server Stremio catalog system hosted on GitHub Pages. The source library 
 3. In the repository go to **Settings → Pages**.
 4. Under **Build and deployment → Source**, choose **GitHub Actions**.
 5. Open the **Actions** tab. The first push should start `Resolve Library Metadata` and `Build and Deploy Stremio Catalog`.
-6. Wait for the workflows to finish. The resolver will fill missing IMDb IDs in `data/library.json` and commit them back automatically.
+6. Follow [publication cutover](docs/publication-cutover.md) before enabling automated publication. The resolver proposes fully validated metadata PRs after activation.
 7. Your Pages URL will be `https://YOUR-GITHUB-USERNAME.github.io/wtf-scifi-stremio/`.
 8. Your Stremio manifest will be `https://YOUR-GITHUB-USERNAME.github.io/wtf-scifi-stremio/manifest.json`.
 9. Install that manifest in Stremio while logged into the same Stremio account used on the TV.
 10. Reopen Stremio on the TV. Ordinary catalog changes do **not** require reinstalling the addon.
 
-## After the repository exists
+## Existing scheduled task
 
-Tell ChatGPT the repository in `owner/repo` form, for example:
-
-`My repository is DeadlySoul/wtf-scifi-stremio. Set up the daily discovery automation.`
-
-ChatGPT can then read/update the connected GitHub repository directly and create the daily scheduled discovery task.
+Keep the existing 08:00 Europe/Berlin task and rotator unchanged until the
+coordinated cutover. Its replacement instructions are in
+[publication cutover](docs/publication-cutover.md); do not create a duplicate task.
 
 ## Data files
 
 - `data/library.json` — single source of truth for watchlist + seen profile
 - `data/taste-profile.json` — stable anti-drift recommendation criteria
-- `data/discovery-log.json` — audit log for daily automated runs
+- `data/discovery-log.json` — frozen legacy history
+- `data/run-logs/*.json` — immutable daily run records
+- `research-inbox/*.json` on research branches — persisted research packets
 - `data/rejections.json` — titles explicitly rejected so automation does not keep suggesting them
 - `config/catalogs.json` — predeclared Stremio catalogs
 
@@ -55,7 +55,11 @@ ChatGPT can then read/update the connected GitHub repository directly and create
 
 The automation may add zero titles on a weak day. It should never lower quality simply to fill a quota, and it must never silently delete existing watchlist items.
 
-## Optional personalization rebuild
+## Preserved deterministic personalization rebuilder
+
+This manual interface remains available for the required learning migration.
+It is not called by research or publication. Learning remains dormant until its
+separate audited cutover; the command below documents the existing interface.
 
 Stable baseline DNA scores remain the default. An expired snapshot is never made
 active by changing its timestamp. Rebuilding requires a local checkout of the
@@ -91,5 +95,18 @@ The CLI rejects arbitrary `--feedback-snapshot` inputs and `--generated-at`
 overrides. Its timestamp is created only after rebuilding from the verified
 source; the source is checked again immediately before output replacement. The
 exported calculation function accepts synthetic arrays and fixed times for tests,
-but it does not publish files. Scheduled connector-only discovery runs should
-continue with baseline scoring if this complete local rebuild cannot be done.
+but it does not publish files. Publication proceeds with baseline scoring while
+personalization is dormant; it never renews an expired snapshot.
+
+## Reliability remake preparation
+
+The research-packet publication architecture is prepared but dormant until a
+coordinated cutover after the Thriller pilot gate. See
+[publication cutover](docs/publication-cutover.md). The scheduled ChatGPT task
+will stage only research packets; trusted-main GitHub workflows will validate,
+score, reconcile immutable attempts and publish through protected App-owned
+PRs. Pages keeps its existing hourly schedule and emits a deployment receipt.
+
+Existing history, genre policy, catalog identities and dormant personalization
+are preserved. Automatic private feedback interpretation and deterministic
+learning remain mandatory later work; publication is not migration completion.

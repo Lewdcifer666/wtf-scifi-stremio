@@ -11,7 +11,10 @@
     "build": "node scripts/build-site.mjs",
     "validate": "node scripts/validate.mjs",
     "personalize": "node scripts/rebuild-personalization.mjs",
-    "test": "node --check scripts/rebuild-personalization.mjs && node test/personalization-rebuild.test.mjs && node test/personalization-source.test.mjs && node test/automation-contract.test.mjs && node scripts/validate.mjs && node test/engine-checksum.test.mjs && node test/cinemeta-resolution.test.mjs && node test/duplicate-repair-summary.test.mjs && node test/personalization-state.test.mjs && node test/build-state.test.mjs && node test/automation-integrity.test.mjs",
-    "test:legacy": "node test/run-all.mjs"
+    "test": "node --check scripts/rebuild-personalization.mjs && node test/run-all.mjs",
+    "test:legacy": "node test/legacy/run.mjs"
+  },
+  "dependencies": {
+    "ajv": "8.20.0"
   }
 }

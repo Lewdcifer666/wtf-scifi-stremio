@@ -1,13 +1,23 @@
-import assert from "node:assert/strict";
-import fs from "node:fs";
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 
-const prompt = fs.readFileSync("DAILY_AUTOMATION_PROMPT.md", "utf8");
-assert.ok(prompt.includes("scripts/rebuild-personalization.mjs"),
-  "daily automation must delegate feedback resolution/personalization to repository code");
-assert.ok(prompt.includes("schemas 1, 2 and 3"),
-  "daily automation must explicitly recognize schemas 1, 2 and 3");
-assert.ok(!prompt.includes("anything that is not 1 or 2"),
-  "stale schema-3-as-unsupported wording must never return");
-assert.ok(prompt.includes("must not abort the discovery run solely because personalization could not be refreshed"),
-  "personalization refresh must not be a hard dependency of discovery publishing");
-console.log("automation contract: OK");
+const pointer = fs.readFileSync('DAILY_AUTOMATION_PROMPT.md', 'utf8');
+const runbook = fs.readFileSync('DAILY_AUTOMATION_RUNBOOK.md', 'utf8');
+const cutover = fs.readFileSync('docs/publication-cutover.md', 'utf8');
+const workflow = fs.readFileSync('.github/workflows/research-finalize.yml', 'utf8');
+assert.ok(!pointer.includes('```'), 'compatibility pointer must be non-executable');
+assert.ok(pointer.includes('DAILY_AUTOMATION_RUNBOOK.md'));
+assert.equal((runbook.match(/```text/g) || []).length, 1);
+assert.ok(runbook.includes('commit only research-inbox/<date>.json'));
+assert.ok(runbook.includes('Do not calculate scores, thresholds, final counts'));
+assert.ok(runbook.includes('Do not create discovery files, run logs, PRs'));
+assert.ok(runbook.includes('Private feedback access and'));
+assert.ok(runbook.includes('this publication pilot does not authorize either'));
+assert.ok(cutover.includes('scripts/rebuild-personalization.mjs'));
+assert.ok(cutover.includes('schemas 1, 2 and 3'));
+assert.ok(cutover.includes('They are not invoked by research or publication'));
+assert.ok(cutover.includes('Do not refresh generated_at'));
+assert.ok(!workflow.includes('rebuild-personalization'), 'personalization is not a publication dependency');
+execFileSync(process.execPath, ['--check', 'scripts/rebuild-personalization.mjs'], {stdio:'inherit'});
+console.log('Automation contract: research-only task, unchanged deterministic rebuilder and dormant learning passed');
