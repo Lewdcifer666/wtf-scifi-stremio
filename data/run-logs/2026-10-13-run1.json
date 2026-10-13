@@ -1,0 +1,35 @@
+{
+  "run_id": "2026-10-13-run1",
+  "timestamp": "2026-10-13T19:30:24.016Z",
+  "searched": 2,
+  "accepted": 0,
+  "rejected": 2,
+  "duplicates": 0,
+  "accepted_items": [],
+  "rejection_summary": [
+    {
+      "title": "The Thaw",
+      "type": "movie",
+      "year": 2009,
+      "imdb_id": "tt1235448",
+      "reason": "Arctic ecologists uncover a prehistoric parasite in thawing mammoth remains, providing a strong biology-and-research premise. Across the complete film, however, the central structure shifts toward gruesome infestation, quarantine, interpersonal conflict and escape, including deliberate release of the organism; continued scientific testing and progressive rule discovery are secondary. Identity and premise: https://www.imdb.com/title/tt1235448/plotsummary/ ; whole-film structure and ending: https://www.imdb.com/title/tt1235448/plotsummary/ ; independent reception: https://www.rottentomatoes.com/m/thaw .",
+      "category": "rejected"
+    },
+    {
+      "title": "The Last Days on Mars",
+      "type": "movie",
+      "year": 2013,
+      "imdb_id": "tt1709143",
+      "reason": "A Mars research crew discovers evidence of microbial life, but infection rapidly transforms people into aggressive zombie-like threats. Whole-film coverage confirms the story becomes predominantly crew survival, pursuit and containment rather than sustained organism research or systematic revelation of an unknown system. Identity and detailed plot: https://www.imdb.com/title/tt1709143/plotsummary/ ; substantive whole-film criticism: https://www.rogerebert.com/reviews/the-last-days-on-mars-2013 and https://www.thewrap.com/last-days-mars-review-stylish-sci-fi-monster-movie-cant-decide-high-art-fun-trash/ .",
+      "category": "rejected"
+    }
+  ],
+  "publication": {
+    "schema_version": 1,
+    "daily_key": "scifi:2026-10-13",
+    "packet_hash": "99700f9dec43f81b20b76439f1a6fc92716290ae401e4324f5517b13c99157f5",
+    "research_commit": "14d07f4add9feb25c0157f4d1034f925f59a85b4",
+    "evaluated_base": "70b02dbc8a21f1e21bb2be0ae5b7117db48df315",
+    "policy_fingerprint": "0d4c7e7f110133f9d29d500933b1996e10c9228f015bba251c7f32cd98b463d5"
+  }
+}
