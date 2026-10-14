@@ -17,7 +17,7 @@ A zero-server Stremio catalog system hosted on GitHub Pages. The source library 
 - IMDb-ID deduplication
 - Automatic metadata resolution through Cinemeta
 - Hourly Pages rebuild so the 24-hour catalog expires automatically
-- Research via the existing scheduled ChatGPT task, with deterministic GitHub publication after cutover
+- Research via the existing scheduled ChatGPT task, with deployed deterministic GitHub publication
 - Validated pull requests for reviewed catalog changes
 
 ## First-time GitHub setup
@@ -35,9 +35,10 @@ A zero-server Stremio catalog system hosted on GitHub Pages. The source library 
 
 ## Existing scheduled task
 
-Keep the existing 08:00 Europe/Berlin task and rotator unchanged until the
-coordinated cutover. Its replacement instructions are in
-[publication cutover](docs/publication-cutover.md); do not create a duplicate task.
+Keep the existing 08:00 Europe/Berlin schedule, current paused task state and
+rotator unchanged. Research-only scope is already saved; the existing private
+and legacy holds remain binding. See [publication state](docs/publication-cutover.md);
+do not create a duplicate task or resume this task from these setup instructions.
 
 ## Data files
 
@@ -98,14 +99,14 @@ exported calculation function accepts synthetic arrays and fixed times for tests
 but it does not publish files. Publication proceeds with baseline scoring while
 personalization is dormant; it never renews an expired snapshot.
 
-## Reliability remake preparation
+## Deployed reliability publication
 
-The research-packet publication architecture is prepared but dormant until a
-coordinated cutover after the Thriller pilot gate. See
-[publication cutover](docs/publication-cutover.md). The scheduled ChatGPT task
-will stage only research packets; trusted-main GitHub workflows will validate,
-score, reconcile immutable attempts and publish through protected App-owned
-PRs. Pages keeps its existing hourly schedule and emits a deployment receipt.
+The research-packet publication architecture is deployed and enabled. See
+[publication state and the original cutover checklist](docs/publication-cutover.md).
+The existing ChatGPT task stages only research packets when enabled; trusted-main
+GitHub workflows validate, score, reconcile immutable attempts and publish through
+protected App-owned PRs. A paused research task remains paused. Pages keeps its
+existing hourly schedule and emits a deployment receipt.
 
 Existing history, genre policy, catalog identities and dormant personalization
 are preserved. Automatic private feedback interpretation and deterministic
