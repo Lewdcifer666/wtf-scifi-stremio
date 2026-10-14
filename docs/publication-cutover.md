@@ -1,20 +1,47 @@
 # Sci-Fi publication cutover
 
-This is an intermediate milestone. The remake is incomplete until the private
-feedback → interpretation → deterministic learning → research loop is active
-and verified. Other genres must retain their own DNA nullability and evidence
-rules when their audited configuration is migrated.
+## Deployed publication state
 
-This branch is preparation only. Do not merge or activate it before the Thriller
-pilot gate. Existing saved task instructions, schedules and the rotator remain
-unchanged until the coordinated cutover below.
+The research-packet publication pipeline is deployed in the canonical
+`Lewdcifer666/wtf-scifi-stremio` repository.
+The October 14, 2026 settings audit confirmed RESEARCH_PUBLICATION_ENABLED=true,
+the publication environment restricted to main branches, strict required validate
+checks and the existing scoped wtf-thriller-publisher App. The authorized App
+installation covers Thriller, Action, Anime, Mystery, Sci-Fi and Fantasy only;
+it has no administration, workflow-write or private-feedback permission.
 
-## Required setup
+Saved ChatGPT tasks stage only research packets; trusted-main GitHub Actions
+owns validation, scoring, immutable attempts, publication PRs and deployment.
+Task enabled states, schedules and the rotator remain governed by their current
+saved settings. A paused research task is not resumed by this document.
 
-1. After the Thriller pilot acceptance gate, deliberately authorize this
-   repository for an owner-only GitHub App installation. Repository permissions: Contents read/write, Pull requests
-   read/write, Metadata read. No administration, Actions write, private feedback
-   access or branch-protection bypass. Disable webhook delivery if unused.
+Private learning remains inactive and its explicit staging hold remains binding.
+Existing research/legacy holds also remain in place. Publication success does not
+authorize replaying denied operations or completing the feedback-learning cutover.
+The saved-task example below documents the public scope only; it must not replace
+or remove the holds in an existing task.
+
+A new repository or fork does not inherit variables, environments, secrets, App
+installation access or saved tasks. Its operator must complete the setup and
+validation checklist below and explicitly authorize its own research task before
+enabling publication. Reuse an existing App only with its owner's repository-access
+approval; another owner must register an appropriately scoped App of their own.
+Do not alter the canonical repository or remove its holds to set up a new copy.
+
+## Initial rollout checklist (reference)
+
+The steps below describe initial setup and its validation gates. Publication has
+already cut over; do not undo current settings or repeat activation from an old
+preparation base. Any later settings change still requires current,
+admin-capable classic-protection and applicable-rules inspection. Required private
+learning validation, explicit activation authorization and observed effects remain
+separate, incomplete work.
+
+1. Use the existing owner-only publisher App after explicit repository-access
+   approval. Repository permissions remain Contents read/write, Pull requests
+   read/write and Metadata read, with no administration, Actions write, private
+   feedback access or branch-protection bypass. Do not create a replacement App
+   or change its installed repositories to repeat completed setup.
 2. Create the `publication` Actions environment with custom deployment branch
    policy allowing only `main` (no tags). Save `PUBLICATION_APP_CLIENT_ID` as an
    environment variable and `PUBLICATION_APP_PRIVATE_KEY` as an environment
