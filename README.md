@@ -101,7 +101,10 @@ personalization is dormant; it never renews an expired snapshot.
 
 ## Deployed reliability publication
 
-The research-packet publication architecture is deployed and enabled. See
+In the canonical `Lewdcifer666/wtf-scifi-stremio` repository, the research-packet
+publication architecture is deployed and enabled. A new repository or fork does
+not inherit GitHub variables, environments, secrets, App access or task settings;
+complete the initial setup checklist and its validation gates before enabling it. See
 [publication state and the original cutover checklist](docs/publication-cutover.md).
 The existing ChatGPT task stages only research packets when enabled; trusted-main
 GitHub workflows validate, score, reconcile immutable attempts and publish through

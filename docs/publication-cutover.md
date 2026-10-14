@@ -2,7 +2,8 @@
 
 ## Deployed publication state
 
-The research-packet publication pipeline is deployed in this repository.
+The research-packet publication pipeline is deployed in the canonical
+`Lewdcifer666/wtf-scifi-stremio` repository.
 The October 14, 2026 settings audit confirmed RESEARCH_PUBLICATION_ENABLED=true,
 the publication environment restricted to main branches, strict required validate
 checks and the existing scoped wtf-thriller-publisher App. The authorized App
@@ -19,6 +20,13 @@ Existing research/legacy holds also remain in place. Publication success does no
 authorize replaying denied operations or completing the feedback-learning cutover.
 The saved-task example below documents the public scope only; it must not replace
 or remove the holds in an existing task.
+
+A new repository or fork does not inherit variables, environments, secrets, App
+installation access or saved tasks. Its operator must complete the setup and
+validation checklist below and explicitly authorize its own research task before
+enabling publication. Reuse an existing App only with its owner's repository-access
+approval; another owner must register an appropriately scoped App of their own.
+Do not alter the canonical repository or remove its holds to set up a new copy.
 
 ## Initial rollout checklist (reference)
 
