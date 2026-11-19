@@ -1,0 +1,18 @@
+{
+  "run_id": "2026-11-19-run1",
+  "timestamp": "2026-11-19T07:13:58.965Z",
+  "searched": 0,
+  "accepted": 0,
+  "rejected": 0,
+  "duplicates": 0,
+  "accepted_items": [],
+  "rejection_summary": [],
+  "publication": {
+    "schema_version": 1,
+    "daily_key": "scifi:2026-11-19",
+    "packet_hash": "f47c62e5f6d08dd04dc6a4344ab96ac9d3923738aa7553b386308b0a4e2e180f",
+    "research_commit": "fab71f81b4d7c2250e8d71c2980703a62234d26c",
+    "evaluated_base": "7a98e5f5441b444adc5026fb7877a3fd16c5e3fc",
+    "policy_fingerprint": "69bce1fc9778bb1bb8711469c2c2909f0930956fe7d526a5328b011fa6c06857"
+  }
+}
